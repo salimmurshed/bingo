@@ -1,0 +1,1 @@
+class TableNames {  static String countryTableName = "countries";  static String storeTableName = "store";}

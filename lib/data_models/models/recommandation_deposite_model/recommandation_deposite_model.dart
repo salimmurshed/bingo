@@ -1,0 +1,1 @@
+class ReccomandationModel {  int? id;  String? fie;  String? caNumber;  String? balance;  String? sNo;  String? expiration;  String? depositReccomandation;  ReccomandationModel(      {this.id,      this.fie,      this.caNumber,      this.balance,      this.sNo,      this.expiration,      this.depositReccomandation});}

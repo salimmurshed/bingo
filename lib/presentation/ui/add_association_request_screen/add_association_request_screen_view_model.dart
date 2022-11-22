@@ -1,0 +1,1 @@
+import 'package:stacked/stacked.dart';import '../../../app/locator.dart';import '../../../services/auth_service/auth_service.dart';class AddAssociationRequestScreenViewModel extends BaseViewModel {  final AuthService _authService = locator<AuthService>();  bool get isRetailer => _authService.isRetailer.value;}

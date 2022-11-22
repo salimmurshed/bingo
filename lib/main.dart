@@ -1,0 +1,79 @@
+import 'package:bingo_wholesale/const/allConst.dart';
+import 'package:bingo_wholesale/services/navigation/navigationService.dart';
+import 'package:flutter/material.dart' hide Router;
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'app/locator.dart';
+import 'app/router.dart';
+import 'const/app_colors.dart';
+
+late SharedPreferences prefs;
+
+void mainDelegate() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  prefs = await SharedPreferences.getInstance();
+  setupLocator();
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var navKey = locator<NavigationService>().navigatorKey;
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'QUIZ APP',
+      navigatorKey: navKey,
+      theme: ThemeData(
+          cardTheme: CardTheme(
+            elevation: 2,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+          ),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            focusColor: AppColors.navFavColor,
+            backgroundColor: AppColors.navFavColor,
+          ),
+          errorColor: AppColors.errorText,
+          primarySwatch: AppColors.primarySwatch,
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: AppColors.primarySwatch,
+            accentColor: AppColors.accentColor,
+          ),
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          scaffoldBackgroundColor: AppColors.backgroundSecondary,
+          appBarTheme: const AppBarTheme(
+            color: AppColors.accentColor,
+            titleTextStyle: TextStyles.appBarTitle,
+            elevation: 0.5,
+            centerTitle: true,
+            iconTheme: IconThemeData(
+              color: AppColors.appBarText,
+            ),
+          ),
+          dialogTheme: DialogTheme(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+          ),
+          fontFamily: "Poppins"),
+      initialRoute: Routes.startupView,
+      onGenerateRoute: Router().onGenerateRoute,
+    );
+  }
+}

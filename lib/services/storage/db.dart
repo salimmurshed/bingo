@@ -1,0 +1,1 @@
+class DataBase {  static String name = 'name';  static String userData = 'userData';  static String userToken = 'userToken';  static String userType = 'userType';}

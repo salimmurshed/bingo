@@ -1,0 +1,1 @@
+class AppBarTitles {  static String dashBoard = "DASHBOARD";  static String request = "REQUESTS";  static String settings = "SETTINGS";  static String accountBalance = "ACCOUNT BALANCE";  static String addrequest = "Add Requests";  static String salesDetails = "SALES DETAILS";}
