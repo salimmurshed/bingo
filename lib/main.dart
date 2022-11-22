@@ -1,4 +1,4 @@
-import 'package:bingo_wholesale/const/allConst.dart';
+import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/services/navigation/navigationService.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
