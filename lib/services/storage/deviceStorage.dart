@@ -10,10 +10,10 @@ abstract class DeviceStorageServiceAbstract {
 }
 
 @singleton
-class DeviceStorage {
+class ZDeviceStorage {
   late SharedPreferences _prefs;
 
-  DeviceStorage() {
+  ZDeviceStorage() {
     _prefs = locator<SharedPreferences>();
   }
 
