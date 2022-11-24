@@ -1,0 +1,1 @@
+import 'package:stacked/stacked.dart';class AssociationRequestDetailsScreenModel extends BaseViewModel {}

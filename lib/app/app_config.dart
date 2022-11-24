@@ -1,20 +1,20 @@
-enum Environment { DEV, PROD }
+enum Environment { dev, prod }
 
 class ConstantEnvironment {
   static Map<dynamic, dynamic>? config;
 
   static void setEnvironment(Environment env) {
     switch (env) {
-      case Environment.DEV:
+      case Environment.dev:
         config = Config.dev;
         break;
-      case Environment.PROD:
+      case Environment.prod:
         config = Config.prod;
         break;
     }
   }
 
-  static get BASE_URL {
+  static get baseUrl {
     return config![Config.baseURL];
   }
 

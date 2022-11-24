@@ -11,6 +11,6 @@ import 'app/app_config.dart';
 import 'main.dart';
 
 void main() async {
-  ConstantEnvironment.setEnvironment(Environment.PROD);
+  ConstantEnvironment.setEnvironment(Environment.prod);
   mainDelegate();
 }

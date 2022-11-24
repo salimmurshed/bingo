@@ -8,6 +8,6 @@ import 'app/app_config.dart';
 import 'main.dart';
 
 void main() async {
-  ConstantEnvironment.setEnvironment(Environment.DEV);
+  ConstantEnvironment.setEnvironment(Environment.dev);
   mainDelegate();
 }

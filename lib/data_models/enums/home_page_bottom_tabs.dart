@@ -1,0 +1,1 @@
+enum HomePageBottomTabs {  dashboard,  requests,  settings,  accountBalance,}

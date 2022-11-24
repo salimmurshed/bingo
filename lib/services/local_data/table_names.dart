@@ -1,1 +1,1 @@
-class TableNames {  static String countryTableName = "countries";  static String storeTableName = "store";}
+class TableNames {  static String countryTableName = "countries";  static String storeTableName = "store";  static String wholesalerList = "wholesaler_list";  static String fiaList = "fia_list";}

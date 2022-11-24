@@ -40,13 +40,13 @@ class Router {
 
       case Routes.homeScreen:
         return MaterialPageRoute<dynamic>(
-          builder: (context) => HomeScreenView(),
+          builder: (context) => const HomeScreenView(),
           settings: settings,
         );
 
       case Routes.dashboardScreen:
         return MaterialPageRoute<dynamic>(
-          builder: (context) => DashboardScreenView(),
+          builder: (context) => const DashboardScreenView(),
           settings: settings,
         );
 

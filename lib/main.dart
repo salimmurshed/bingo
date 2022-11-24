@@ -17,6 +17,8 @@ void mainDelegate() async {
 }
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -36,7 +38,7 @@ class _MyAppState extends State<MyApp> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'QUIZ APP',
+      title: 'BINGO',
       navigatorKey: navKey,
       theme: ThemeData(
           cardTheme: CardTheme(
@@ -59,7 +61,7 @@ class _MyAppState extends State<MyApp> {
           scaffoldBackgroundColor: AppColors.backgroundSecondary,
           appBarTheme: const AppBarTheme(
             color: AppColors.accentColor,
-            titleTextStyle: TextStyles.appBarTitle,
+            titleTextStyle: AppTextStyles.appBarTitle,
             elevation: 0.5,
             centerTitle: true,
             iconTheme: IconThemeData(

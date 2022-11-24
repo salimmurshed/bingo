@@ -1,1 +1,0 @@
-import 'package:bingo_wholesale/data_models/models/user_model/user_model.dart';import 'package:dartz/dartz.dart';import '../enums/login_failure.dart';import '../models/country_list_model/country_list_model.dart';abstract class Repository {  Future<Either<LoginFailure, CountryListModel>> getCountries();  Future<Either<LoginFailure, UserModel>> login();}

@@ -15,12 +15,20 @@ CountryListModel _$CountryListModelFromJson(Map<String, dynamic> json) =>
           .toList(),
     );
 
-Map<String, dynamic> _$CountryListModelToJson(CountryListModel instance) =>
-    <String, dynamic>{
-      'success': instance.success,
-      'message': instance.message,
-      'data': instance.data?.map((e) => e.toJson()).toList(),
-    };
+Map<String, dynamic> _$CountryListModelToJson(CountryListModel instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('success', instance.success);
+  writeNotNull('message', instance.message);
+  writeNotNull('data', instance.data?.map((e) => e.toJson()).toList());
+  return val;
+}
 
 CountryData _$CountryDataFromJson(Map<String, dynamic> json) => CountryData(
       id: json['id'] as int? ?? 0,

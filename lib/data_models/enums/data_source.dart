@@ -1,1 +1,1 @@
-enum DataSource {  SUCCESS,  NO_CONTENT,  BAD_REQUEST,  FORBIDDEN,  UNAUTHORISED,  NOT_FOUND,  INTERNAL_SERVER_ERROR,  CONNECT_TIMEOUT,  CANCEL,  RECEIVE_TIMEOUT,  SEND_TIMEOUT,  CACHE_ERROR,  NO_INTERNET_CONNECTION,  DEFAULT}
+enum DataSource {  success,  noContent,  badRequest,  forbidden,  unauthorised,  notFound,  internalServerError,  connectTimeout,  cancel,  receiveTimeout,  sendTimeoutT,  cacheError,  noInternetConnection,  defaultError}
