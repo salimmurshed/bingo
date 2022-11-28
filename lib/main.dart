@@ -1,4 +1,5 @@
 import 'package:bingo_wholesale/const/all_const.dart';
+import 'package:bingo_wholesale/const/app_sizes/app_sizes.dart';
 import 'package:bingo_wholesale/services/navigation/navigationService.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
           cardTheme: CardTheme(
             elevation: 2,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: AppRadius.mainCardThemeRadius,
             ),
           ),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -70,7 +71,7 @@ class _MyAppState extends State<MyApp> {
           ),
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: AppRadius.mainDialogThemeRadius,
             ),
           ),
           fontFamily: "Poppins"),

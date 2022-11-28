@@ -49,5 +49,5 @@ Future<_i1.GetIt> $initGetIt(
   return get;
 }
 
-class _$DeviceStorageServiceAbstract extends _i12.DeviceStorageServiceAbstract {
-}
+class _$DeviceStorageServiceAbstract
+    extends _i12.DeviceStorageServiceAbstract {}
