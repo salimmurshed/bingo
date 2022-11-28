@@ -16,4 +16,6 @@ class NetworkUrls {
 
   static Uri requestAssociationList = Uri.parse(
       "${Config.baseURL}retailer-wholesaler-association-request-list");
+  static Uri requestAssociationListForWholesaler = Uri.parse(
+      "${Config.baseURL}wholesaler-retailer-association-request-list");
 }
