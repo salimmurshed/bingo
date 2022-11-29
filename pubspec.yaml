@@ -23,6 +23,8 @@ dependencies:
   path_provider:
   auto_size_text:
   qr_flutter: ^4.0.0
+  shimmer: ^2.0.0
+  flutter_holo_date_picker: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -31,6 +33,7 @@ dev_dependencies:
   mockito: ^5.3.2
   build_runner: ^2.3.2
   injectable_generator: ^1.5.4
+
 
 
 flutter:
