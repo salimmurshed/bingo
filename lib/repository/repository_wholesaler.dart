@@ -1,3 +1,6 @@
+import 'package:bingo_wholesale/const/app_extensions/widgets_extensions.dart';
+import 'package:bingo_wholesale/data_models/enums/status_name.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
@@ -6,6 +9,7 @@ import '../app/locator.dart';
 import '../const/database_helper.dart';
 import '../data_models/models/association_request_wholesaler_model/association_request_wholesaler_model.dart';
 import '../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
+import '../data_models/models/update_response_model/update_response_model.dart';
 import '../presentation/widgets/alert/alert_dialog.dart';
 import '../services/local_data/local_data.dart';
 import '../services/local_data/table_names.dart';
@@ -107,23 +111,30 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   }
 
   //updateWholesalerRetailerAssociationStatus
-  void updateWholesalerRetailerAssociationStatus(id) async {
+  Future<UpdateResponseModel> updateWholesalerRetailerAssociationStatus(
+      dynamic data, String uniqueId) async {
+    int index = associationRequestWholesalerDetailsReactive.value.indexWhere(
+        (element) =>
+            element.data![0].companyInformation![0].uniqueId == uniqueId);
+
+    notifyListeners();
     try {
-      setScreenBusy.value = true;
-      notifyListeners();
-      var jsonBody = {"unique_id": id};
       Response response = await _webService.postRequest(
-          jsonBody, NetworkUrls.viewWholesalerRetailerAssociationRequest);
-      final responseData = AssociationWholesalerRequestDetailsModel.fromJson(
-          convert.jsonDecode(response.body));
-      associationRequestWholesalerDetailsReactive.value.add(responseData);
-      associationRequestWholesalerDetails.value = responseData;
-      setScreenBusy.value = false;
+          data, NetworkUrls.updateWholesalerRetailerAssociationStatus);
+      final responseData =
+          UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
+      associationRequestWholesalerDetailsReactive
+          .value[index]
+          .data![0]
+          .companyInformation![0]
+          .status = describeEnum(StatusNames.active).toUpperCamelCase();
+      associationRequestWholesalerDetails.value =
+          associationRequestWholesalerDetailsReactive.value[index];
       notifyListeners();
+      return responseData;
+      // throw "Done";
     } on Exception catch (e) {
-      setScreenBusy.value = false;
-      notifyListeners();
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+      throw e;
     }
   }
 }

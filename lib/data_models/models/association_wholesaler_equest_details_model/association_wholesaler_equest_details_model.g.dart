@@ -49,10 +49,10 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
                   InternalInformation.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      creditlineInformation: json['creditline_information'] == null
-          ? null
-          : CreditlineInformation.fromJson(
-              json['creditline_information'] as Map<String, dynamic>),
+      creditlineInformation: (json['creditline_information'] as List<dynamic>?)
+          ?.map(
+              (e) => CreditlineInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) {
@@ -70,8 +70,8 @@ Map<String, dynamic> _$DataToJson(Data instance) {
       instance.contactInformation?.map((e) => e.toJson()).toList());
   writeNotNull('internal_information',
       instance.internalInformation?.map((e) => e.toJson()).toList());
-  writeNotNull(
-      'creditline_information', instance.creditlineInformation?.toJson());
+  writeNotNull('creditline_information',
+      instance.creditlineInformation?.map((e) => e.toJson()).toList());
   return val;
 }
 
@@ -175,7 +175,7 @@ InternalInformation _$InternalInformationFromJson(Map<String, dynamic> json) =>
       customerType: json['customer_type'] as String? ?? '',
       gracePeriodGroup: json['grace_period_group'] as String? ?? '',
       pricingGroup: json['pricing_group'] as String? ?? '',
-      salesZone: json['sales_zone'] as String? ?? '',
+      salesZone: json['sales_zone'] as String? ?? 'xxxxxx',
       allowOrders: json['allow_orders'] as int? ?? 0,
       allowOrdersDescription: json['allow_orders_description'] as String? ?? '',
       retailerStoreDetails: (json['retailer_store_details'] as List<dynamic>?)

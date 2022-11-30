@@ -98,4 +98,10 @@ class NavigationService {
       content: Text(message),
     ));
   }
+
+  // void openDrawer() {
+  //   if (_endDrawerKey.currentState != null && _endDrawerOpened.value)
+  //     _endDrawerKey.currentState!.close();
+  //   _drawerKey.currentState?.open();
+  // }
 }

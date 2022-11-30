@@ -14,7 +14,7 @@ import '../../../data_models/models/component_models/tax_id_type_model.dart';
 import '../../../data_models/models/retailer_wholesaler_association_request_model/retailer_wholesaler_association_request_model.dart';
 import '../../../repository/repository_wholesaler.dart';
 import '../../../services/auth_service/auth_service.dart';
-import '../../widgets/alert/activation_dialog.dart';
+import '../../widgets/alert/alert_dialog.dart';
 import '../../widgets/alert/date_picker.dart';
 
 class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
@@ -40,6 +40,17 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   RetailerAssociationRequestDetailsModel
       get associationRequestRetailerDetails =>
           _repositoryRetailer.associationRequestRetailerDetails;
+
+  CompanyInformation get companyInformation => _repositoryWholesaler
+      .associationRequestWholesalerDetails
+      .value
+      .data![0]
+      .companyInformation![0];
+  ContactInformation get contactInformation => _repositoryWholesaler
+      .associationRequestWholesalerDetails
+      .value
+      .data![0]
+      .contactInformation![0];
   InternalInformation get internalInformation => _repositoryWholesaler
       .associationRequestWholesalerDetails
       .value
@@ -49,7 +60,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       .associationRequestWholesalerDetails
       .value
       .data![0]
-      .creditlineInformation!;
+      .creditlineInformation![0];
 
   //local variables
   String selectedCustomerType = "Select ${AppString.selectCustomerType}";
@@ -102,12 +113,16 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
         return 3;
       case "active":
         return 4;
+      case "completed":
+        return 5;
       default:
         return 0;
     }
   }
 
   void presetFunction() {
+    print('internalInformation.salesZone');
+    print(companyInformation.status);
     internalIdController.text = internalInformation.internalId!;
     monthlySalesController.text = creditlineInformation.monthlySales!;
     averageSalesTicketController.text =
@@ -119,26 +134,23 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     selectedCustomerType = internalInformation.customerType!.isEmpty
         ? selectedCustomerType
         : internalInformation.customerType!;
-    selectedGracePeriodGroups = selectedGracePeriodGroups;
+    selectedGracePeriodGroups = internalInformation.gracePeriodGroup == ""
+        ? "Select ${AppString.gracePeriodGroups}"
+        : internalInformation.gracePeriodGroup!;
     selectedAllowOrders = internalInformation.allowOrders == 0 ? "No" : "Yes";
     selectedPricingGroups = internalInformation.pricingGroup!.isEmpty
         ? selectedPricingGroups
         : internalInformation.pricingGroup!;
-    // selectedSalesZoneString = internalInformation.salesZone == null
-    //     ? selectedSalesZoneString
-    //     : internalInformation.salesZone!;
-    // print('creditlineInformation.visitFrequency');
-    // print(internalInformation.salesZone);
-    selectedVisitFrequency = creditlineInformation.visitFrequency == null
+    selectedSalesZoneString = internalInformation.salesZone == null
+        ? selectedSalesZoneString
+        : internalInformation.salesZone!;
+    selectedVisitFrequency = creditlineInformation.visitFrequency == null ||
+            creditlineInformation.visitFrequency == ""
         ? selectedVisitFrequency
         : creditlineInformation.visitFrequency!;
     status = getStatus(_repositoryWholesaler.associationRequestWholesalerDetails
         .value.data![0].companyInformation![0].status!);
     notifyListeners();
-  }
-
-  void openActivationCodeDialog() {
-    _navigationService.displayDialog(const ActivationDialog());
   }
 
   void callDetails(String arguments) async {
@@ -199,12 +211,33 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void updateStatus() {
-    var data = {
-      "unique_id": uniqueId,
-      "action": status,
-    };
-    var dataForStatus4 = {
+  void cancelButton() {
+    _navigationService.pop();
+  }
+
+  void updateWholesalerRetailerAssociationStatus() async {
+    bool isItemPostAble() {
+      return internalIdController.text != "" &&
+          monthlySalesController.text != "" &&
+          averageSalesTicketController.text != "" &&
+          suggestedCreditLineController.text != "" &&
+          selectedCustomerType != "Select ${AppString.selectCustomerType}" &&
+          selectedGracePeriodGroups !=
+              "Select ${AppString.gracePeriodGroups}" &&
+          selectedPricingGroups != "Select ${AppString.pricingGroups}" &&
+          selectedSalesZoneString != "xxxxxx" &&
+          selectedAllowOrders != "Select ${AppString.allowOrders}" &&
+          selectedVisitFrequency != 0;
+    }
+
+    // if (!isItemPostAble()) {
+    //   _navigationService.animatedDialog(const AlertDialogMessage("Please "
+    //       "re-cheack your "
+    //       "all fields"));
+    // }
+
+    print(isItemPostAble());
+    var sendData = {
       "unique_id": uniqueId,
       "action": 4,
       "internal_id": internalIdController.text,
@@ -219,6 +252,34 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       "visit_frequency": selectedVisitFrequency,
       "suggested_creditline_amount": suggestedCreditLineController.text
     };
+    try {
+      await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
+          sendData, uniqueId);
+      _navigationService
+          .displayDialog(const AlertDialogMessage("Data successfully "
+              "updated"));
+
+      notifyListeners();
+    } on Exception catch (e) {
+      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    }
+  }
+
+  void openActivationCodeDialog() async {
+    print(status);
+    var sendData = {
+      "unique_id": uniqueId,
+      "action": status.toString(),
+    };
+    try {
+      await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
+          sendData, uniqueId);
+      // _navigationService.displayDialog(ActivationDialog(
+      //   activationCode: data.data!.activationCode!.toString(),
+      // ));
+    } on Exception catch (e) {
+      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    }
   }
 
   @override

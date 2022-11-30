@@ -9,6 +9,7 @@ import 'app/router.dart';
 import 'const/app_colors.dart';
 
 late SharedPreferences prefs;
+var navKey = locator<NavigationService>().navigatorKey;
 
 void mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +36,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var navKey = locator<NavigationService>().navigatorKey;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BINGO',

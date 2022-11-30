@@ -15,6 +15,12 @@ extension StatusExtension on StatusNames {
             color: AppColors.statusReject,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
+      case StatusNames.completed:
+        return statusWidget(
+            text: "Complete",
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
       case StatusNames.procesada:
         return statusWidget(
             text: "Procesada",

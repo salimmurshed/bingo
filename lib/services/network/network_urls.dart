@@ -23,6 +23,8 @@ class NetworkUrls {
       "${Config.baseURL}view-wholesaler-retailer-association-request");
   static Uri viewRetailerWholesalerAssociationRequest = Uri.parse(
       "${Config.baseURL}view-retailer-wholesaler-association-request");
+  static Uri updateWholesalerRetailerAssociationStatus = Uri.parse(
+      "${Config.baseURL}update-wholesaler-retailer-association-status");
 
   //components urls
 
