@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  Android-Build:
+  Build:
     name: Airguide Android Development Release APK
     runs-on: ubuntu-latest # Set OS Platform for the build
     env: # Set Keystore Variable
