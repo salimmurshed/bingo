@@ -27,15 +27,13 @@ Map<String, dynamic> _$RetailerAssociationRequestDetailsModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       companyInformation: (json['company_information'] as List<dynamic>?)
-              ?.map((e) =>
-                  CompanyInformationRetails.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ?.map((e) =>
+              CompanyInformationRetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
       contactInformation: (json['contact_information'] as List<dynamic>?)
-              ?.map((e) =>
-                  ContactInformationRetails.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ?.map((e) =>
+              ContactInformationRetails.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -49,7 +47,7 @@ CompanyInformationRetails _$CompanyInformationRetailsFromJson(
         Map<String, dynamic> json) =>
     CompanyInformationRetails(
       uniqueId: json['unique_id'] as String? ?? '',
-      bpIdW: json['bp_id_w'] as String? ?? '',
+      bpIdW: json['bp_id_r'] as String? ?? '',
       companyName: json['company_name'] as String? ?? '',
       taxId: json['tax_id'] as String? ?? '',
       associationDate: json['association_date'] as String? ?? '',
@@ -62,7 +60,7 @@ Map<String, dynamic> _$CompanyInformationRetailsToJson(
         CompanyInformationRetails instance) =>
     <String, dynamic>{
       'unique_id': instance.uniqueId,
-      'bp_id_w': instance.bpIdW,
+      'bp_id_r': instance.bpIdW,
       'company_name': instance.companyName,
       'tax_id': instance.taxId,
       'association_date': instance.associationDate,

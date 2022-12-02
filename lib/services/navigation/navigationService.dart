@@ -7,6 +7,7 @@ class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   // GlobalKey<NavigatorState> get navigatorKey => navigatorKey;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   BuildContext get activeContext => navigatorKey.currentState!.context;
 
@@ -26,6 +27,7 @@ class NavigationService {
 
   Future displayDialog<T>(Widget dialog, {bool barrierDismissible = true}) {
     return showDialog(
+      barrierLabel: '',
       context: navigatorKey.currentState!.overlay!.context,
       barrierDismissible: barrierDismissible,
       builder: (context) => dialog,
@@ -37,7 +39,7 @@ class NavigationService {
       // barrierColor: Colors.black54,,
       context: navigatorKey.currentState!.overlay!.context,
       // barrierDismissible: barrierDismissible,
-      barrierDismissible: true,
+      barrierDismissible: barrierDismissible,
       barrierLabel: '',
       transitionBuilder: (context, a1, a2, widget) {
         return Transform.scale(

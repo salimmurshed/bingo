@@ -1,6 +1,8 @@
+import 'package:bingo_wholesale/presentation/widgets/alert/yes_no_dialog.dart';
 import 'package:bingo_wholesale/repository/repository_components.dart';
 import 'package:bingo_wholesale/repository/repository_retailer.dart';
 import 'package:bingo_wholesale/services/navigation/navigationService.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -8,17 +10,21 @@ import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
 import '../../../const/app_strings.dart';
+import '../../../data_models/enums/status_name.dart';
 import '../../../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
 import '../../../data_models/models/component_models/sales_zone_model.dart';
 import '../../../data_models/models/component_models/tax_id_type_model.dart';
 import '../../../data_models/models/retailer_wholesaler_association_request_model/retailer_wholesaler_association_request_model.dart';
+import '../../../data_models/models/update_response_model/update_response_model.dart';
 import '../../../repository/repository_wholesaler.dart';
 import '../../../services/auth_service/auth_service.dart';
+import '../../widgets/alert/activation_dialog.dart';
 import '../../widgets/alert/alert_dialog.dart';
 import '../../widgets/alert/date_picker.dart';
+import '../home_screen/home_screen_view_model.dart';
 
 class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
-  AssociationRequestDetailsScreenModel() {}
+  // AssociationRequestDetailsScreenModel() {}
 
   //locator service
   final AuthService _authService = locator<AuthService>();
@@ -39,36 +45,34 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
           _repositoryWholesaler.associationRequestWholesalerDetails.value;
   RetailerAssociationRequestDetailsModel
       get associationRequestRetailerDetails =>
-          _repositoryRetailer.associationRequestRetailerDetails;
+          _repositoryRetailer.associationRequestRetailerDetails.value;
 
-  CompanyInformation get companyInformation => _repositoryWholesaler
-      .associationRequestWholesalerDetails
-      .value
-      .data![0]
-      .companyInformation![0];
-  ContactInformation get contactInformation => _repositoryWholesaler
-      .associationRequestWholesalerDetails
-      .value
-      .data![0]
-      .contactInformation![0];
-  InternalInformation get internalInformation => _repositoryWholesaler
-      .associationRequestWholesalerDetails
-      .value
-      .data![0]
-      .internalInformation![0];
-  CreditlineInformation get creditlineInformation => _repositoryWholesaler
-      .associationRequestWholesalerDetails
-      .value
-      .data![0]
-      .creditlineInformation![0];
+  CompanyInformationRetails get companyInformationRetails =>
+      associationRequestRetailerDetails.data![0].companyInformation![0];
+  ContactInformationRetails get contactInformationRetails =>
+      associationRequestRetailerDetails.data![0].contactInformation![0];
 
+  ContactInformation get contactInformation =>
+      associationRequestWholesalerDetails.data![0].contactInformation![0];
+  InternalInformation get internalInformation =>
+      associationRequestWholesalerDetails.data![0].internalInformation![0];
+  CreditlineInformation get creditlineInformation =>
+      associationRequestWholesalerDetails.data![0].creditlineInformation![0];
+  CompanyInformation get companyInformation =>
+      associationRequestWholesalerDetails.data![0].companyInformation![0];
   //local variables
-  String selectedCustomerType = "Select ${AppString.selectCustomerType}";
-  String selectedGracePeriodGroups = "Select ${AppString.gracePeriodGroups}";
-  String selectedPricingGroups = "Select ${AppString.pricingGroups}";
-  String selectedSalesZoneString = "xxxxxx";
-  String selectedAllowOrders = "Select ${AppString.allowOrders}";
-  String selectedCustomerSinceDate = "Select ${AppString.customerSinceDate}";
+  String selectedCustomerType =
+      "${AppString.selectText} ${AppString.selectCustomerType}";
+  String selectedGracePeriodGroups =
+      "${AppString.selectText} ${AppString.gracePeriodGroups}";
+  String selectedPricingGroups =
+      "${AppString.selectText} ${AppString.pricingGroups}";
+  String selectedSalesZoneString =
+      AppString.selectedSalesZoneStringDefaultValue;
+  String selectedAllowOrders =
+      "${AppString.selectText} ${AppString.allowOrders}";
+  String selectedCustomerSinceDate =
+      "${AppString.selectText} ${AppString.customerSinceDate}";
   int selectedVisitFrequency = 0;
   int status = 0;
   String uniqueId = "";
@@ -79,6 +83,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   TextEditingController averageSalesTicketController = TextEditingController();
   TextEditingController suggestedCreditLineController = TextEditingController();
   TextEditingController selectDate = TextEditingController();
+  TextEditingController setVerificationCoded = TextEditingController();
 
   //get service data list
   TaxIdType get taxIdType => _repositoryComponents.taxIdType;
@@ -121,8 +126,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   }
 
   void presetFunction() {
-    print('internalInformation.salesZone');
-    print(companyInformation.status);
     internalIdController.text = internalInformation.internalId!;
     monthlySalesController.text = creditlineInformation.monthlySales!;
     averageSalesTicketController.text =
@@ -153,15 +156,18 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void callDetails(String arguments) async {
-    uniqueId = arguments;
+  void callDetails(GetId arguments) async {
+    uniqueId = arguments.id;
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       isRetailer
-          ? _repositoryRetailer.getRetailerAssociationDetails(arguments)
-          : await _repositoryWholesaler
-              .getWholesalersAssociationDetails(arguments);
-      presetFunction();
+          ? _repositoryRetailer.getRetailerAssociationDetails(arguments.id)
+          : _repositoryWholesaler
+              .getWholesalersAssociationDetails(arguments.id)
+              .then((value) => presetFunction());
     });
+    // if (!isRetailer) {
+    //   presetFunction();
+    // }
   }
 
   void openCalender() async {
@@ -192,7 +198,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
 
   void changeSalesZone(String data) {
     selectedSalesZoneString = data;
-    print(selectedSalesZoneString);
     notifyListeners();
   }
 
@@ -221,65 +226,136 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
           monthlySalesController.text != "" &&
           averageSalesTicketController.text != "" &&
           suggestedCreditLineController.text != "" &&
-          selectedCustomerType != "Select ${AppString.selectCustomerType}" &&
+          selectedCustomerType !=
+              "${AppString.selectText} ${AppString.selectCustomerType}" &&
           selectedGracePeriodGroups !=
-              "Select ${AppString.gracePeriodGroups}" &&
-          selectedPricingGroups != "Select ${AppString.pricingGroups}" &&
-          selectedSalesZoneString != "xxxxxx" &&
-          selectedAllowOrders != "Select ${AppString.allowOrders}" &&
+              "${AppString.selectText} ${AppString.gracePeriodGroups}" &&
+          selectedPricingGroups !=
+              "${AppString.selectText} ${AppString.pricingGroups}" &&
+          selectedSalesZoneString !=
+              AppString.selectedSalesZoneStringDefaultValue &&
+          selectedAllowOrders !=
+              "${AppString.selectText} ${AppString.allowOrders}" &&
           selectedVisitFrequency != 0;
     }
 
-    // if (!isItemPostAble()) {
-    //   _navigationService.animatedDialog(const AlertDialogMessage("Please "
-    //       "re-cheack your "
-    //       "all fields"));
-    // }
+    if (!isItemPostAble()) {
+      _navigationService.animatedDialog(const AlertDialogMessage("Please "
+          "re-cheack your "
+          "all fields"));
+    }
 
-    print(isItemPostAble());
     var sendData = {
       "unique_id": uniqueId,
-      "action": 4,
+      "action": "4",
       "internal_id": internalIdController.text,
-      "customer_type": selectedCustomerType,
-      "grace_period_group": selectedGracePeriodGroups,
-      "pricing_group": selectedPricingGroups,
-      "sales_zone_unique_id": selectedSalesZoneString,
-      "allow_orders": selectedAllowOrders,
+      "customer_type": selectedCustomerType.toString(),
+      "grace_period_group": selectedGracePeriodGroups.toString(),
+      "pricing_group": selectedPricingGroups.toString(),
+      "sales_zone_unique_id": selectedSalesZoneString.toString(),
+      "allow_orders": selectedAllowOrders == "Yes" ? '1' : '0',
       "customer_since_date": selectDate.text,
       "monthly_sales": monthlySalesController.text,
       "average_sales_ticket": averageSalesTicketController.text,
-      "visit_frequency": selectedVisitFrequency,
+      "visit_frequency": selectedVisitFrequency.toString(),
       "suggested_creditline_amount": suggestedCreditLineController.text
     };
     try {
+      setBusy(true);
+      notifyListeners();
       await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
-          sendData, uniqueId);
-      _navigationService
-          .displayDialog(const AlertDialogMessage("Data successfully "
-              "updated"));
+          sendData, uniqueId, 4);
 
+      setBusy(false);
       notifyListeners();
     } on Exception catch (e) {
+      setBusy(false);
+      notifyListeners();
       _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
   }
 
-  void openActivationCodeDialog() async {
-    print(status);
+  void openActivationCodeDialog(int statusID) async {
     var sendData = {
       "unique_id": uniqueId,
-      "action": status.toString(),
+      "action": statusID.toString(),
     };
     try {
-      await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
-          sendData, uniqueId);
-      // _navigationService.displayDialog(ActivationDialog(
-      //   activationCode: data.data!.activationCode!.toString(),
-      // ));
+      setBusy(true);
+      notifyListeners();
+      UpdateResponseModel data =
+          await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
+              sendData, uniqueId, statusID);
+      if (companyInformation.status!.toLowerCase() ==
+          describeEnum(StatusNames.verified)) {
+        _navigationService.displayDialog(ActivationDialog(
+            activationCode: data.data!.activationCode!,
+            isRetailer: isRetailer));
+      }
+      setBusy(false);
+      notifyListeners();
     } on Exception catch (e) {
+      setBusy(false);
+      notifyListeners();
       _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
+  }
+
+  void openActivationCodeSubmitForRetailerDialog(int statusID) async {
+    var code = await _navigationService
+        .animatedDialog(ActivationDialog(isRetailer: isRetailer));
+    print('code');
+    print(code);
+    var sendData = {
+      "unique_id": uniqueId,
+      "action": statusID.toString(),
+      "activation_code": code,
+    };
+
+    try {
+      if (code.isEmpty) {
+        _navigationService
+            .displayDialog(AlertDialogMessage(AppString.activationRequirement));
+      } else if (code.toString().length != 6) {
+        _navigationService
+            .animatedDialog(AlertDialogMessage(AppString.put6DigitCode));
+      } else if (code != null) {
+        setBusy(true);
+        notifyListeners();
+        UpdateResponseModel data =
+            await _repositoryRetailer.updateRetailerWholesalerAssociationStatus(
+                sendData, uniqueId, statusID);
+        _navigationService.animatedDialog(AlertDialogMessage(data.message!));
+      }
+      await Future.delayed(const Duration(seconds: 1));
+      setBusy(false);
+      notifyListeners();
+    } on Exception catch (e) {
+      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+      setBusy(false);
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteRequest(String statusID) async {
+    bool yesNo = await _navigationService.animatedDialog(
+          YesNoDialog(
+            title: AppString.wantToRejectTitle,
+            content: AppString.wantToRejectContent,
+          ),
+        ) ??
+        false;
+    try {
+      var data = {
+        "unique_id": uniqueId,
+        "action": statusID.toString(),
+      };
+      if (yesNo == true) {
+        isRetailer
+            ? _repositoryRetailer.rejectRequest(data, uniqueId)
+            : _repositoryWholesaler.rejectRequest(data, uniqueId);
+      }
+    } catch (e) {}
   }
 
   @override

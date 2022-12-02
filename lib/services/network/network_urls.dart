@@ -10,7 +10,9 @@ class NetworkUrls {
   static Uri wholesalerListUri = Uri.parse("${Config.baseURL}wholesaler-list");
   static Uri requestWholesaler =
       Uri.parse("${Config.baseURL}add-retailer-wholesaler-association-request");
-  //Fie association
+
+  //association urls
+
   static Uri fiaListURI = Uri.parse("${Config.baseURL}fie-list");
   static Uri requestFia =
       Uri.parse("${Config.baseURL}add-retailer-fie-association-request");
@@ -25,6 +27,8 @@ class NetworkUrls {
       "${Config.baseURL}view-retailer-wholesaler-association-request");
   static Uri updateWholesalerRetailerAssociationStatus = Uri.parse(
       "${Config.baseURL}update-wholesaler-retailer-association-status");
+  static Uri updateRetailerWholesalerAssociationStatus = Uri.parse(
+      "${Config.baseURL}update-retailer-wholesaler-association-status");
 
   //components urls
 

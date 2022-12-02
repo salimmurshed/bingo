@@ -35,20 +35,14 @@ Map<String, dynamic> _$AssociationWholesalerRequestDetailsModelToJson(
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       companyInformation: (json['company_information'] as List<dynamic>?)
-              ?.map(
-                  (e) => CompanyInformation.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ?.map((e) => CompanyInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       contactInformation: (json['contact_information'] as List<dynamic>?)
-              ?.map(
-                  (e) => ContactInformation.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ?.map((e) => ContactInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       internalInformation: (json['internal_information'] as List<dynamic>?)
-              ?.map((e) =>
-                  InternalInformation.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ?.map((e) => InternalInformation.fromJson(e as Map<String, dynamic>))
+          .toList(),
       creditlineInformation: (json['creditline_information'] as List<dynamic>?)
           ?.map(
               (e) => CreditlineInformation.fromJson(e as Map<String, dynamic>))
@@ -175,7 +169,7 @@ InternalInformation _$InternalInformationFromJson(Map<String, dynamic> json) =>
       customerType: json['customer_type'] as String? ?? '',
       gracePeriodGroup: json['grace_period_group'] as String? ?? '',
       pricingGroup: json['pricing_group'] as String? ?? '',
-      salesZone: json['sales_zone'] as String? ?? 'xxxxxx',
+      salesZone: json['sales_zone'] as String? ?? 'XXXXXX',
       allowOrders: json['allow_orders'] as int? ?? 0,
       allowOrdersDescription: json['allow_orders_description'] as String? ?? '',
       retailerStoreDetails: (json['retailer_store_details'] as List<dynamic>?)

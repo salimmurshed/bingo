@@ -9,11 +9,23 @@ import 'app/router.dart';
 import 'const/app_colors.dart';
 
 late SharedPreferences prefs;
+String deviceToken = "abcd set after";
 var navKey = locator<NavigationService>().navigatorKey;
 
 void mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  // if (Platform.isIOS) {
+  //   await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: "found in your google service-info.plist",
+  //         appId: "found in your google service-info.plist",
+  //         messagingSenderId: "found in firebase",
+  //         projectId: "found in firebase"),
+  //   );
+  // } else {
+  //   await Firebase.initializeApp();
+  // }
   setupLocator();
   runApp(MyApp());
 }
@@ -29,6 +41,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+    // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    // _firebaseMessaging.getToken().then((token) {
+    //   deviceToken = token!;
+    //   print("token is $token \n $deviceToken");
+    // });
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));

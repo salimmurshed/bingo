@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 
 import '../app/locator.dart';
+import '../const/app_strings.dart';
 import '../const/database_helper.dart';
 import '../data_models/models/association_request_wholesaler_model/association_request_wholesaler_model.dart';
 import '../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
@@ -26,7 +27,8 @@ class RepositoryWholesaler with ReactiveServiceMixin {
     listenToReactiveValues([
       setScreenBusy,
       associationRequestWholesalerDetailsReactive,
-      associationRequestWholesalerDetails
+      associationRequestWholesalerDetails,
+      associationRequestWholesalerData
     ]);
     // _localData.delete(TableNames.countryTableName);
     // _localData.delete(TableNames.storeTableName);
@@ -41,7 +43,8 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final LocalData _localData = locator<LocalData>();
 
-  List<AssociationRequestWholesalerData> associationRequestWholesalerData = [];
+  ReactiveValue<List<AssociationRequestWholesalerData>>
+      associationRequestWholesalerData = ReactiveValue([]);
   ReactiveValue<AssociationWholesalerRequestDetailsModel>
       associationRequestWholesalerDetails =
       ReactiveValue(AssociationWholesalerRequestDetailsModel());
@@ -54,7 +57,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   //all Wholesaler Association list
   void getWholesalersAssociationData() async {
     dbHelper.queryAllRows(TableNames.wholeSalerAssociationList).then((value) {
-      associationRequestWholesalerData = value
+      associationRequestWholesalerData.value = value
           .map((d) => AssociationRequestWholesalerData.fromJson(d))
           .toList();
     });
@@ -63,7 +66,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
           .getRequest(NetworkUrls.requestAssociationListForWholesaler);
       final responseData = AssociationRequestWholesalerModel.fromJson(
           convert.jsonDecode(response.body));
-      associationRequestWholesalerData = responseData.data!;
+      associationRequestWholesalerData.value = responseData.data!;
       _localData.insert(
           TableNames.wholeSalerAssociationList, responseData.data!);
     } on Exception catch (e) {
@@ -72,18 +75,19 @@ class RepositoryWholesaler with ReactiveServiceMixin {
     notifyListeners();
   }
 
-  Future<void> getWholesalersAssociationDetails(String id) async {
+  Future<void> getWholesalersAssociationDetails(String uniqueId) async {
     print("response.body");
     int index = 0;
     bool isAvailable = false;
     if (associationRequestWholesalerDetailsReactive.value.isNotEmpty) {
       index = associationRequestWholesalerDetailsReactive.value.indexWhere(
-          (element) => element.data![0].companyInformation![0].uniqueId == id);
+          (element) =>
+              element.data![0].companyInformation![0].uniqueId == uniqueId);
     }
     if (associationRequestWholesalerDetailsReactive.value.isNotEmpty) {
       isAvailable = associationRequestWholesalerDetailsReactive.value
           .where((element) =>
-              element.data![0].companyInformation![0].uniqueId == id)
+              element.data![0].companyInformation![0].uniqueId == uniqueId)
           .isNotEmpty;
     }
     if (isAvailable) {
@@ -93,10 +97,9 @@ class RepositoryWholesaler with ReactiveServiceMixin {
       try {
         setScreenBusy.value = true;
         notifyListeners();
-        var jsonBody = {"unique_id": id};
+        var jsonBody = {"unique_id": uniqueId};
         Response response = await _webService.postRequest(
             jsonBody, NetworkUrls.viewWholesalerRetailerAssociationRequest);
-        print(response.body);
         final responseData = AssociationWholesalerRequestDetailsModel.fromJson(
             convert.jsonDecode(response.body));
         associationRequestWholesalerDetailsReactive.value.add(responseData);
@@ -112,22 +115,41 @@ class RepositoryWholesaler with ReactiveServiceMixin {
 
   //updateWholesalerRetailerAssociationStatus
   Future<UpdateResponseModel> updateWholesalerRetailerAssociationStatus(
-      dynamic data, String uniqueId) async {
+      dynamic data, String uniqueId, int statusID) async {
     int index = associationRequestWholesalerDetailsReactive.value.indexWhere(
         (element) =>
             element.data![0].companyInformation![0].uniqueId == uniqueId);
-
     notifyListeners();
     try {
       Response response = await _webService.postRequest(
           data, NetworkUrls.updateWholesalerRetailerAssociationStatus);
       final responseData =
           UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
-      associationRequestWholesalerDetailsReactive
-          .value[index]
-          .data![0]
-          .companyInformation![0]
-          .status = describeEnum(StatusNames.active).toUpperCamelCase();
+      associationRequestWholesalerDetailsReactive.value[index].data![0].companyInformation![0].status =
+          statusID == 1
+              ? describeEnum(StatusNames.accepted).toUpperCamelCase()
+              : statusID == 3
+                  ? describeEnum(StatusNames.verified).toUpperCamelCase()
+                  : describeEnum(StatusNames.active).toUpperCamelCase();
+      if (statusID == 4) {
+        associationRequestWholesalerDetailsReactive.value.removeAt(index);
+        var jsonBody = {"unique_id": uniqueId};
+        Response responseGet = await _webService.postRequest(
+            jsonBody, NetworkUrls.viewWholesalerRetailerAssociationRequest);
+
+        final responseDataGet =
+            AssociationWholesalerRequestDetailsModel.fromJson(
+                convert.jsonDecode(responseGet.body));
+        associationRequestWholesalerDetailsReactive.value.add(responseDataGet);
+        associationRequestWholesalerDetails.value = responseDataGet;
+        associationRequestWholesalerData.value
+            .removeWhere((element) => element.associationUniqueId == uniqueId);
+        notifyListeners();
+      }
+      if (!responseData.success!) {
+        _navigationService
+            .animatedDialog(AlertDialogMessage(responseData.message!));
+      }
       associationRequestWholesalerDetails.value =
           associationRequestWholesalerDetailsReactive.value[index];
       notifyListeners();
@@ -135,6 +157,32 @@ class RepositoryWholesaler with ReactiveServiceMixin {
       // throw "Done";
     } on Exception catch (e) {
       throw e;
+    }
+  }
+
+  void rejectRequest(dynamic data, String uniqueId) async {
+    int index = associationRequestWholesalerDetailsReactive.value.indexWhere(
+        (element) =>
+            element.data![0].companyInformation![0].uniqueId == uniqueId);
+    int index2 = associationRequestWholesalerData.value
+        .indexWhere((element) => element.uniqueId == uniqueId);
+    Response response = await _webService.postRequest(
+        data, NetworkUrls.updateRetailerWholesalerAssociationStatus);
+    final responseData =
+        UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
+    if (responseData.success!) {
+      _navigationService.animatedDialog(
+          const AlertDialogMessage(AppString.rejectionCompleteSuccessful));
+      associationRequestWholesalerDetailsReactive
+          .value[index]
+          .data![0]
+          .companyInformation![0]
+          .status = describeEnum(StatusNames.active).toUpperCamelCase();
+      associationRequestWholesalerData.value[index2].status =
+          describeEnum(StatusNames.rejected).toUpperCamelCase();
+    } else {
+      _navigationService.animatedDialog(
+          const AlertDialogMessage(AppString.rejectionCompleteUnsuccessful));
     }
   }
 }
