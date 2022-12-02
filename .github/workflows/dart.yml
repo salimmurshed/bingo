@@ -75,7 +75,7 @@ jobs:
         uses: actions/upload-artifact@v2.3.1
         with:
           name: IOS Build Artifact
-          path: build-output/ios/airguide.ipa
+          path: build-output/ios/bingo_wholesale.ipa
 
       # Upload Ios Development Artifact on slack
       - name: Upload to slack step
@@ -83,8 +83,8 @@ jobs:
         with:
           slack_token: ${{ secrets.SLACK_TOKEN }}
           channels: ${{ secrets.SLACK_CHANNEL }}
-          file_path: '/Users/runner/work/Flutter-Bingo/Flutter-Bingo/build-output/ios/bingo.ipa'
-          file_name: 'bingo.ipa'
+          file_path: '/Users/runner/work/Flutter-Bingo/Flutter-Bingo/build-output/ios/bingo_wholesale.ipa'
+          file_name: 'bingo_wholesale.ipa'
           file_type: 'ipa'
           retries: 0
           initial_comment: '*_Bingo IOS Development Ipa_* :hello_apple:'
