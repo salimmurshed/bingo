@@ -177,9 +177,10 @@ class RepositoryWholesaler with ReactiveServiceMixin {
           .value[index]
           .data![0]
           .companyInformation![0]
-          .status = describeEnum(StatusNames.active).toUpperCamelCase();
+          .status = describeEnum(StatusNames.rejected).toUpperCamelCase();
       associationRequestWholesalerData.value[index2].status =
           describeEnum(StatusNames.rejected).toUpperCamelCase();
+      notifyListeners();
     } else {
       _navigationService.animatedDialog(
           const AlertDialogMessage(AppString.rejectionCompleteUnsuccessful));
