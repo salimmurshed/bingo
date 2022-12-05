@@ -1,10 +1,10 @@
-import 'package:bingo_wholesale/presentation/ui/dashboard_screen/dashboard_screen_view.dart';
 import 'package:bingo_wholesale/presentation/ui/home_screen/home_screen_view.dart';
 import 'package:bingo_wholesale/presentation/ui/splash_screen/splash_screen_view.dart';
 import 'package:flutter/material.dart';
 
 import '../presentation/ui/add_association_request_screen/add_association_request_screen_view.dart';
 import '../presentation/ui/association_request_details_screen/association_request_details_screen_view.dart';
+import '../presentation/ui/bottom_tabs/bottom_tabs_screen_view.dart';
 import '../presentation/ui/login_screen/login_screen_view.dart';
 import '../presentation/ui/sales_details_screen/sales_details_screen_view.dart';
 
@@ -12,7 +12,7 @@ abstract class Routes {
   static const startupView = '/';
   static const login = 'login';
   static const homeScreen = 'home_screen';
-  static const dashboardScreen = 'dashboard_screen';
+  static const dashboardScreen = 'bottom_tabs';
   static const addNewAssociationRequest = 'add_new_association_request';
   static const salesDetailsScreen = 'sales_details_screen';
   static const associationRequestDetailsScreen = 'association_request_details'
@@ -50,7 +50,7 @@ class Router {
 
       case Routes.dashboardScreen:
         return MaterialPageRoute<dynamic>(
-          builder: (context) => const DashboardScreenView(),
+          builder: (context) => const BottomTabsScreenView(),
           settings: settings,
         );
 
@@ -62,7 +62,7 @@ class Router {
 
       case Routes.associationRequestDetailsScreen:
         return MaterialPageRoute<dynamic>(
-          builder: (context) => const AssociationRequestDetailsScreen(),
+          builder: (context) => AssociationRequestDetailsScreen(),
           settings: settings,
         );
 

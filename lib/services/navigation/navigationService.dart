@@ -1,3 +1,4 @@
+import 'package:bingo_wholesale/const/app_sizes/app_sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
@@ -6,6 +7,7 @@ class NavigationService {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   // GlobalKey<NavigatorState> get navigatorKey => navigatorKey;
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   BuildContext get activeContext => navigatorKey.currentState!.context;
 
@@ -25,9 +27,31 @@ class NavigationService {
 
   Future displayDialog<T>(Widget dialog, {bool barrierDismissible = true}) {
     return showDialog(
+      barrierLabel: '',
       context: navigatorKey.currentState!.overlay!.context,
       barrierDismissible: barrierDismissible,
       builder: (context) => dialog,
+    );
+  }
+
+  Future animatedDialog<T>(Widget dialog, {bool barrierDismissible = true}) {
+    return showGeneralDialog(
+      // barrierColor: Colors.black54,,
+      context: navigatorKey.currentState!.overlay!.context,
+      // barrierDismissible: barrierDismissible,
+      barrierDismissible: barrierDismissible,
+      barrierLabel: '',
+      transitionBuilder: (context, a1, a2, widget) {
+        return Transform.scale(
+          scale: a1.value,
+          child: Opacity(
+            opacity: a1.value,
+            child: dialog,
+          ),
+        );
+      },
+      transitionDuration: Duration(milliseconds: 200),
+      pageBuilder: (context, animation1, animation2) => dialog,
     );
   }
 
@@ -39,10 +63,8 @@ class NavigationService {
     return showModalBottomSheet<void>(
         backgroundColor: Colors.blue,
         enableDrag: enableDrag,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0), topRight: Radius.circular(20.0)),
-        ),
+        shape: RoundedRectangleBorder(
+            borderRadius: AppRadius.displayBottomSheetRadius),
         context: navigatorKey.currentState!.overlay!.context,
         isScrollControlled: true,
         builder: (context) => dialog);
@@ -78,4 +100,10 @@ class NavigationService {
       content: Text(message),
     ));
   }
+
+  // void openDrawer() {
+  //   if (_endDrawerKey.currentState != null && _endDrawerOpened.value)
+  //     _endDrawerKey.currentState!.close();
+  //   _drawerKey.currentState?.open();
+  // }
 }

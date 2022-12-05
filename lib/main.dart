@@ -1,4 +1,5 @@
 import 'package:bingo_wholesale/const/all_const.dart';
+import 'package:bingo_wholesale/const/app_sizes/app_sizes.dart';
 import 'package:bingo_wholesale/services/navigation/navigationService.dart';
 import 'package:flutter/material.dart' hide Router;
 import 'package:flutter/services.dart';
@@ -8,10 +9,23 @@ import 'app/router.dart';
 import 'const/app_colors.dart';
 
 late SharedPreferences prefs;
+String deviceToken = "abcd set after";
+var navKey = locator<NavigationService>().navigatorKey;
 
 void mainDelegate() async {
   WidgetsFlutterBinding.ensureInitialized();
   prefs = await SharedPreferences.getInstance();
+  // if (Platform.isIOS) {
+  //   await Firebase.initializeApp(
+  //     options: const FirebaseOptions(
+  //         apiKey: "found in your google service-info.plist",
+  //         appId: "found in your google service-info.plist",
+  //         messagingSenderId: "found in firebase",
+  //         projectId: "found in firebase"),
+  //   );
+  // } else {
+  //   await Firebase.initializeApp();
+  // }
   setupLocator();
   runApp(MyApp());
 }
@@ -27,6 +41,12 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
+    // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+    // _firebaseMessaging.getToken().then((token) {
+    //   deviceToken = token!;
+    //   print("token is $token \n $deviceToken");
+    // });
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
@@ -34,8 +54,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var navKey = locator<NavigationService>().navigatorKey;
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'BINGO',
@@ -44,7 +62,7 @@ class _MyAppState extends State<MyApp> {
           cardTheme: CardTheme(
             elevation: 2,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
+              borderRadius: AppRadius.mainCardThemeRadius,
             ),
           ),
           floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -70,7 +88,7 @@ class _MyAppState extends State<MyApp> {
           ),
           dialogTheme: DialogTheme(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: AppRadius.mainDialogThemeRadius,
             ),
           ),
           fontFamily: "Poppins"),
