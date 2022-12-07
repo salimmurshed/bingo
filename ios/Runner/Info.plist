@@ -45,5 +45,15 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSLocalNetworkUsageDescription</key>
+    <string>Exchange data with nearby devices running the Yourapp.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Always and when in use!</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Your location is required for accurate notifactions  benefits for you , also you cane disable it with no problem </string>
+    <key>NSLocationUsageDescription</key>
+    <string>Older devices need location.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Your location is required for accurate notifaction benefits for you  lso you cane disable it with no problem </string>
 </dict>
 </plist>
