@@ -64,7 +64,7 @@ jobs:
       # Build Ios Archive File
       - name: Build Archive
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme dev -configuration Release-dev DEVELOPMENT_TEAM=63MX6YV7DM  -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=8830b430-be4a-4960-904b-02a86904d8f9 clean archive CODE_SIGN_IDENTITY="iPhone Developer: Marc Roset (9GM9KCLNFZ)"
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme dev -configuration Release-dev DEVELOPMENT_TEAM=63MX6YV7DM  -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE=238fd3bf-791b-4c1e-80e7-cee7fbe1c420 clean archive CODE_SIGN_IDENTITY="iPhone Developer: Marc Roset (9GM9KCLNFZ)"
 
       # Export .ipa form Archive file
       - name: Export ipa
