@@ -10,6 +10,8 @@ import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
 import '../../../const/app_strings.dart';
+import '../../../data/data_source/visit_frequently_list.dart';
+import '../../../data_models/construction_model/static_data_models/visit_frequent_list_model.dart';
 import '../../../data_models/enums/status_name.dart';
 import '../../../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
 import '../../../data_models/models/component_models/sales_zone_model.dart';
@@ -40,12 +42,45 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   bool get setScreenBusy => isRetailer
       ? _repositoryRetailer.setScreenBusy.value
       : _repositoryWholesaler.setScreenBusy.value;
+
+  void callDetails(GetId arguments) async {
+    uniqueId = arguments.id;
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      if (isRetailer) {
+        setBusy(true);
+        notifyListeners();
+        await _repositoryRetailer.getRetailerAssociationDetails(arguments.id);
+        _associationRequestRetailerDetails =
+            _repositoryRetailer.associationRequestRetailerDetails.value;
+        setBusy(false);
+        notifyListeners();
+      } else {
+        await _repositoryWholesaler
+            .getWholesalersAssociationDetails(arguments.id);
+        _associationRequestWholesalerDetails;
+        _repositoryWholesaler.wholesalerAssociationRequestDetails.value;
+        presetFunction();
+      }
+    });
+    // if (!isRetailer) {
+    //   presetFunction();
+    // }
+  }
+
+  AssociationWholesalerRequestDetailsModel
+      _associationRequestWholesalerDetails =
+      AssociationWholesalerRequestDetailsModel();
+  // _repositoryWholesaler
+  //     .wholesalerAssociationRequestDetails.value;
+  RetailerAssociationRequestDetailsModel _associationRequestRetailerDetails =
+      RetailerAssociationRequestDetailsModel();
+  // _repositoryRetailer.associationRequestRetailerDetails.value;
   AssociationWholesalerRequestDetailsModel
       get associationRequestWholesalerDetails =>
-          _repositoryWholesaler.associationRequestWholesalerDetails.value;
+          _associationRequestWholesalerDetails;
   RetailerAssociationRequestDetailsModel
       get associationRequestRetailerDetails =>
-          _repositoryRetailer.associationRequestRetailerDetails.value;
+          _associationRequestRetailerDetails;
 
   CompanyInformationRetails get companyInformationRetails =>
       associationRequestRetailerDetails.data![0].companyInformation![0];
@@ -100,13 +135,8 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   List<SalesZoneModelData> get salesZone =>
       _repositoryComponents.salesZone.data!;
   List<String> allowOrdersList = ["Yes", "No"];
-  List<dynamic> visitFrequentlyList = [
-    {"id": 1, "title": "Twice a week"},
-    {"id": 2, "title": "Weekly"},
-    {"id": 3, "title": "Every two weeks"},
-    {"id": 4, "title": "Every Three Weeks"},
-    {"id": 5, "title": "Monthly"}
-  ];
+  List<VisitFrequentListModel> visitFrequentlyList =
+      AppList.visitFrequentlyList;
 
   int getStatus(String status) {
     switch (status.toLowerCase()) {
@@ -151,23 +181,9 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
             creditlineInformation.visitFrequency == ""
         ? selectedVisitFrequency
         : creditlineInformation.visitFrequency!;
-    status = getStatus(_repositoryWholesaler.associationRequestWholesalerDetails
+    status = getStatus(_repositoryWholesaler.wholesalerAssociationRequestDetails
         .value.data![0].companyInformation![0].status!);
     notifyListeners();
-  }
-
-  void callDetails(GetId arguments) async {
-    uniqueId = arguments.id;
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      isRetailer
-          ? _repositoryRetailer.getRetailerAssociationDetails(arguments.id)
-          : _repositoryWholesaler
-              .getWholesalersAssociationDetails(arguments.id)
-              .then((value) => presetFunction());
-    });
-    // if (!isRetailer) {
-    //   presetFunction();
-    // }
   }
 
   void openCalender() async {

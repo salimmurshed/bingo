@@ -8,14 +8,10 @@ class NetworkUrls {
 
   //Wholesaler
   static Uri wholesalerListUri = Uri.parse("${Config.baseURL}wholesaler-list");
-  static Uri requestWholesaler =
-      Uri.parse("${Config.baseURL}add-retailer-wholesaler-association-request");
 
   //association urls
 
   static Uri fiaListURI = Uri.parse("${Config.baseURL}fie-list");
-  static Uri requestFia =
-      Uri.parse("${Config.baseURL}add-retailer-fie-association-request");
 
   static Uri requestAssociationList = Uri.parse(
       "${Config.baseURL}retailer-wholesaler-association-request-list");
@@ -23,12 +19,20 @@ class NetworkUrls {
       "${Config.baseURL}wholesaler-retailer-association-request-list");
   static Uri viewWholesalerRetailerAssociationRequest = Uri.parse(
       "${Config.baseURL}view-wholesaler-retailer-association-request");
+  static Uri addRetailerWholesalerAssociationRequest =
+      Uri.parse("${Config.baseURL}add-retailer-wholesaler-association-request");
+  static Uri addRetailerFiaAssociationRequest =
+      Uri.parse("${Config.baseURL}add-retailer-fie-association-request");
   static Uri viewRetailerWholesalerAssociationRequest = Uri.parse(
       "${Config.baseURL}view-retailer-wholesaler-association-request");
   static Uri updateWholesalerRetailerAssociationStatus = Uri.parse(
       "${Config.baseURL}update-wholesaler-retailer-association-status");
   static Uri updateRetailerWholesalerAssociationStatus = Uri.parse(
       "${Config.baseURL}update-retailer-wholesaler-association-status");
+  static Uri retailerCreditlineRequestList =
+      Uri.parse("${Config.baseURL}retailer-creditline-request-list");
+  static Uri retailerCreditlineRequestDetails =
+      Uri.parse("${Config.baseURL}retailer-creditline-request-details");
 
   //components urls
 
@@ -39,4 +43,6 @@ class NetworkUrls {
   static Uri pricingGroup = Uri.parse("${Config.baseURL}pricing-groups-list");
   static Uri salesZone =
       Uri.parse("${Config.baseURL}wholesaler-sales-zone-list");
+  static Uri countryUri = Uri.parse("${Config.baseURL}country-list");
+  static Uri cityUri = Uri.parse("${Config.baseURL}city-list");
 }

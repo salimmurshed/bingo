@@ -1,0 +1,1 @@
+class WholesalerData {  String? id;  String? wholesaler;  String? currency;  String? monthlyPurchase;  String? averageTicket;  String? visitFrequency;  String? amount;  WholesalerData(      {this.id,this.wholesaler,      this.currency,      this.monthlyPurchase,      this.averageTicket,      this.visitFrequency,      this.amount});}

@@ -69,6 +69,9 @@ class _MyAppState extends State<MyApp> {
             focusColor: AppColors.navFavColor,
             backgroundColor: AppColors.navFavColor,
           ),
+          textSelectionTheme: TextSelectionThemeData(
+            cursorColor: AppColors.fontBlack,
+          ),
           errorColor: AppColors.errorText,
           primarySwatch: AppColors.primarySwatch,
           colorScheme: ColorScheme.fromSwatch(
