@@ -47,4 +47,6 @@ class NetworkUrls {
   static Uri cityUri = Uri.parse("${Config.baseURL}city-list");
   static Uri allFieCreditLine =
       Uri.parse("${Config.baseURL}all-fie-list-for-creditline-request");
+  static Uri partnerWithCurrencyList =
+      Uri.parse("${Config.baseURL}partner-with-currency-list");
 }
