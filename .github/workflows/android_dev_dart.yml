@@ -6,10 +6,9 @@
 name: Android Development
 
 on:
-  push:
-    branches: [ "develop" ]
-  pull_request:
-    branches: [ "develop" ]
+  push: # Set Push Request Branch
+    branches:
+      - develop
 
 jobs:
   build:
