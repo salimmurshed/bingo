@@ -1,0 +1,1 @@
+import 'package:stacked/stacked.dart';import '../../../app/locator.dart';import '../../../services/navigation/navigationService.dart';class AddManageAccountViewModel extends BaseViewModel {  final NavigationService _navigationService = locator<NavigationService>();}

@@ -52,16 +52,16 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-    flavorDimensions "bingo_wholesale"
+    flavorDimensions "bingo"
     productFlavors {
         dev {
-            dimension "bingo_wholesale"
+            dimension "bingo"
             applicationId "com.bingo.dev.dev"
             resValue "string", "app_name", "bingo App Dev"
             versionNameSuffix ".dev"
         }
         prod {
-            dimension "bingo_wholesale"
+            dimension "bingo"
             applicationId "com.bingo.dev"
             resValue "string", "app_name", "bingo App Prod"
         }
