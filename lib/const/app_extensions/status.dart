@@ -15,6 +15,7 @@ extension StatusExtension on StatusNames {
             color: AppColors.statusReject,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
+
       case StatusNames.completed:
         return statusWidget(
             text: "Complete",
@@ -78,6 +79,18 @@ extension StatusExtension on StatusNames {
       case StatusNames.accepted:
         return statusWidget(
             text: "Accepted",
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.onEvaluationAssociationPending:
+        return statusWidget(
+            text: "On Evaluation/\nAssociation Pending",
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.pendingFieForward:
+        return statusWidget(
+            text: "Pending FIE Forward",
             color: AppColors.statusConfirmed,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
