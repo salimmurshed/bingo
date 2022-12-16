@@ -103,6 +103,7 @@ Map<String, dynamic> _$DataToJson(Data instance) {
 
 FieQuestionAnswer _$FieQuestionAnswerFromJson(Map<String, dynamic> json) =>
     FieQuestionAnswer(
+      questionId: json['question_id'] as String? ?? '',
       question: json['question'] as String? ?? '',
       answer: json['answer'] as String? ?? '',
     );
@@ -116,6 +117,7 @@ Map<String, dynamic> _$FieQuestionAnswerToJson(FieQuestionAnswer instance) {
     }
   }
 
+  writeNotNull('question_id', instance.questionId);
   writeNotNull('question', instance.question);
   writeNotNull('answer', instance.answer);
   return val;

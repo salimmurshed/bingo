@@ -55,7 +55,7 @@ extension StatusExtension on StatusNames {
       case StatusNames.pendingWholesalerReview:
         return statusWidget(
             text: "Padding WholeSeller\n Review",
-            color: AppColors.statusVerified,
+            color: AppColors.statusProgress,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
       case StatusNames.inProcess:
@@ -94,7 +94,72 @@ extension StatusExtension on StatusNames {
             color: AppColors.statusConfirmed,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
-
+      case StatusNames.onEvaluation:
+        return statusWidget(
+            text: "On Evaluation",
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.waitingReply:
+        return statusWidget(
+            text: "Waiting Reply",
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.error:
+        return statusWidget(
+            text: "error",
+            color: AppColors.statusError,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.fieQueue:
+        return statusWidget(
+            text: "FIE queue",
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.associationPendingFIEQueue:
+        return statusWidget(
+            text: "Association Pending / FIE Queue",
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.waitingReplyAssociationPending:
+        return statusWidget(
+            text: "Waiting Reply/Association Pending",
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.approved:
+        return statusWidget(
+            text: "Approved",
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.associationPendingRecommended:
+        return statusWidget(
+            text: "Association Pending/Recommended",
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.inactive:
+        return statusWidget(
+            text: "Inactive",
+            color: AppColors.statusReject,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.recommended:
+        return statusWidget(
+            text: "Recommended",
+            color: AppColors.statusRecommended,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case StatusNames.formalized:
+        return statusWidget(
+            text: "Formalized",
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
       default:
         return statusWidget(
             text: "Error",

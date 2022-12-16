@@ -33,6 +33,10 @@ class NetworkUrls {
       Uri.parse("${Config.baseURL}retailer-creditline-request-list");
   static Uri retailerCreditlineRequestDetails =
       Uri.parse("${Config.baseURL}retailer-creditline-request-details");
+  static Uri addCreditlineRequests =
+      Uri.parse("${Config.baseURL}add-creditline-requests");
+  static Uri retailerCreditlineRequestreply =
+      Uri.parse("${Config.baseURL}retailer-creditline-request-reply");
 
   //components urls
 
