@@ -6,6 +6,7 @@ import 'package:bingo_wholesale/const/app_styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import '../data_models/enums/status_name.dart';
 import 'app_font_manager.dart';
+import 'app_strings.dart';
 
 statusWidget(
     {Color color = AppColors.statusProgress,
@@ -45,19 +46,20 @@ endOfData() {
   return Padding(
     padding: AppPaddings.endOfDataPadding,
     child: Row(
-      children: const [
-        Expanded(
-            child: Divider(
-          color: AppColors.ashColor,
-          indent: 20.0,
-          endIndent: 10.0,
-          thickness: .3,
-        )),
+      children: [
+        const Expanded(
+          child: Divider(
+            color: AppColors.ashColor,
+            indent: 20.0,
+            endIndent: 10.0,
+            thickness: .3,
+          ),
+        ),
         Text(
-          "end Of Page",
+          AppString.endOfPage,
           style: AppTextStyles.statusCardSubTitle,
         ),
-        Expanded(
+        const Expanded(
           child: Divider(
             color: AppColors.ashColor,
             indent: 10.0,

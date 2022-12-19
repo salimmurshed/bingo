@@ -78,8 +78,6 @@ class AddWholesalerViewModel extends ReactiveViewModel {
   }
 
   preFix(WholesalersData data) {
-    print("currencycurrency");
-    print(data.currency);
     wholesalerNameHint = data.wholesaler!.wholesalerName!;
     selectCurrency = data.currency!;
     visitFrequency = data.visitFrequency!;
@@ -179,7 +177,7 @@ class AddWholesalerViewModel extends ReactiveViewModel {
           amount: amountController.text);
       _repositoryRetailer.addCreditLineInformation(item);
       snackBar = const SnackBar(
-        content: Text("Data have been saved!"),
+        content: Text(AppString.saveDataMessage),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       await load();
@@ -201,7 +199,7 @@ class AddWholesalerViewModel extends ReactiveViewModel {
           amount: amountController.text);
       _repositoryRetailer.updateWholesaler(wholesalerData.id!, item);
       snackBar = const SnackBar(
-        content: Text("Data have been updated!"),
+        content: Text(AppString.updateDataMessage),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       await load();

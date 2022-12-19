@@ -19,143 +19,144 @@ class AddStoreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddStoreViewModel>.reactive(
-        viewModelBuilder: () => AddStoreViewModel(),
-        onModelReady: (AddStoreViewModel model) {
-          if (ModalRoute.of(context)!.settings.arguments != null) {
-            model.setDetails(
-                ModalRoute.of(context)!.settings.arguments as StoreData);
-          }
-        },
-        builder: (context, model, child) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: AppColors.appBarColorRetailer,
-              title: Text(model.title),
-            ),
-            body: SingleChildScrollView(
-              child: Container(
-                margin: AppMargins.addStoreBody,
-                padding: AppPaddings.addStoreBody,
-                decoration: BoxDecoration(color: AppColors.background),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    NameTextField(
-                      controller: model.locationName,
-                      fieldName: AppString.locationName,
-                    ),
-                    20.0.giveHeight,
-                    model.isBusy
-                        ? SingleLineShimmerScreen()
-                        : SelectedDropdownField(
-                            onChange: (String value) {
-                              model.changeCity(value);
-                            },
-                            dropdownValue: model.selectedCity,
-                            hintText: AppString.selectCity,
-                            fieldName: AppString.city,
-                            items: model.allCityData,
-                          ),
-                    20.0.giveHeight,
-                    model.isBusy
-                        ? SingleLineShimmerScreen()
-                        : SelectedDropdownField(
-                            onChange: (String value) {
-                              model.changeCountry(value);
-                            },
-                            dropdownValue: model.selectedCountry,
-                            hintText: AppString.selectCountry,
-                            fieldName: AppString.country,
-                            items: [model.allCountryData],
-                          ),
-                    20.0.giveHeight,
-                    Text(
-                      AppString.address,
-                      style: AppTextStyles.successStyle
-                          .copyWith(color: AppColors.blackColor),
-                    ),
-                    10.0.giveHeight,
-                    TextField(
-                      controller: model.address,
-                      decoration: AppInputStyles.ashOutlineBorder,
-                      maxLines: 3,
-                    ),
-                    20.0.giveHeight,
-                    Text(
-                      AppString.frontBusinessPhoto,
-                      style: AppTextStyles.successStyle
-                          .copyWith(color: AppColors.blackColor),
-                    ),
-                    10.0.giveHeight,
-                    SubmitButton(
-                      onPressed: model.pickFrontBusinessPhoto,
-                      active: true,
-                      text: AppString.chooseFiles,
-                      width: 99.0,
-                    ),
-                    model.frontBusinessPhoto != null
-                        ? Container(
-                            decoration: AppBoxDecoration.borderDecoration,
-                            child: Image.file(
-                              File(model.frontBusinessPhoto!.path),
-                            ),
-                          )
-                        : SizedBox(),
-                    if (model.frontBusinessPhoto != null) 20.0.giveHeight,
-                    Text(
-                      AppString.signBoardPhoto,
-                      style: AppTextStyles.successStyle
-                          .copyWith(color: AppColors.blackColor),
-                    ),
-                    10.0.giveHeight,
-                    SubmitButton(
-                      onPressed: model.pickSignBoardPhoto,
-                      active: true,
-                      text: AppString.chooseFiles,
-                      width: 99.0,
-                    ),
-                    20.0.giveHeight,
-                    if (model.signBoardPhoto != null)
-                      Container(
-                        decoration: AppBoxDecoration.borderDecoration,
-                        child: Image.file(
-                          File(model.signBoardPhoto!.path),
+      viewModelBuilder: () => AddStoreViewModel(),
+      onModelReady: (AddStoreViewModel model) {
+        if (ModalRoute.of(context)!.settings.arguments != null) {
+          model.setDetails(
+              ModalRoute.of(context)!.settings.arguments as StoreData);
+        }
+      },
+      builder: (context, model, child) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: AppColors.appBarColorRetailer,
+            title: Text(model.title),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              margin: AppMargins.addStoreBody,
+              padding: AppPaddings.addStoreBody,
+              decoration: const BoxDecoration(color: AppColors.background),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  NameTextField(
+                    controller: model.locationName,
+                    fieldName: AppString.locationName,
+                  ),
+                  20.0.giveHeight,
+                  model.isBusy
+                      ? const SingleLineShimmerScreen()
+                      : SelectedDropdownField(
+                          onChange: (String value) {
+                            model.changeCity(value);
+                          },
+                          dropdownValue: model.selectedCity,
+                          hintText: AppString.selectCity,
+                          fieldName: AppString.city,
+                          items: model.allCityData,
                         ),
+                  20.0.giveHeight,
+                  model.isBusy
+                      ? const SingleLineShimmerScreen()
+                      : SelectedDropdownField(
+                          onChange: (String value) {
+                            model.changeCountry(value);
+                          },
+                          dropdownValue: model.selectedCountry,
+                          hintText: AppString.selectCountry,
+                          fieldName: AppString.country,
+                          items: [model.allCountryData],
+                        ),
+                  20.0.giveHeight,
+                  Text(
+                    AppString.address,
+                    style: AppTextStyles.successStyle
+                        .copyWith(color: AppColors.blackColor),
+                  ),
+                  10.0.giveHeight,
+                  TextField(
+                    controller: model.address,
+                    decoration: AppInputStyles.ashOutlineBorder,
+                    maxLines: 3,
+                  ),
+                  20.0.giveHeight,
+                  Text(
+                    AppString.frontBusinessPhoto,
+                    style: AppTextStyles.successStyle
+                        .copyWith(color: AppColors.blackColor),
+                  ),
+                  10.0.giveHeight,
+                  SubmitButton(
+                    onPressed: model.pickFrontBusinessPhoto,
+                    active: true,
+                    text: AppString.chooseFiles,
+                    width: 99.0,
+                  ),
+                  model.frontBusinessPhoto != null
+                      ? Container(
+                          decoration: AppBoxDecoration.borderDecoration,
+                          child: Image.file(
+                            File(model.frontBusinessPhoto!.path),
+                          ),
+                        )
+                      : SizedBox(),
+                  if (model.frontBusinessPhoto != null) 20.0.giveHeight,
+                  Text(
+                    AppString.signBoardPhoto,
+                    style: AppTextStyles.successStyle
+                        .copyWith(color: AppColors.blackColor),
+                  ),
+                  10.0.giveHeight,
+                  SubmitButton(
+                    onPressed: model.pickSignBoardPhoto,
+                    active: true,
+                    text: AppString.chooseFiles,
+                    width: 99.0,
+                  ),
+                  20.0.giveHeight,
+                  if (model.signBoardPhoto != null)
+                    Container(
+                      decoration: AppBoxDecoration.borderDecoration,
+                      child: Image.file(
+                        File(model.signBoardPhoto!.path),
                       ),
-                    if (model.signBoardPhoto != null) 20.0.giveHeight,
-                    Text(
-                      AppString.remark,
-                      style: AppTextStyles.successStyle
-                          .copyWith(color: AppColors.blackColor),
                     ),
-                    10.0.giveHeight,
-                    TextField(
-                      controller: model.remark,
-                      decoration: AppInputStyles.ashOutlineBorder,
-                      maxLines: 6,
-                    ),
-                    25.0.giveHeight,
-                    SubmitButton(
-                      active: true,
-                      text: model.submitButton.toUpperCase(),
-                      width: 100.0.wp,
-                      height: 45.0,
-                    ),
-                    20.0.giveHeight,
-                    SubmitButton(
-                      onPressed: model.removeRequest,
-                      color: AppColors.statusReject,
-                      active: true,
-                      text: AppString.remove.toUpperCase(),
-                      width: 100.0.wp,
-                      height: 45.0,
-                    ),
-                  ],
-                ),
+                  if (model.signBoardPhoto != null) 20.0.giveHeight,
+                  Text(
+                    AppString.remark,
+                    style: AppTextStyles.successStyle
+                        .copyWith(color: AppColors.blackColor),
+                  ),
+                  10.0.giveHeight,
+                  TextField(
+                    controller: model.remark,
+                    decoration: AppInputStyles.ashOutlineBorder,
+                    maxLines: 6,
+                  ),
+                  25.0.giveHeight,
+                  SubmitButton(
+                    active: true,
+                    text: model.submitButton.toUpperCase(),
+                    width: 100.0.wp,
+                    height: 45.0,
+                  ),
+                  20.0.giveHeight,
+                  SubmitButton(
+                    onPressed: model.removeRequest,
+                    color: AppColors.statusReject,
+                    active: true,
+                    text: AppString.remove.toUpperCase(),
+                    width: 100.0.wp,
+                    height: 45.0,
+                  ),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

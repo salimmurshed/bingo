@@ -26,7 +26,7 @@ class QRAlertDialog extends StatelessWidget {
           Align(
             alignment: Alignment.bottomLeft,
             child: Text(
-              "Offline Aprove",
+              AppString.offlineApprove,
               style: AppTextStyles.statusCardTitle
                   .copyWith(fontSize: AppFontSize.s13),
             ),

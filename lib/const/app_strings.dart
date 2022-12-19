@@ -79,6 +79,10 @@ class AppString {
   static const String notFoundError = "not_found_error";
   static const String conflictError = "conflict_error";
   static const String internalServerError = "internal_server_error";
+  static const String serverError = "Server "
+      "error";
+  static const String dataStoredMessage = "Data has been stored";
+  static const String emptyFieldMessage = "Field can not be empty";
   static const String unknownError = "unknown_error";
   static const String timeoutError = "timeout_error";
   static const String defaultError = "default_error";
@@ -92,6 +96,25 @@ class AppString {
   static const String pleaseCheckText = "Please "
       "re-cheack your "
       "all fields";
+  static const String needToSelectOneWholesaler = "You need to "
+      "select minimum one wholesaler";
+  static const String needToSelectFie = "You need to "
+      "select minimum one Financial Institution";
+  static const String pleaseSelectOne = "Please select one option";
+  static const String pleaseSelectTermConditions = "Please select term & "
+      "conditions";
+  static const String fillOneCommercialReferenceName = "Please fill minimum "
+      "one commercial reference name";
+  static const String fillOneCommercialReferencePhone = "Please fill minimum "
+      "one commercial reference phone";
+  static const String provideRelevantDoc = "Please provide all relevant "
+      "documents";
+  static const String saveDataMessage = "Data have been saved!";
+  static const String updateDataMessage = "Data have been updated!";
+  // static const String mainProjectAppBarTitle = 'Create Sub Project';
+  // static const String mainProjectAppBarTitle = 'Create Sub Project';
+  // static const String mainProjectAppBarTitle = 'Create Sub Project';
+  // static const String mainProjectAppBarTitle = 'Create Sub Project';
 
   //App request
 
@@ -199,6 +222,19 @@ class AppString {
   static String questionAnswers = "Question answers";
   static String files = "Files";
   // static String uploadFie = "Commercial";
-  // static String uploadFie = "Commercial";
 
+  //Status title
+  static String accepted = "Accepted";
+  static String rejected = "Rejected";
+  static String verified = "Verified";
+  static String active = "Active";
+  static String completed = "Completed";
+  static String salePandingApproval = "Sale Pending Approval";
+  static String pendingWholesalerReview = "Pending Wholesaler Review";
+  static String salePendingApproval = "Sale Pending Approval";
+  static String saleApproval = "Sale Approval";
+  static String saleDelivered = "Sale Delivered";
+  static String endOfPage = "End Of Page";
+  static String noName = "No Name";
+  static String editProfile = "Edit Profile";
 }

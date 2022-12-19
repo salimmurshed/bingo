@@ -78,12 +78,7 @@ class LoginScreenViewModel extends BaseViewModel {
     FocusScope.of(context).requestFocus(
       FocusNode(),
     );
-    print('isTextFieldValidate');
-    print(isTextFieldValidate);
-    print(_formKey.currentState!.validate());
     if (_formKey.currentState!.validate()) {
-      print('isTextFieldValidate');
-      print(isTextFieldValidate);
       if (isTextFieldValidate) {
         print('isTextFieldValidate');
         print(isTextFieldValidate);

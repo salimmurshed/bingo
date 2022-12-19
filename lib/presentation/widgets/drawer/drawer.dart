@@ -71,23 +71,23 @@ class MyDrawer extends StatelessWidget {
                   11.0.giveHeight,
                   Text(
                     user.data!.name!.trim() == ""
-                        ? "No Name"
+                        ? AppString.noName
                         : user.data!.name!,
                     style: AppTextStyles.drawerText,
                   ),
                   Text(
                     user.data!.enrollmentType!.trim() == ""
-                        ? "No Name"
+                        ? AppString.noName
                         : user.data!.enrollmentType!,
                     style: AppTextStyles.drawerText
                         .copyWith(fontWeight: AppFontWeighs.semiBold),
                   ),
-                  const SubmitButton(
+                  SubmitButton(
                     color: AppColors.borderColors,
                     active: false,
                     width: 167.0,
                     height: 34.0,
-                    text: "Edit Profile",
+                    text: AppString.editProfile,
                   ),
                   NameTextFieldDropDown(
                     fieldName: "Zones",

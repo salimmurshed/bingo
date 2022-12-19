@@ -4,27 +4,27 @@ import '../data_models/models/status_list_model.dart';
 
 List<StatusListModel> statusList = [
   StatusListModel(
-    text: "Active",
+    text: AppString.active,
     color: AppColors.statusVerified,
   ),
   StatusListModel(
-    text: "Sale Pending Approval",
+    text: AppString.salePandingApproval,
     color: AppColors.statusReject,
   ),
   StatusListModel(
-    text: "Pending Wholesaler Review",
+    text: AppString.pendingWholesalerReview,
     color: AppColors.statusProgress,
   ),
   StatusListModel(
-    text: "Sale Pending Approval",
+    text: AppString.salePendingApproval,
     color: AppColors.statusReject,
   ),
   StatusListModel(
-    text: "Sale Approval",
+    text: AppString.saleApproval,
     color: AppColors.statusVerified,
   ),
   StatusListModel(
-    text: "Sale Delivered",
+    text: AppString.saleDelivered,
     color: AppColors.statusVerified,
   )
 ];

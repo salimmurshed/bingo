@@ -1,3 +1,4 @@
+import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/presentation/widgets/alert/alert_dialog.dart';
 
 import '../../../repository/repository_retailer.dart';
@@ -57,8 +58,8 @@ class AddAssociationRequestViewModel extends ReactiveViewModel {
 
   void sendWholesalerRequest() async {
     if (selectedWholeSaler.isEmpty) {
-      _navigationService.animatedDialog(AlertDialogMessage("You need to "
-          "select minimum one wholesaler"));
+      _navigationService.animatedDialog(
+          const AlertDialogMessage(AppString.needToSelectOneWholesaler));
     } else {
       setAddRequestBusy(true);
       await _RepositoryRetailer.sendWholesalerRequest(selectedWholeSaler);
@@ -71,8 +72,8 @@ class AddAssociationRequestViewModel extends ReactiveViewModel {
 
   void sendFiaRequest() async {
     if (selectedFia.isEmpty) {
-      _navigationService.animatedDialog(AlertDialogMessage("You need to "
-          "select minimum one Financial Institution"));
+      _navigationService
+          .animatedDialog(AlertDialogMessage(AppString.needToSelectFie));
     } else {
       setAddRequestBusy(true);
       await _RepositoryRetailer.sendFiaRequest(selectedFia);

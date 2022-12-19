@@ -76,7 +76,6 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   }
 
   Future<void> getWholesalersAssociationDetails(String uniqueId) async {
-    print("response.body");
     int index = 0;
     bool isAvailable = false;
     if (wholesalerAssociationRequestDetailsReactive.value.isNotEmpty) {
@@ -160,7 +159,6 @@ class RepositoryWholesaler with ReactiveServiceMixin {
           wholesalerAssociationRequestDetailsReactive.value[index];
       notifyListeners();
       return responseData;
-      // throw "Done";
     } on Exception catch (e) {
       throw e;
     }

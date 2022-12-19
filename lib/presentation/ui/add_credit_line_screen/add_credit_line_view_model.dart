@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:bingo_wholesale/app/locator.dart';
 import 'package:bingo_wholesale/app/router.dart';
+import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/data_models/models/retailer_creditline_request_details_model/retailer_creditline_request_details_model.dart';
 import 'package:bingo_wholesale/presentation/widgets/alert/alert_dialog.dart';
 import 'package:bingo_wholesale/repository/repository_retailer.dart';
@@ -183,25 +184,25 @@ class AddCreditLineViewModel extends ReactiveViewModel {
     List data = [];
     var snackBar;
     if (creditLineInformation.isEmpty) {
-      data.add("Please add at least one wholesaler");
+      data.add(AppString.needToSelectOneWholesaler);
     }
     if (selectedOption == 10) {
-      data.add("Please select one option");
+      data.add(AppString.pleaseSelectOne);
     }
     if (!acceptTermCondition) {
-      data.add("Please select term & conditions");
+      data.add(AppString.pleaseSelectTermConditions);
     }
     if (_allFieCreditLine.isEmpty) {
-      data.add("Please select at least one financial institution");
+      data.add(AppString.needToSelectFie);
     }
     if (crn1Controller.text.isEmpty) {
-      data.add("Please fill minimum one commercial reference name");
+      data.add(AppString.fillOneCommercialReferenceName);
     }
     if (crp1Controller.text.isEmpty) {
-      data.add("Please fill minimum one commercial reference phone");
+      data.add(AppString.fillOneCommercialReferencePhone);
     }
     if (files.isEmpty) {
-      data.add("Please all relevant documents");
+      data.add(AppString.provideRelevantDoc);
     }
     try {
       if (creditLineInformation.isNotEmpty &&
@@ -286,8 +287,8 @@ class AddCreditLineViewModel extends ReactiveViewModel {
             ResponseMessages.fromJson(jsonDecode(response.body));
         print(response.statusCode);
         if (response.statusCode == 500) {
-          _navigationService.animatedDialog(const AlertDialogMessage("Server "
-              "error"));
+          _navigationService
+              .animatedDialog(const AlertDialogMessage(AppString.serverError));
           makeButtonBusy(false);
         } else if (!body.success!) {
           makeButtonBusy(false);
@@ -295,7 +296,7 @@ class AddCreditLineViewModel extends ReactiveViewModel {
         } else {
           await _repositoryRetailer.getCreditLinesList();
           snackBar = const SnackBar(
-            content: Text("Data has been stored"),
+            content: Text(AppString.dataStoredMessage),
           );
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           _navigationService.pop();
@@ -379,7 +380,7 @@ class AddCreditLineViewModel extends ReactiveViewModel {
     } else {
       makeAnswerButtonBusy(false, i);
       var snackBar = const SnackBar(
-        content: Text("Field can not be empty"),
+        content: Text(AppString.emptyFieldMessage),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }

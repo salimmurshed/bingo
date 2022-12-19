@@ -437,9 +437,6 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                                   )
                               ],
                               onChanged: (String? newValue) {
-                                // print('newValue');
-                                // print(newValue!.zoneName!);
-                                // print(newValue.saleZone!);
                                 model.changeSalesZone(newValue!);
                               },
                             ),
@@ -529,11 +526,6 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                                   icon: const Icon(
                                       Icons.arrow_drop_down_outlined),
                                   items: [
-                                    // DropdownMenuItem<int>(
-                                    //   value: 0,
-                                    //   child: Text(
-                                    //       '${AppString.selectText} ${AppString.visitFrequency}'),
-                                    // ),
                                     for (var i = 0;
                                         i < model.visitFrequentlyList.length;
                                         i++)
