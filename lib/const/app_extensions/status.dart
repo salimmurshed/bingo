@@ -8,6 +8,7 @@ extension StatusExtension on StatusNames {
   Widget toStatus(
       {bool isIconAvailable = true,
       TextStyle textStyle = AppTextStyles.statusCardStatus}) {
+    print(this);
     switch (this) {
       case StatusNames.salePendingApproval:
         return statusWidget(
@@ -118,9 +119,9 @@ extension StatusExtension on StatusNames {
             color: AppColors.statusConfirmed,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
-      case StatusNames.associationPendingFIEQueue:
+      case StatusNames.associationPendingFieQueue:
         return statusWidget(
-            text: "Association Pending / FIE Queue",
+            text: "Association Pending/\nFIE Queue",
             color: AppColors.statusConfirmed,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
@@ -174,4 +175,112 @@ class StatusArgument {
   String title;
   Color color;
   StatusArgument({this.title = "", this.color = AppColors.fontAsh});
+}
+
+extension StatusExtensionFromInt on int {
+  Widget toStatusFromInt(
+      {bool isIconAvailable = true,
+      TextStyle textStyle = AppTextStyles.statusCardStatus,
+      required String value}) {
+    print(this);
+    switch (this) {
+      case 0:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 1:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 2:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 3:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 4:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 5:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 6:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusReject,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 7:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 8:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 9:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 10:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 11:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 12:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 13:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 14:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+
+      default:
+        return statusWidget(
+            text: "Error",
+            color: AppColors.fontAsh,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+    }
+  }
 }
