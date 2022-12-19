@@ -57,14 +57,11 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       } else {
         await _repositoryWholesaler
             .getWholesalersAssociationDetails(arguments.id);
-        _associationRequestWholesalerDetails;
-        _repositoryWholesaler.wholesalerAssociationRequestDetails.value;
+        _associationRequestWholesalerDetails =
+            _repositoryWholesaler.wholesalerAssociationRequestDetails.value;
         presetFunction();
       }
     });
-    // if (!isRetailer) {
-    //   presetFunction();
-    // }
   }
 
   AssociationWholesalerRequestDetailsModel
@@ -108,7 +105,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       "${AppString.selectText} ${AppString.allowOrders}";
   String selectedCustomerSinceDate =
       "${AppString.selectText} ${AppString.customerSinceDate}";
-  int selectedVisitFrequency = 0;
+  int? selectedVisitFrequency;
   int status = 0;
   String uniqueId = "";
 
@@ -165,20 +162,19 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     selectDate.text =
         DateFormat('dd/MM/yyyy').format(DateTime.now()).toString();
     selectedCustomerType = internalInformation.customerType!.isEmpty
-        ? selectedCustomerType
+        ? "${AppString.selectText} ${AppString.selectCustomerType}"
         : internalInformation.customerType!;
     selectedGracePeriodGroups = internalInformation.gracePeriodGroup == ""
-        ? "Select ${AppString.gracePeriodGroups}"
+        ? "${AppString.selectText} ${AppString.gracePeriodGroups}"
         : internalInformation.gracePeriodGroup!;
     selectedAllowOrders = internalInformation.allowOrders == 0 ? "No" : "Yes";
     selectedPricingGroups = internalInformation.pricingGroup!.isEmpty
-        ? selectedPricingGroups
+        ? "${AppString.selectText} ${AppString.pricingGroups}"
         : internalInformation.pricingGroup!;
     selectedSalesZoneString = internalInformation.salesZone == null
         ? selectedSalesZoneString
         : internalInformation.salesZone!;
-    selectedVisitFrequency = creditlineInformation.visitFrequency == null ||
-            creditlineInformation.visitFrequency == ""
+    selectedVisitFrequency = creditlineInformation.visitFrequency == 0
         ? selectedVisitFrequency
         : creditlineInformation.visitFrequency!;
     status = getStatus(_repositoryWholesaler.wholesalerAssociationRequestDetails
