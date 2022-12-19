@@ -131,7 +131,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       .toList();
   List<SalesZoneModelData> get salesZone =>
       _repositoryComponents.salesZone.data!;
-  List<String> allowOrdersList = ["Yes", "No"];
+  List<String> allowOrdersList = [AppString.yesText, AppString.noText];
   List<VisitFrequentListModel> visitFrequentlyList =
       AppList.visitFrequentlyList;
 
@@ -167,7 +167,9 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     selectedGracePeriodGroups = internalInformation.gracePeriodGroup == ""
         ? "${AppString.selectText} ${AppString.gracePeriodGroups}"
         : internalInformation.gracePeriodGroup!;
-    selectedAllowOrders = internalInformation.allowOrders == 0 ? "No" : "Yes";
+    selectedAllowOrders = internalInformation.allowOrders == 0
+        ? AppString.noText
+        : AppString.yesText;
     selectedPricingGroups = internalInformation.pricingGroup!.isEmpty
         ? "${AppString.selectText} ${AppString.pricingGroups}"
         : internalInformation.pricingGroup!;
@@ -252,9 +254,8 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     }
 
     if (!isItemPostAble()) {
-      _navigationService.animatedDialog(const AlertDialogMessage("Please "
-          "re-cheack your "
-          "all fields"));
+      _navigationService
+          .animatedDialog(const AlertDialogMessage(AppString.pleaseCheckText));
     }
 
     var sendData = {

@@ -8,7 +8,6 @@ extension StatusExtension on StatusNames {
   Widget toStatus(
       {bool isIconAvailable = true,
       TextStyle textStyle = AppTextStyles.statusCardStatus}) {
-    print(this);
     switch (this) {
       case StatusNames.salePendingApproval:
         return statusWidget(
@@ -164,7 +163,7 @@ extension StatusExtension on StatusNames {
       default:
         return statusWidget(
             text: "Error",
-            color: AppColors.fontAsh,
+            color: AppColors.ashColor,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
     }
@@ -174,7 +173,7 @@ extension StatusExtension on StatusNames {
 class StatusArgument {
   String title;
   Color color;
-  StatusArgument({this.title = "", this.color = AppColors.fontAsh});
+  StatusArgument({this.title = "", this.color = AppColors.ashColor});
 }
 
 extension StatusExtensionFromInt on int {
@@ -182,7 +181,6 @@ extension StatusExtensionFromInt on int {
       {bool isIconAvailable = true,
       TextStyle textStyle = AppTextStyles.statusCardStatus,
       required String value}) {
-    print(this);
     switch (this) {
       case 0:
         return statusWidget(
@@ -278,7 +276,7 @@ extension StatusExtensionFromInt on int {
       default:
         return statusWidget(
             text: "Error",
-            color: AppColors.fontAsh,
+            color: AppColors.ashColor,
             textStyle: textStyle,
             isIconAvailable: isIconAvailable);
     }

@@ -70,7 +70,7 @@ class _MyAppState extends State<MyApp> {
             backgroundColor: AppColors.navFavColor,
           ),
           textSelectionTheme: TextSelectionThemeData(
-            cursorColor: AppColors.fontBlack,
+            cursorColor: AppColors.blackColor,
           ),
           errorColor: AppColors.errorText,
           primarySwatch: AppColors.primarySwatch,

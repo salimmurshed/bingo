@@ -24,10 +24,6 @@ class AppColors {
   static const Color accentColor = Color(0xff3DB5E7);
   static const Color background = Color(0xffffffff);
   static const Color backgroundSecondary = Color(0xffF9F9F9);
-  static const Color fontWhite = Color(0xffffffff);
-  static const Color fontBlack = Color(0xff000000);
-  static const Color fontRed = Color(0xfff63f3f);
-  static const Color fontAsh = Color(0xff6C7B8A);
   static const Color activeButtonColor = Color(0xff83D35D);
   static const Color inactiveButtonColor = Color(0xffEBEBEB);
 // static const Color backgroundTrans = Color(0xd81a0370);
@@ -39,6 +35,13 @@ class AppColors {
   static const Color statusReject = Color(0xffEF6B6B);
   static const Color statusError = Color(0xff6C7B8A);
   static const Color statusRecommended = Color(0xff91e75f);
+
+  //font colors
+
+  static const Color whiteColor = Color(0xffffffff);
+  static const Color blackColor = Color(0xff000000);
+  static const Color redColor = Color(0xfff63f3f);
+  static const Color ashColor = Color(0xff6C7B8A);
 
   //Status //Color
   static const Color checkBoxSelected = Color(0xff5DC151);
@@ -69,8 +72,8 @@ class AppColors {
   static const Color dashBoardCardColor8 = Color(0xff1E7FF6);
 
   //Shimmer colors
-  static const Color shimmer1 = Color(0xffeae9e9);
-  static const Color shimmer2 = Color(0xffdedede);
+  static const Color shimmerBaseColor = Color(0xffeae9e9);
+  static const Color shimmerHighlightColor = Color(0xffdedede);
 
   //logo colors
   static const Color loaderBackground = Color(0xb3fff8f8);
