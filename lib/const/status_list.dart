@@ -1,1 +1,30 @@
-import 'package:bingo_wholesale/const/all_const.dart';import '../data_models/models/status_list_model.dart';List<StatusListModel> statusList = [  StatusListModel(    text: "Active",    color: AppColors.statusVerified,  ),  StatusListModel(    text: "Sale Pending Approval",    color: AppColors.statusReject,  ),  StatusListModel(    text: "Pending Wholesaler Review",    color: AppColors.statusProgress,  ),  StatusListModel(    text: "Sale Pending Approval",    color: AppColors.statusReject,  ),  StatusListModel(    text: "Sale Approval",    color: AppColors.statusVerified,  ),  StatusListModel(    text: "Sale Delivered",    color: AppColors.statusVerified,  )];
+import 'package:bingo_wholesale/const/all_const.dart';
+
+import '../data_models/models/status_list_model.dart';
+
+List<StatusListModel> statusList = [
+  StatusListModel(
+    text: AppString.active,
+    color: AppColors.statusVerified,
+  ),
+  StatusListModel(
+    text: AppString.salePandingApproval,
+    color: AppColors.statusReject,
+  ),
+  StatusListModel(
+    text: AppString.pendingWholesalerReview,
+    color: AppColors.statusProgress,
+  ),
+  StatusListModel(
+    text: AppString.salePendingApproval,
+    color: AppColors.statusReject,
+  ),
+  StatusListModel(
+    text: AppString.saleApproval,
+    color: AppColors.statusVerified,
+  ),
+  StatusListModel(
+    text: AppString.saleDelivered,
+    color: AppColors.statusVerified,
+  )
+];

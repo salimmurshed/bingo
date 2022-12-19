@@ -76,7 +76,6 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   }
 
   Future<void> getWholesalersAssociationDetails(String uniqueId) async {
-    print("response.body");
     int index = 0;
     bool isAvailable = false;
     if (wholesalerAssociationRequestDetailsReactive.value.isNotEmpty) {
@@ -98,9 +97,10 @@ class RepositoryWholesaler with ReactiveServiceMixin {
         setScreenBusy.value = true;
         notifyListeners();
         var jsonBody = {"unique_id": uniqueId};
-        Response response = await _webService.postRequest(NetworkUrls
-            .viewWholesalerRetailerAssociationRequest,
-            jsonBody, );
+        Response response = await _webService.postRequest(
+          NetworkUrls.viewWholesalerRetailerAssociationRequest,
+          jsonBody,
+        );
         final responseData = AssociationWholesalerRequestDetailsModel.fromJson(
             convert.jsonDecode(response.body));
         wholesalerAssociationRequestDetailsReactive.value.add(responseData);
@@ -122,9 +122,10 @@ class RepositoryWholesaler with ReactiveServiceMixin {
             element.data![0].companyInformation![0].uniqueId == uniqueId);
     notifyListeners();
     try {
-      Response response = await _webService.postRequest(NetworkUrls
-          .updateWholesalerRetailerAssociationStatus,
-          data, );
+      Response response = await _webService.postRequest(
+        NetworkUrls.updateWholesalerRetailerAssociationStatus,
+        data,
+      );
       final responseData =
           UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
       wholesalerAssociationRequestDetailsReactive.value[index].data![0].companyInformation![0].status =
@@ -136,9 +137,10 @@ class RepositoryWholesaler with ReactiveServiceMixin {
       if (statusID == 4) {
         wholesalerAssociationRequestDetailsReactive.value.removeAt(index);
         var jsonBody = {"unique_id": uniqueId};
-        Response responseGet = await _webService.postRequest(NetworkUrls
-            .viewWholesalerRetailerAssociationRequest,
-            jsonBody, );
+        Response responseGet = await _webService.postRequest(
+          NetworkUrls.viewWholesalerRetailerAssociationRequest,
+          jsonBody,
+        );
 
         final responseDataGet =
             AssociationWholesalerRequestDetailsModel.fromJson(
@@ -157,7 +159,6 @@ class RepositoryWholesaler with ReactiveServiceMixin {
           wholesalerAssociationRequestDetailsReactive.value[index];
       notifyListeners();
       return responseData;
-      // throw "Done";
     } on Exception catch (e) {
       throw e;
     }
@@ -169,9 +170,10 @@ class RepositoryWholesaler with ReactiveServiceMixin {
             element.data![0].companyInformation![0].uniqueId == uniqueId);
     int index2 = wholesalerAssociationRequest.value
         .indexWhere((element) => element.uniqueId == uniqueId);
-    Response response = await _webService.postRequest(NetworkUrls
-        .updateRetailerWholesalerAssociationStatus,
-        data, );
+    Response response = await _webService.postRequest(
+      NetworkUrls.updateRetailerWholesalerAssociationStatus,
+      data,
+    );
     final responseData =
         UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
     if (responseData.success!) {

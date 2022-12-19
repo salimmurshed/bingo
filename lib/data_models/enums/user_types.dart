@@ -1,1 +1,1 @@
-enum UserType { retailer, wholesaler }
+enum UserType { retailer, wholesaler }

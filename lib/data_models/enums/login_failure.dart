@@ -1,1 +1,1 @@
-enum LoginFailure { invalidCredentials, error }
+enum LoginFailure { invalidCredentials, error }
