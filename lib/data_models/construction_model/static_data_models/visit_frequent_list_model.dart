@@ -1,1 +1,5 @@
-class VisitFrequentListModel {  int? id;  String? title;  VisitFrequentListModel({this.id, this.title});}
+class VisitFrequentListModel {
+  int? id;
+  String? title;
+  VisitFrequentListModel({this.id, this.title});
+}
