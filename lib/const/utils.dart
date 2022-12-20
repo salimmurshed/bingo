@@ -127,3 +127,7 @@ commonText(String text) {
     ),
   );
 }
+
+loadMore(onPressed) {
+  return TextButton(onPressed: onPressed, child: Text(AppString.loadMore));
+}

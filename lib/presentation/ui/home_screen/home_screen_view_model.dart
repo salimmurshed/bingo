@@ -20,6 +20,7 @@ import '../../../data_models/models/association_request_wholesaler_model/associa
 import '../../../data_models/models/component_models/response_model.dart';
 import '../../../data_models/models/retailer_credit_line_req_model/retailer_credit_line_req_model.dart';
 import '../../../data_models/models/user_model/user_model.dart';
+import '../../../data_models/models/wholesaler_credit_line_model/wholesaler_credit_line_model.dart';
 import '../../../repository/repository_retailer.dart';
 import '../../../repository/repository_wholesaler.dart';
 import '../../../services/auth_service/auth_service.dart';
@@ -53,6 +54,8 @@ class HomeScreenViewModel extends ReactiveViewModel {
 
   List<RetailerCreditLineRequestData> get retailerCreditLineRequestData =>
       _RepositoryRetailer.retailerCreditLineRequestData.value;
+  List<WholesalerCreditLineData> get wholesalerCreditLineRequestData =>
+      _repositoryWholesaler.wholesalerCreditLineRequestData;
 
   //mock data
   List<RecommendationModel> recommadationData = recommadationDataMockUp;
@@ -66,6 +69,7 @@ class HomeScreenViewModel extends ReactiveViewModel {
   String appBarTitle = "DASHBOARD";
 
   bool get isRetailer => _authService.isRetailer.value;
+  bool get hasCreditLineNextPage => _repositoryWholesaler.hasCreditLineNextPage;
   ResponseMessages get globalMessage => _RepositoryRetailer.globalMessage.value;
   HomeScreenViewModel() {
     isRetailer ? getRetailerDocuments() : getWholesalerData();
@@ -100,14 +104,11 @@ class HomeScreenViewModel extends ReactiveViewModel {
     setBusy(true);
     notifyListeners();
     await _repositoryWholesaler.getWholesalersAssociationData();
+    await _repositoryWholesaler.getCreditLinesList();
     _wholesalerAssociationRequest =
         _repositoryWholesaler.wholesalerAssociationRequest.value;
     setBusy(false);
     notifyListeners();
-  }
-
-  void gotoSalesDetailsScreen(ConfirmationModel data) {
-    _navigationService.pushNamed(Routes.salesDetailsScreen, arguments: data);
   }
 
   void changeSecondaryBottomTab(HomePageBottomTabs v) {
@@ -150,8 +151,22 @@ class HomeScreenViewModel extends ReactiveViewModel {
   }
 
   //navigate services
+
+  void gotoSalesDetailsScreen(ConfirmationModel data) {
+    _navigationService.pushNamed(Routes.salesDetailsScreen, arguments: data);
+  }
+
   void gotoAddNewRequest() {
     _navigationService.pushNamed(Routes.addNewAssociationRequest);
+  }
+
+  void gotoViewCreditLineWholeSaler(int j) {
+    _navigationService.pushNamed(Routes.viewCreditLineRequestWholesalerView,
+        arguments: wholesalerCreditLineRequestData[j]);
+  }
+
+  void loadMoreCreditLineWholesaler() {
+    _repositoryWholesaler.loadMoreCreditLinesList();
   }
 
   void gotoAddNewStore() {

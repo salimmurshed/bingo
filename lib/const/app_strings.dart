@@ -31,6 +31,8 @@ class AppString {
   static String visitFrequency = "Visit Frequency";
   static String suggestedCreditLineAmount = "Suggested Credit Line Amount";
   static String activationRequirement = "Activation code is required";
+  static String recommendedCreditLineAmount = "Recommended Credit Line Amount";
+  static String retailerCompletedInfomation = "Retailer Completed Infomation";
   static String put6DigitCode = "Please add "
       "valid 6 numbers code";
 
@@ -49,6 +51,7 @@ class AppString {
   static String viewDocuments = 'View Documents';
   static String noText = 'No';
   static String yesText = 'Yes';
+  static String loadMore = 'Load More';
 
   //app bar title
   static String dashBoard = 'DashBoard';

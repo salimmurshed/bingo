@@ -9,5 +9,6 @@ class AppBarTitles {
   static String addStore = "STORE ADD";
   static String editStore = "STORE EDIT";
   static String addWholesaler = "ADD WHOLESALER";
+  static String creditLineDetaileTitle = "Credit Line Rrquest detail";
   static String creditLineInformation = "CREDIT LINE INFORMATION";
 }

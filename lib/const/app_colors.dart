@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   AppColors._();
-  static const MaterialColor primarySwatch = MaterialColor(0xffFEBF00, {
-    50: Color.fromRGBO(254, 191, 0, 1.0),
-    100: Color.fromRGBO(254, 191, 0, .2),
-    200: Color.fromRGBO(254, 191, 0, .3),
-    300: Color.fromRGBO(254, 191, 0, .4),
-    400: Color.fromRGBO(254, 191, 0, .5),
-    500: Color.fromRGBO(254, 191, 0, .6),
-    600: Color.fromRGBO(254, 191, 0, .7),
-    700: Color.fromRGBO(254, 191, 0, .8),
-    800: Color.fromRGBO(254, 191, 0, .9),
-    900: Color.fromRGBO(254, 191, 0, 1.0),
+  static const MaterialColor primarySwatch = MaterialColor(0xff83D35D, {
+    50: Color.fromRGBO(131, 211, 93, 1.0),
+    100: Color.fromRGBO(131, 211, 93, .2),
+    200: Color.fromRGBO(131, 211, 93, .3),
+    300: Color.fromRGBO(131, 211, 93, .4),
+    400: Color.fromRGBO(131, 211, 93, .5),
+    500: Color.fromRGBO(131, 211, 93, .6),
+    600: Color.fromRGBO(131, 211, 93, .7),
+    700: Color.fromRGBO(131, 211, 93, .8),
+    800: Color.fromRGBO(131, 211, 93, .9),
+    900: Color.fromRGBO(131, 211, 93, 1.0),
   });
 
   static const Color appBarColor = Color(0xff3DB5E7);
