@@ -190,6 +190,8 @@ class AppPaddings {
   static EdgeInsets addStoreBody = const EdgeInsets.all(27.0);
 
   static EdgeInsets cardBody = const EdgeInsets.all(25.0);
+  static EdgeInsets cardBodyHorizontal =
+      const EdgeInsets.symmetric(horizontal: 25.0);
 }
 
 //end with "H" horizontal

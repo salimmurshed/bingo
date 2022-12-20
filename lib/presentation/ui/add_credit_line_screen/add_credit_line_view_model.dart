@@ -179,35 +179,57 @@ class AddCreditLineViewModel extends ReactiveViewModel {
     _navigationService.pushNamed(Routes.addWholesalerView, arguments: data);
   }
 
+  String creditLineInformationErrorMessage = "";
+  String crn1ErrorMessage = "";
+  String crp1ErrorMessage = "";
+  String selectedOptionErrorMessage = "";
+  String acceptTermConditionErrorMessage = "";
+  String fileListErrorMessage = "";
+  String filesErrorMessage = "";
+
   Future<void> addCreditLine(context) async {
     makeButtonBusy(true);
-    List data = [];
     var snackBar;
     if (creditLineInformation.isEmpty) {
-      data.add(AppString.needToSelectOneWholesaler);
+      creditLineInformationErrorMessage = (AppString.needToSelectOneWholesaler);
+    } else {
+      creditLineInformationErrorMessage = "";
     }
     if (selectedOption == 10) {
-      data.add(AppString.pleaseSelectOne);
+      selectedOptionErrorMessage = (AppString.pleaseSelectOne);
+    } else {
+      selectedOptionErrorMessage = "";
     }
     if (!acceptTermCondition) {
-      data.add(AppString.pleaseSelectTermConditions);
+      acceptTermConditionErrorMessage = (AppString.pleaseSelectTermConditions);
+    } else {
+      acceptTermConditionErrorMessage = "";
     }
-    if (_allFieCreditLine.isEmpty) {
-      data.add(AppString.needToSelectFie);
+    print(_allFieCreditLine.length);
+    if (_fileList.isEmpty) {
+      fileListErrorMessage = (AppString.needToSelectFie);
+    } else {
+      fileListErrorMessage = "";
     }
     if (crn1Controller.text.isEmpty) {
-      data.add(AppString.fillOneCommercialReferenceName);
+      crn1ErrorMessage = AppString.fillOneCommercialReferenceName;
+    } else {
+      crn1ErrorMessage = "";
     }
     if (crp1Controller.text.isEmpty) {
-      data.add(AppString.fillOneCommercialReferencePhone);
+      crp1ErrorMessage = (AppString.fillOneCommercialReferencePhone);
+    } else {
+      crp1ErrorMessage = "";
     }
     if (files.isEmpty) {
-      data.add(AppString.provideRelevantDoc);
+      filesErrorMessage = (AppString.provideRelevantDoc);
+    } else {
+      filesErrorMessage = "";
     }
     try {
       if (creditLineInformation.isNotEmpty &&
           acceptTermCondition &&
-          _allFieCreditLine.isNotEmpty &&
+          _fileList.isNotEmpty &&
           crn1Controller.text.isNotEmpty &&
           crp1Controller.text.isNotEmpty &&
           (selectedOption == 0 || selectedOption == 1) &&
@@ -303,17 +325,8 @@ class AddCreditLineViewModel extends ReactiveViewModel {
           makeButtonBusy(false);
         }
       } else {
-        snackBar = SnackBar(
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var d in data) Text(d),
-            ],
-          ),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
         makeButtonBusy(false);
+        notifyListeners();
       }
     } on Exception catch (_) {
       makeButtonBusy(false);

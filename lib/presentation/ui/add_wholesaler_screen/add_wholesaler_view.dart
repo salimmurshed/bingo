@@ -102,18 +102,22 @@ class AddWholesalerView extends StatelessWidget {
                             validationText(model.wholesalerValidationText),
                           20.0.giveHeight,
                           if (model.selectWholesaler != null)
-                            SelectedDropdownField(
-                              withHint: false,
-                              fieldName: AppString.selectCurrency,
-                              items: model.allCurrency,
-                              dropdownValue: model.selectCurrency,
-                              onChange: (String value) {
-                                model.changeSelectCurrency(value);
-                              },
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SelectedDropdownField(
+                                  withHint: false,
+                                  fieldName: AppString.selectCurrency,
+                                  items: model.allCurrency,
+                                  dropdownValue: model.selectCurrency,
+                                  onChange: (String value) {
+                                    model.changeSelectCurrency(value);
+                                  },
+                                ),
+                                if (model.currencyValidationText.isNotEmpty)
+                                  validationText(model.currencyValidationText),
+                              ],
                             ),
-                          if (model.selectWholesaler != null)
-                            if (model.currencyValidationText.isNotEmpty)
-                              validationText(model.currencyValidationText),
                           20.0.giveHeight,
                           NameTextField(
                             isNumber: true,
@@ -197,7 +201,9 @@ class AddWholesalerView extends StatelessWidget {
                           if (!model.isNew) 20.0.giveHeight,
                           if (!model.isNew)
                             SubmitButton(
-                              onPressed: model.removeCreditLineInformation,
+                              onPressed: () {
+                                model.removeCreditLineInformation(context);
+                              },
                               width: 100.0.wp,
                               color: AppColors.statusReject,
                               text: AppString.remove.toUpperCase(),

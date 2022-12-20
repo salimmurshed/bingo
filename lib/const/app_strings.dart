@@ -222,8 +222,9 @@ class AppString {
       "You Are Working";
   static String uploadFie = "Upload Financial Statements";
   static String chooseOptions = "Choose Options";
-  static String questionAnswers = "Question answers";
-  static String files = "Files";
+  static String questionAnswers = "Financial Institutions Question";
+  static String files = "View Supported Documents";
+  static String removeWholeSalerText = "Wholesaler has been removed";
   // static String uploadFie = "Commercial";
 
   //Status title

@@ -118,7 +118,7 @@ class AddWholesalerViewModel extends ReactiveViewModel {
       _wValidationText = "";
       notifyListeners();
     }
-    if (selectCurrency.isEmpty) {
+    if (selectCurrency == AppString.selectCurrency) {
       _cValidationText = AppString.requiredFieldText;
       notifyListeners();
     } else {
@@ -207,8 +207,13 @@ class AddWholesalerViewModel extends ReactiveViewModel {
     }
   }
 
-  void removeCreditLineInformation() {
+  void removeCreditLineInformation(context) {
+    var snackBar;
     _repositoryRetailer.removeCreditLineInformation(wholesalerData.id!);
+    snackBar = SnackBar(
+      content: Text(AppString.removeWholeSalerText),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
     _navigationService.pop();
   }
 
