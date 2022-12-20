@@ -66,8 +66,8 @@ class Requests extends StatelessWidget {
                                       ),
                                     ),
                                     if (model.associationRequestData.isEmpty)
-                                      const Center(
-                                        child: Text("No Data"),
+                                       Center( 
+                                        child: Text(AppString.noData),
                                       ),
                                     for (int j = 0;
                                         j < model.associationRequestData.length;
@@ -194,8 +194,8 @@ class Requests extends StatelessWidget {
                                     children: [
                                       if (model
                                           .wholesalerAssociationRequest.isEmpty)
-                                        const Center(
-                                          child: Text("No Data"),
+                                         Center(
+                                          child: Text(AppString.noData),
                                         ),
                                       for (int j = 0;
                                           j <

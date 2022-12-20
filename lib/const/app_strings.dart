@@ -225,7 +225,9 @@ class AppString {
   static String questionAnswers = "Financial Institutions Question";
   static String files = "View Supported Documents";
   static String removeWholeSalerText = "Wholesaler has been removed";
-  // static String uploadFie = "Commercial";
+  static String exitApp = "Exit App";
+  static String exitAppBody = "Do you want to exit an App?";
+  static String noData = "No Data";
 
   //Status title
   static String accepted = "Accepted";
