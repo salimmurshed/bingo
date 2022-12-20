@@ -59,6 +59,12 @@ class _MyAppState extends State<MyApp> {
       title: 'BINGO',
       navigatorKey: navKey,
       theme: ThemeData(
+          // elevatedButtonTheme: ElevatedButtonThemeData(
+          //     style: ButtonStyle(
+          //         textStyle: MaterialStateProperty.all<TextStyle>(
+          //             TextStyle(color: AppColors.whiteColor)),
+          //         backgroundColor: MaterialStateProperty.all<Color>(
+          //             AppColors.activeButtonColor))),
           cardTheme: CardTheme(
             elevation: 2,
             shape: RoundedRectangleBorder(

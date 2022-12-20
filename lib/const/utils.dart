@@ -1,6 +1,7 @@
 import 'package:bingo_wholesale/const/app_assets.dart';
 import 'package:bingo_wholesale/const/app_colors.dart';
 import 'package:bingo_wholesale/const/app_extensions/widgets_extensions.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../const/app_sizes/app_sizes.dart';
 import 'package:bingo_wholesale/const/app_styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -126,4 +127,19 @@ commonText(String text) {
       ),
     ),
   );
+}
+
+loadMore(onPressed) {
+  return TextButton(onPressed: onPressed, child: Text(AppString.loadMore));
+}
+
+toast(String text) {
+  return Fluttertoast.showToast(
+      msg: text,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0);
 }

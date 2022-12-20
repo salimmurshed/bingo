@@ -11,6 +11,7 @@ import '../const/database_helper.dart';
 import '../data_models/models/association_request_wholesaler_model/association_request_wholesaler_model.dart';
 import '../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
 import '../data_models/models/update_response_model/update_response_model.dart';
+import '../data_models/models/wholesaler_credit_line_model/wholesaler_credit_line_model.dart';
 import '../presentation/widgets/alert/alert_dialog.dart';
 import '../services/local_data/local_data.dart';
 import '../services/local_data/table_names.dart';
@@ -43,6 +44,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   final NavigationService _navigationService = locator<NavigationService>();
   final LocalData _localData = locator<LocalData>();
 
+  List<WholesalerCreditLineData> wholesalerCreditLineRequestData = [];
   ReactiveValue<List<AssociationRequestWholesalerData>>
       wholesalerAssociationRequest = ReactiveValue([]);
   ReactiveValue<AssociationWholesalerRequestDetailsModel>
@@ -54,6 +56,8 @@ class RepositoryWholesaler with ReactiveServiceMixin {
 
   ReactiveValue<bool> setScreenBusy = ReactiveValue(false);
 
+  int pageCreditLineWholesale = 1;
+  bool hasCreditLineNextPage = true;
   //all Wholesaler Association list
   Future getWholesalersAssociationData() async {
     dbHelper.queryAllRows(TableNames.wholeSalerAssociationList).then((value) {
@@ -62,11 +66,12 @@ class RepositoryWholesaler with ReactiveServiceMixin {
           .toList();
     });
     try {
-      Response response = await _webService
-          .getRequest(NetworkUrls.requestAssociationListForWholesaler);
+      Response response = await _webService.getRequest(
+          Uri.parse(NetworkUrls.requestAssociationListForWholesaler));
       final responseData = AssociationRequestWholesalerModel.fromJson(
           convert.jsonDecode(response.body));
       wholesalerAssociationRequest.value = responseData.data!;
+
       _localData.insert(
           TableNames.wholeSalerAssociationList, responseData.data!);
     } on Exception catch (e) {
@@ -191,5 +196,59 @@ class RepositoryWholesaler with ReactiveServiceMixin {
       _navigationService.animatedDialog(
           const AlertDialogMessage(AppString.rejectionCompleteUnsuccessful));
     }
+  }
+
+  Future getCreditLinesList() async {
+    pageCreditLineWholesale = 1;
+    dbHelper
+        .queryAllRows(TableNames.wholesalerCreditlineRequestList)
+        .then((value) {
+      wholesalerCreditLineRequestData =
+          value.map((d) => WholesalerCreditLineData.fromJson(d)).toList();
+    });
+    try {
+      print(
+          "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale");
+      Response response = await _webService.getRequest(Uri.parse(
+          "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale"));
+      final responseData =
+          WholesalerCreditLineModel.fromJson(convert.jsonDecode(response.body));
+      wholesalerCreditLineRequestData = responseData.data!.data!;
+      if (responseData.data!.nextPageUrl!.isEmpty) {
+        hasCreditLineNextPage = false;
+        notifyListeners();
+      } else {
+        hasCreditLineNextPage = true;
+        notifyListeners();
+      }
+      _localData.insert(
+          TableNames.wholesalerCreditlineRequestList, responseData.data!.data!);
+      notifyListeners();
+    } on Exception catch (e) {
+      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    }
+    notifyListeners();
+  }
+
+  Future loadMoreCreditLinesList() async {
+    pageCreditLineWholesale += pageCreditLineWholesale;
+    try {
+      Response response = await _webService.getRequest(Uri.parse(
+          "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale"));
+      final responseData =
+          WholesalerCreditLineModel.fromJson(convert.jsonDecode(response.body));
+      wholesalerCreditLineRequestData.addAll(responseData.data!.data!);
+      if (responseData.data!.nextPageUrl == null) {
+        hasCreditLineNextPage = false;
+        notifyListeners();
+      } else {
+        hasCreditLineNextPage = true;
+        notifyListeners();
+      }
+      notifyListeners();
+    } on Exception catch (e) {
+      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    }
+    notifyListeners();
   }
 }

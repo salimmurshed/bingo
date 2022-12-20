@@ -31,6 +31,8 @@ class AppString {
   static String visitFrequency = "Visit Frequency";
   static String suggestedCreditLineAmount = "Suggested Credit Line Amount";
   static String activationRequirement = "Activation code is required";
+  static String recommendedCreditLineAmount = "Recommended Credit Line Amount";
+  static String retailerCompletedInfomation = "Retailer Completed Infomation";
   static String put6DigitCode = "Please add "
       "valid 6 numbers code";
 
@@ -49,6 +51,7 @@ class AppString {
   static String viewDocuments = 'View Documents';
   static String noText = 'No';
   static String yesText = 'Yes';
+  static String loadMore = 'Load More';
 
   //app bar title
   static String dashBoard = 'DashBoard';
@@ -219,9 +222,12 @@ class AppString {
       "You Are Working";
   static String uploadFie = "Upload Financial Statements";
   static String chooseOptions = "Choose Options";
-  static String questionAnswers = "Question answers";
-  static String files = "Files";
-  // static String uploadFie = "Commercial";
+  static String questionAnswers = "Financial Institutions Question";
+  static String files = "View Supported Documents";
+  static String removeWholeSalerText = "Wholesaler has been removed";
+  static String exitApp = "Exit App";
+  static String exitAppBody = "Do you want to exit an App?";
+  static String noData = "No Data";
 
   //Status title
   static String accepted = "Accepted";

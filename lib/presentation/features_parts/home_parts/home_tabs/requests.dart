@@ -66,8 +66,8 @@ class Requests extends StatelessWidget {
                                       ),
                                     ),
                                     if (model.associationRequestData.isEmpty)
-                                      const Center(
-                                        child: Text("No Data"),
+                                       Center( 
+                                        child: Text(AppString.noData),
                                       ),
                                     for (int j = 0;
                                         j < model.associationRequestData.length;
@@ -186,90 +186,93 @@ class Requests extends StatelessWidget {
                             children: [
                               SingleChildScrollView(
                                 child: SizedBox(
-                                    width: 100.0.wp,
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        if (model.wholesalerAssociationRequest
-                                            .isEmpty)
-                                          const Center(
-                                            child: Text("No Data"),
-                                          ),
-                                        for (int j = 0;
-                                            j <
+                                  width: 100.0.wp,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      if (model
+                                          .wholesalerAssociationRequest.isEmpty)
+                                         Center(
+                                          child: Text(AppString.noData),
+                                        ),
+                                      for (int j = 0;
+                                          j <
+                                              model.wholesalerAssociationRequest
+                                                  .length;
+                                          j++)
+                                        StatusCard(
+                                          onTap: () {
+                                            model.gotoAssociationRequestDetailsScreen(
                                                 model
-                                                    .wholesalerAssociationRequest
-                                                    .length;
-                                            j++)
-                                          StatusCard(
-                                            onTap: () {
-                                              model.gotoAssociationRequestDetailsScreen(
-                                                  model
-                                                      .wholesalerAssociationRequest[
-                                                          j]
-                                                      .associationUniqueId!);
-                                            },
-                                            title: model
-                                                .wholesalerAssociationRequest[j]
-                                                .retailerName!,
-                                            subTitle: model
-                                                .wholesalerAssociationRequest[j]
-                                                .id!,
-                                            status: model
-                                                .wholesalerAssociationRequest[j]
-                                                .status!,
-                                            bodyFirstKey: AppString.emailTitle,
-                                            bodyFirstValue: model
-                                                .wholesalerAssociationRequest[j]
-                                                .email!,
-                                            bodySecondKey: AppString.phoneTitle,
-                                            bodySecondValue: model
-                                                .wholesalerAssociationRequest[j]
-                                                .phoneNumber!,
-                                          )
-                                      ],
-                                    )),
+                                                    .wholesalerAssociationRequest[
+                                                        j]
+                                                    .associationUniqueId!);
+                                          },
+                                          title: model
+                                              .wholesalerAssociationRequest[j]
+                                              .retailerName!,
+                                          subTitle: model
+                                              .wholesalerAssociationRequest[j]
+                                              .id!,
+                                          status: model
+                                              .wholesalerAssociationRequest[j]
+                                              .status!,
+                                          bodyFirstKey: AppString.emailTitle,
+                                          bodyFirstValue: model
+                                              .wholesalerAssociationRequest[j]
+                                              .email!,
+                                          bodySecondKey: AppString.phoneTitle,
+                                          bodySecondValue: model
+                                              .wholesalerAssociationRequest[j]
+                                              .phoneNumber!,
+                                        ),
+                                    ],
+                                  ),
+                                ),
                               ),
                               SingleChildScrollView(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Padding(
-                                      padding: AppPaddings
-                                          .requestSettingTabColumnPadding,
-                                      child: SizedBox(
-                                        width: 100.0.wp,
-                                        height: 80.0,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(),
-                                            SubmitButton(
-                                              width: 100.0,
-                                              text: AppString.addNew,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    for (int j = 0; j < 10; j++)
-                                      StatusCard(
-                                        title: "Mayorista prueba 1",
-                                        subTitle: "00302309495",
-                                        status: "Pending Wholesaler Review",
+                                    for (int j = 0;
+                                        j <
+                                            model
+                                                .wholesalerCreditLineRequestData
+                                                .length;
+                                        j++)
+                                      StatusCardCreditLine(
+                                        onTap: () {
+                                          model.gotoViewCreditLineWholeSaler(j);
+                                        },
+                                        title: model
+                                            .wholesalerCreditLineRequestData[j]
+                                            .retailerName!,
+                                        subTitle: model
+                                            .wholesalerCreditLineRequestData[j]
+                                            .uniqueId!
+                                            .substring(0, 8),
+                                        status: model
+                                            .wholesalerCreditLineRequestData[j]
+                                            .status!,
+                                        statusDescription: model
+                                            .wholesalerCreditLineRequestData[j]
+                                            .statusDescription!,
                                         bodyFirstKey: "Date "
                                             "Requested: ",
-                                        bodyFirstValue: "2022-07-20 03:14:53",
+                                        bodyFirstValue: model
+                                            .wholesalerCreditLineRequestData[j]
+                                            .dateRequested!,
                                         bodySecondKey: "Amount:",
-                                        bodySecondValue: "RD\$ 1,000.00",
+                                        bodySecondValue: model
+                                            .wholesalerCreditLineRequestData[j]
+                                            .requestedAmount!,
                                       ),
+                                    if (model.hasCreditLineNextPage)
+                                      loadMore(
+                                          model.loadMoreCreditLineWholesaler),
                                   ],
                                 ),
                               )

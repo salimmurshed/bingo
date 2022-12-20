@@ -7,6 +7,8 @@ class TableNames {
   static String wholeSalerAssociationList = "wholeSaler_association_list";
   static String retailerCreditlineRequestList = "retailer_creditline_reques"
       "t_list";
+  static String wholesalerCreditlineRequestList = "wholesaler_creditline_reques"
+      "t_list";
   static String fieFistForCreditlineRequest = "all_fie_list_for_credit"
       "line_requ"
       "est";

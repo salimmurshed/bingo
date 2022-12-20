@@ -42,7 +42,9 @@ class NameTextField extends StatelessWidget {
                   isNumber ? TextInputType.number : TextInputType.text,
               readOnly: readOnly,
               obscureText: obscureText,
-              decoration: AppInputStyles.ashOutlineBorder,
+              decoration: AppInputStyles.ashOutlineBorder.copyWith(
+                  fillColor:
+                      enable ? AppColors.whiteColor : AppColors.ashColor),
               controller: controller,
             ),
           ),

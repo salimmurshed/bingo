@@ -6,8 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  final _databaseName = "bingo_database_15.db";
-  final _databaseVersion = 15;
+  final _databaseName = "bingo_database_17.db";
+  final _databaseVersion = 17;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -99,6 +99,58 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.fieUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.bpName} TEXT NOT NULL"
         ")");
+    await db
+        .execute("CREATE TABLE ${TableNames.wholesalerCreditlineRequestList}("
+            "${DataBaseHelperKeys.id} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.associationId} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.fieId} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.bpIdF} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.bpIdR} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.monthlyPurchase} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.averagePurchaseTickets} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.requestedAmount} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.customerSinceDate} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.monthly_sales} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.average_sales_ticket} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.rc_crline_amt} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.visit_frequency} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.credit_officer_group} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercial_name_1} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercial_phone_1} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercial_name_2} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercial_phone_2} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercial_name_3} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercial_phone_3} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.currency} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.financial_statements} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.status} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.country} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.statusFie} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.approvedCreditLineAmount} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.approvedCreditLineCurrency} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.clInternalId} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.startDate} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.expirationDate} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.clApprovedDate} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.clType} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.isForward} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.actionBy} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.actionEnrollement} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.authorizationDate} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.isFieRespond} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.type} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.parentClId} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.createdAt} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.updatedAt} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.retailerName} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.fieUniqueId} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.wholesalerUniqueId} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.statusDescription} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.dateRequested} TEXT NOT NULL"
+            ")");
   }
 
   Future<int> insert(tableName, row) async {
@@ -180,4 +232,54 @@ class DataBaseHelperKeys {
   static String statusDescription = 'status_description';
   static String requestedAmount = 'requested_amount';
   static String bpName = 'bp_name';
+
+  // static String id = 'id';
+  // static String uniqueId = 'unique_id';
+  static String associationId = 'association_id';
+  static String fieId = 'fie_id';
+  static String bpIdF = 'bp_id_f';
+  static String bpIdR = 'bp_id_r';
+  static String monthlyPurchase = 'monthly_purchase';
+  static String averagePurchaseTickets = 'average_purchase_tickets';
+  // static String requestedAmount = 'requested_amount';
+  static String customerSinceDate = 'customer_since_date';
+  static String monthly_sales = 'monthly_sales';
+  static String average_sales_ticket = 'average_sales_ticket';
+  static String rc_crline_amt = 'rc_crline_amt';
+  static String visit_frequency = 'visit_frequency';
+  static String credit_officer_group = 'credit_officer_group';
+  static String commercial_name_1 = 'commercial_name_1';
+  static String commercial_phone_1 = 'commercial_phone_1';
+  static String commercial_name_2 = 'commercial_name_2';
+  static String commercial_phone_2 = 'commercial_phone_2';
+  static String commercial_name_3 = 'commercial_name_3';
+  static String commercial_phone_3 = 'commercial_phone_3';
+  // static String currency = 'currency';
+  static String financial_statements = 'financial_statements';
+  // static String status = 'status';
+  // static String country = 'country';
+  // static String statusFie = 'status_fie';
+  static String approvedCreditLineAmount = 'approved_credit_line_amount';
+  static String approvedCreditLineCurrency = 'approved_credit_line_currency';
+  static String clInternalId = 'cl_internal_id';
+  static String startDate = 'start_date';
+  static String expirationDate = 'expiration_date';
+  static String clApprovedDate = 'cl_approved_date';
+  static String clType = 'cl_type';
+  static String isForward = 'is_forward';
+  static String actionBy = 'action_by';
+  static String actionEnrollement = 'action_enrollement';
+  static String authorizationDate = 'authorization_date';
+  static String isFieRespond = 'is_fie_respond';
+  // static String type = 'type';
+  static String parentClId = 'parent_cl_id';
+  static String createdAt = 'created_at';
+  static String updatedAt = 'updated_at';
+  // static String fieName = 'fie_name';
+  // static String retailerName = 'retailer_name';
+  // static String fieUniqueId = 'fie_unique_id';
+  // static String wholesalerUniqueId = 'wholesaler_unique_id';
+  // static String associationUniqueId = 'association_unique_id';
+  // static String statusDescription = 'status_description';
+  // static String dateRequested = 'date_requested';
 }

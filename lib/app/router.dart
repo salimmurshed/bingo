@@ -2,6 +2,7 @@ import 'package:bingo_wholesale/presentation/ui/add_credit_line_screen/add_credi
 import 'package:bingo_wholesale/presentation/ui/add_store_screen/add_store_screen_view.dart';
 import 'package:bingo_wholesale/presentation/ui/home_screen/home_screen_view.dart';
 import 'package:bingo_wholesale/presentation/ui/splash_screen/splash_screen_view.dart';
+import 'package:bingo_wholesale/presentation/ui/view_credit_line_request_wholesaler/view_credit_line_request_wholesaler_view.dart';
 import 'package:flutter/material.dart';
 
 import '../presentation/ui/add_association_request_screen/add_association_request_screen_view.dart';
@@ -24,6 +25,8 @@ abstract class Routes {
   static const addManageAccountView = 'add_manage_account_view';
   static const addCreditLineView = 'add_credit_line_view';
   static const addWholesalerView = 'Add_wholesaler_view';
+  static const viewCreditLineRequestWholesalerView = 'view_credit_line_request'
+      '_wholesaler_view';
 
   static const all = {
     startupView,
@@ -36,6 +39,7 @@ abstract class Routes {
     addManageAccountView,
     addCreditLineView,
     addWholesalerView,
+    viewCreditLineRequestWholesalerView,
   };
 }
 
@@ -104,6 +108,12 @@ class Router {
       case Routes.addWholesalerView:
         return MaterialPageRoute<dynamic>(
           builder: (context) => AddWholesalerView(),
+          settings: settings,
+        );
+
+      case Routes.viewCreditLineRequestWholesalerView:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => ViewCreditLineRequestWholesalerView(),
           settings: settings,
         );
 

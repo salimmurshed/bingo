@@ -23,8 +23,10 @@ class SubmitButton extends StatelessWidget {
       padding: AppPaddings.buttonWidgetPadding,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          onPrimary: active ? color : AppColors.inactiveButtonColor,
           minimumSize: Size(width, height),
-          foregroundColor: active ? color : AppColors.inactiveButtonColor,
+          primary: active ? color : AppColors.inactiveButtonColor,
+          // foregroundColor: active ? color : AppColors.inactiveButtonColor,
           shape: RoundedRectangleBorder(
             borderRadius: AppRadius.buttonWidgetRadius,
           ),
