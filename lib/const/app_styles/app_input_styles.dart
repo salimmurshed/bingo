@@ -20,6 +20,7 @@ class AppInputStyles {
 
   /// [NameTextField]
   static InputDecoration ashOutlineBorder = const InputDecoration(
+    fillColor: AppColors.whiteColor,
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: AppColors.cardShaddow, width: 1.0),
     ),
@@ -36,13 +37,12 @@ class AppInputStyles {
   );
 
   /// [NameTextField]
-  static InputDecoration ashOutlineBorderDisable = InputDecoration(
+  static InputDecoration ashOutlineBorderDisable = const InputDecoration(
+    fillColor: AppColors.disableColor,
     enabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.0),
       borderSide: BorderSide(color: AppColors.borderColors),
     ),
     disabledBorder: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(10.0),
       borderSide: BorderSide(color: AppColors.borderColors),
     ),
     filled: true,

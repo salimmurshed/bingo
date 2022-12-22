@@ -39,7 +39,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
       retailerAssociationRequestDetailsList,
       associationRequestRetailerDetails,
       setScreenBusy,
-      associationRequestData,
+      wholesalerAssociationRequestData,
+      fieAssociationRequestData,
       creditLineInformation,
       globalMessage,
       retailerCreditLineReqDetails
@@ -59,14 +60,21 @@ class RepositoryRetailer with ReactiveServiceMixin {
   ///List
 
   ///ReactiveValue
-  ReactiveValue<List<AssociationRequestData>> associationRequestData =
+  ReactiveValue<List<AssociationRequestData>> wholesalerAssociationRequestData =
+      ReactiveValue([]);
+  ReactiveValue<List<AssociationRequestData>> fieAssociationRequestData =
       ReactiveValue([]);
   ReactiveValue<RetailerAssociationRequestDetailsModel>
       associationRequestRetailerDetails =
       ReactiveValue(RetailerAssociationRequestDetailsModel());
+
   ReactiveValue<List<RetailerAssociationRequestDetailsModel>>
       retailerAssociationRequestDetailsList =
       ReactiveValue<List<RetailerAssociationRequestDetailsModel>>([]);
+  ReactiveValue<List<RetailerAssociationRequestDetailsModel>>
+      retailerFieAssociationRequestDetailsList =
+      ReactiveValue<List<RetailerAssociationRequestDetailsModel>>([]);
+
   ReactiveValue<bool> setScreenBusy = ReactiveValue(false);
   ReactiveValue<List<WholesalersData>> creditLineInformation =
       ReactiveValue<List<WholesalersData>>([]);
@@ -194,10 +202,10 @@ class RepositoryRetailer with ReactiveServiceMixin {
           await _webService.getRequest(NetworkUrls.requestAssociationList);
       final responseData =
           AssociationRequestModel.fromJson(convert.jsonDecode(response.body));
-      associationRequestData.value = responseData.data!;
+      wholesalerAssociationRequestData.value = responseData.data!;
       _localData.insert(TableNames.retailerAssociationList, responseData.data!);
       print('associationRequestData.value');
-      print(associationRequestData.value);
+      print(wholesalerAssociationRequestData.value);
       _navigationService.pop();
       notifyListeners();
       ResponseMessages result = ResponseMessages.fromJson(jsonDecode(res.body));
@@ -252,7 +260,7 @@ class RepositoryRetailer with ReactiveServiceMixin {
   //all retailer Association list
   Future getRetailersAssociationData() async {
     dbHelper.queryAllRows(TableNames.retailerAssociationList).then((value) {
-      associationRequestData.value =
+      wholesalerAssociationRequestData.value =
           value.map((d) => AssociationRequestData.fromJson(d)).toList();
       notifyListeners();
     });
@@ -261,8 +269,29 @@ class RepositoryRetailer with ReactiveServiceMixin {
           await _webService.getRequest(NetworkUrls.requestAssociationList);
       final responseData =
           AssociationRequestModel.fromJson(convert.jsonDecode(response.body));
-      associationRequestData.value = responseData.data!;
+      wholesalerAssociationRequestData.value = responseData.data!;
       _localData.insert(TableNames.retailerAssociationList, responseData.data!);
+      notifyListeners();
+    } on Exception catch (e) {
+      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    }
+    notifyListeners();
+  }
+
+  Future getRetailersFieAssociationData() async {
+    dbHelper.queryAllRows(TableNames.retailerFieAssociationList).then((value) {
+      fieAssociationRequestData.value =
+          value.map((d) => AssociationRequestData.fromJson(d)).toList();
+      notifyListeners();
+    });
+    try {
+      Response response =
+          await _webService.getRequest(NetworkUrls.requestFieAssociationList);
+      final responseData =
+          AssociationRequestModel.fromJson(convert.jsonDecode(response.body));
+      fieAssociationRequestData.value = responseData.data!;
+      _localData.insert(
+          TableNames.retailerFieAssociationList, responseData.data!);
       notifyListeners();
     } on Exception catch (e) {
       _navigationService.displayDialog(AlertDialogMessage(e.toString()));
@@ -312,6 +341,55 @@ class RepositoryRetailer with ReactiveServiceMixin {
     notifyListeners();
   }
 
+  Future<void> getRetailerFieAssociationDetails(String id) async {
+    int index = 0;
+    bool isAvailable = false;
+    print(id);
+    if (retailerFieAssociationRequestDetailsList.value.isNotEmpty) {
+      index = retailerFieAssociationRequestDetailsList.value.indexWhere(
+          (element) => element.data![0].companyInformation![0].uniqueId == id);
+    }
+    if (retailerFieAssociationRequestDetailsList.value.isNotEmpty) {
+      isAvailable = retailerFieAssociationRequestDetailsList.value
+          .where((element) =>
+              element.data![0].companyInformation![0].uniqueId == id)
+          .isNotEmpty;
+    }
+    if (isAvailable) {
+      associationRequestRetailerDetails.value =
+          retailerFieAssociationRequestDetailsList.value[index];
+      print('responseData');
+      print(associationRequestRetailerDetails.value);
+    } else {
+      try {
+        setScreenBusy.value = true;
+        notifyListeners();
+        var jsonBody = {"unique_id": id};
+        Response response = await _webService.postRequest(
+          NetworkUrls.viewRetailerFieAssociationRequest,
+          jsonBody,
+        );
+
+        print(response.body);
+        RetailerAssociationRequestDetailsModel responseData =
+            RetailerAssociationRequestDetailsModel.fromJson(
+                convert.jsonDecode(response.body));
+        retailerFieAssociationRequestDetailsList.value.add(responseData);
+        associationRequestRetailerDetails.value = responseData;
+        print('responseData');
+        print(associationRequestRetailerDetails.value);
+        print('responseData');
+        print(responseData);
+        setScreenBusy.value = false;
+        notifyListeners();
+      } on Exception catch (_) {
+        setScreenBusy.value = false;
+        notifyListeners();
+      }
+    }
+    notifyListeners();
+  }
+
   Future<UpdateResponseModel> updateRetailerWholesalerAssociationStatus(
       dynamic data, String uniqueId, int statusID) async {
     int index = retailerAssociationRequestDetailsList.value.indexWhere(
@@ -348,7 +426,7 @@ class RepositoryRetailer with ReactiveServiceMixin {
         (element) =>
             element.data![0].companyInformation![0].uniqueId == uniqueId);
     print(index);
-    int index2 = associationRequestData.value
+    int index2 = wholesalerAssociationRequestData.value
         .indexWhere((element) => element.associationUniqueId == uniqueId);
     print(index2);
     Response response = await _webService.postRequest(
@@ -365,7 +443,7 @@ class RepositoryRetailer with ReactiveServiceMixin {
           .data![0]
           .companyInformation![0]
           .status = describeEnum(StatusNames.rejected).toUpperCamelCase();
-      associationRequestData.value[index2].status =
+      wholesalerAssociationRequestData.value[index2].status =
           describeEnum(StatusNames.rejected).toUpperCamelCase();
       notifyListeners();
     } else {

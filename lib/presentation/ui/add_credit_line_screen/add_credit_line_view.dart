@@ -43,7 +43,9 @@ class AddCreditLineView extends StatelessWidget {
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: AppColors.appBarColorRetailer,
-              title: Text(AppBarTitles.creditLineInformation),
+              title: model.isView
+                  ? Text(AppBarTitles.creditLineInformation)
+                  : Text(AppBarTitles.creditLineRequest),
             ),
             body: model.isBusy
                 ? const LoaderWidget()

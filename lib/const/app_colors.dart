@@ -24,7 +24,7 @@ class AppColors {
   static const Color accentColor = Color(0xff3DB5E7);
   static const Color background = Color(0xffffffff);
   static const Color backgroundSecondary = Color(0xffF9F9F9);
-  static const Color activeButtonColor = Color(0xff83D35D);
+  static const Color activeButtonColor = Color(0xff5DC151);
   static const Color inactiveButtonColor = Color(0xffEBEBEB);
 // static const Color backgroundTrans = Color(0xd81a0370);
 
@@ -42,6 +42,7 @@ class AppColors {
   static const Color blackColor = Color(0xff000000);
   static const Color redColor = Color(0xfff63f3f);
   static const Color ashColor = Color(0xff6C7B8A);
+  static const Color disableColor = Color(0xffF0F0F0);
 
   //Status //Color
   static const Color checkBoxSelected = Color(0xff5DC151);

@@ -8,6 +8,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../data_models/enums/data_source.dart';
 import '../../widgets/buttons/cancel_button.dart';
 import 'add_association_request_screen_view_model.dart';
 
@@ -17,6 +18,10 @@ class AddAssociationRequestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddAssociationRequestViewModel>.reactive(
+      onModelReady: (AddAssociationRequestViewModel model) {
+        model.setDetails(ModalRoute.of(context)!.settings.arguments
+            as RetailerTypeAssociationRequest);
+      },
       viewModelBuilder: () => AddAssociationRequestViewModel(),
       builder: (context, model, child) {
         return Scaffold(
@@ -29,7 +34,7 @@ class AddAssociationRequestView extends StatelessWidget {
             ),
           ),
           body: DefaultTabController(
-            initialIndex: 0,
+            initialIndex: model.wholeSalerOrFia,
             length: 2,
             child: Column(
               children: [

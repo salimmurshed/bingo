@@ -5,7 +5,13 @@ enum HomePageBottomTabs {
   accountBalance,
 }
 
-enum HomePageRequestTabs {
+enum HomePageRequestTabsR {
+  wAssociateRequest,
+  fAssociateRequest,
+  creditLineRequest,
+}
+
+enum HomePageRequestTabsW {
   associateRequest,
   creditLineRequest,
 }

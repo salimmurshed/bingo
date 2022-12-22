@@ -11,4 +11,6 @@ class AppBarTitles {
   static String addWholesaler = "ADD WHOLESALER";
   static String creditLineDetaileTitle = "Credit Line Rrquest detail";
   static String creditLineInformation = "CREDIT LINE INFORMATION";
+  static String creditLineRequest = "CREDIT LINE REQUEST";
+  static String addSales = "Add Sales";
 }

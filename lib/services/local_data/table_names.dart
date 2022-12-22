@@ -4,6 +4,7 @@ class TableNames {
   static String wholesalerList = "wholesaler_list";
   static String fiaList = "fia_list";
   static String retailerAssociationList = "retailer_association_list";
+  static String retailerFieAssociationList = "retailer_fie_association_list";
   static String wholeSalerAssociationList = "wholeSaler_association_list";
   static String retailerCreditlineRequestList = "retailer_creditline_reques"
       "t_list";
@@ -12,4 +13,6 @@ class TableNames {
   static String fieFistForCreditlineRequest = "all_fie_list_for_credit"
       "line_requ"
       "est";
+  static String retailerList = "retailer_list";
+  static String createSales = "create_temporary_table";
 }

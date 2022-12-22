@@ -39,6 +39,7 @@ AssociationRequestData _$AssociationRequestDataFromJson(
       uniqueId: json['unique_id'] as String?,
       associationUniqueId: json['association_unique_id'] as String? ?? '',
       wholesalerName: json['wholesaler_name'] as String? ?? '',
+      fieName: json['fie_name'] as String? ?? '',
       phoneNumber: json['phone_number'] as String? ?? '',
       id: json['id'] as String? ?? '',
       email: json['email'] as String? ?? '',
@@ -59,6 +60,7 @@ Map<String, dynamic> _$AssociationRequestDataToJson(
   writeNotNull('unique_id', instance.uniqueId);
   writeNotNull('association_unique_id', instance.associationUniqueId);
   writeNotNull('wholesaler_name', instance.wholesalerName);
+  writeNotNull('fie_name', instance.fieName);
   writeNotNull('phone_number', instance.phoneNumber);
   writeNotNull('id', instance.id);
   writeNotNull('email', instance.email);
