@@ -380,6 +380,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   Future<void> deleteRequest(String statusID) async {
     bool yesNo = await _navigationService.animatedDialog(
           YesNoDialog(
+            submitButtonText: AppString.reject,
             title: AppString.wantToRejectTitle,
             content: AppString.wantToRejectContent,
           ),
