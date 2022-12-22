@@ -35,6 +35,7 @@ class AppString {
   static String retailerCompletedInfomation = "Retailer Completed Infomation";
   static String put6DigitCode = "Please add "
       "valid 6 numbers code";
+  static String retailer = "Retailer";
 
   //all buttons
   static String addNew = 'Add New';
@@ -60,7 +61,9 @@ class AppString {
   static String accountBalance = 'ACCOUNT BALANCE';
   static String requestsDetail = 'requests detail';
 
+  static String wAssociationRequests = 'Wholesaler Association Requests';
   static String associationRequests = 'Association Requests';
+  static String fAssociationRequests = 'FIE Association Requests';
   static String creditLineRequests = 'Credit Line Requests';
 //screen texts
   static String users = 'Users';
@@ -104,6 +107,7 @@ class AppString {
   static const String needToSelectFie = "You need to "
       "select minimum one Financial Institution";
   static const String pleaseSelectOne = "Please select one option";
+  static const String pleaseAelectARetailer = "Please select a retailer";
   static const String pleaseSelectTermConditions = "Please select term & "
       "conditions";
   static const String fillOneCommercialReferenceName = "Please fill minimum "
@@ -193,7 +197,7 @@ class AppString {
   static String requiredFieldText = "This page can not be empty";
 
   //Select Items
-  static String selectFie = "Select Single Fie";
+  static String selectFie = "Select Single FIE";
   static const String selectText = 'Select';
   static const String selectedSalesZoneStringDefaultValue = 'XXXXXX';
   static const String selectedWholeSalerStringDefaultValue = 'XXXXXX';
@@ -203,9 +207,19 @@ class AppString {
   static String selectCity = "Select City";
   static String selectWholesaler = "Select Wholesaler";
   static String selectCurrency = "Currency";
+  static String selectRetailer = "Select Retailer";
+  static String selectStore = "Select Store";
+  static String selectSaleType = "Select Sales Type";
 
   //tab names
   static String wholesaler = "Wholesaler";
+  static String addNewIcon = "+ ADD NEW";
+  static String store = "Store";
+  static String salesType = "Sales Type";
+  static String invoiceNumber = "Invoice Number";
+  static String amount = "Amount";
+  static String description = "Description";
+  static String orderNumberSale = "Order Number";
   static String financialInstitution = "Financial Institution";
 
   //text field data
@@ -215,6 +229,11 @@ class AppString {
   static String crp1TextField = "Commercial Reference Phone No. 1";
   static String crp2TextField = "Commercial Reference Phone No. 2";
   static String crp3TextField = "Commercial Reference Phone No. 3";
+  static String hintTextInvoiceController = "Enter Invoice Number";
+  static String hintTextOrderController = "Enter Order Number";
+  static String hintTextCurrencyController = "Aprove Creditline Currency";
+  static String hintTextAmountController = "Enter Amount";
+  static String hintTextDescriptionController = "Enter Description";
 
   //body title
   static String creditLineInformation = "Credit Line Information";

@@ -14,3 +14,5 @@ enum DataSource {
   noInternetConnection,
   defaultError
 }
+
+enum RetailerTypeAssociationRequest { wholesaler, fie }

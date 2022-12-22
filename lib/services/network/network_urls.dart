@@ -15,6 +15,8 @@ class NetworkUrls {
 
   static Uri requestAssociationList = Uri.parse(
       "${Config.baseURL}retailer-wholesaler-association-request-list");
+  static Uri requestFieAssociationList =
+      Uri.parse("${Config.baseURL}retailer-fie-association-request-list");
   static String requestAssociationListForWholesaler =
       ("${Config.baseURL}wholesaler-retailer-association-request-list?page=");
   static Uri viewWholesalerRetailerAssociationRequest = Uri.parse(
@@ -25,6 +27,8 @@ class NetworkUrls {
       Uri.parse("${Config.baseURL}add-retailer-fie-association-request");
   static Uri viewRetailerWholesalerAssociationRequest = Uri.parse(
       "${Config.baseURL}view-retailer-wholesaler-association-request");
+  static Uri viewRetailerFieAssociationRequest =
+      Uri.parse("${Config.baseURL}view-retailer-fie-association-request");
   static Uri updateWholesalerRetailerAssociationStatus = Uri.parse(
       "${Config.baseURL}update-wholesaler-retailer-association-status");
   static Uri updateRetailerWholesalerAssociationStatus = Uri.parse(
@@ -39,6 +43,9 @@ class NetworkUrls {
       Uri.parse("${Config.baseURL}retailer-creditline-request-reply");
   static String wholesalerCreditlineRequestList =
       ("${Config.baseURL}wholesaler-creditline-request-list?page=");
+  static Uri retailerList = Uri.parse("${Config.baseURL}retailer-list");
+  static Uri storeCreditlineDetails =
+      Uri.parse("${Config.baseURL}store-creditline-details");
 
   //components urls
 

@@ -14,15 +14,19 @@ import 'package:injectable/injectable.dart';
 import '../../../app/locator.dart';
 import 'package:stacked/stacked.dart';
 
+import '../const/database_helper.dart';
 import '../data_models/models/component_models/fie_list_creditline_request_model.dart';
 import '../data_models/models/component_models/grace_period_group.dart';
 import '../data_models/models/component_models/partner_with_currency_list.dart';
+import '../data_models/models/component_models/retailer_list_model.dart';
+import '../data_models/models/component_models/store_model.dart';
 import '../services/local_data/local_data.dart';
 import '../services/local_data/table_names.dart';
 import '../services/network/web_service.dart';
 
 @lazySingleton
 class RepositoryComponents with ReactiveServiceMixin {
+  final dbHelper = DatabaseHelper.instance;
   final WebService _webService = locator<WebService>();
   final ZDeviceStorage _deviceStorage = locator<ZDeviceStorage>();
   final LocalData _localData = locator<LocalData>();
@@ -38,16 +42,18 @@ class RepositoryComponents with ReactiveServiceMixin {
   ReactiveValue<AllCountryModel> allCountryData =
       ReactiveValue(AllCountryModel());
   ReactiveValue<AllCityModel> allCityData = ReactiveValue(AllCityModel());
+  List<RetailerListData> retailerList = [];
 
-  void getComponentsReady() {
+  void getComponentsReady() async {
     getTaxIdType();
     getCustomerType();
     getGracePeriodGroup();
     getPricingGroup();
     getSalesZone();
+    getRetailerList();
   }
 
-  void getComponentsRetailerReady() {
+  void getComponentsRetailerReady() async {
     getAllFieListForCreditLine();
   }
 
@@ -121,6 +127,40 @@ class RepositoryComponents with ReactiveServiceMixin {
       Response response =
           await _webService.getRequest(NetworkUrls.partnerWithCurrencyList);
       return PartnerWithCurrencyList.fromJson(jsonDecode(response.body));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future getRetailerList() async {
+    dbHelper.queryAllRows(TableNames.retailerList).then((value) {
+      retailerList = value.map((d) => RetailerListData.fromJson(d)).toList();
+      notifyListeners();
+    });
+    try {
+      Response response =
+          await _webService.getRequest(NetworkUrls.retailerList);
+      RetailerListModel retailerListModel =
+          RetailerListModel.fromJson(jsonDecode(response.body));
+      retailerList = retailerListModel.data!;
+      _localData.insert(TableNames.retailerList, retailerListModel.data!);
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  List<RetailerInformation> storeList = [];
+  Future getStoreList(String? bpIdR) async {
+    var body = {"bp_id_r": bpIdR};
+    try {
+      Response response = await _webService.postRequest(
+          NetworkUrls.storeCreditlineDetails, body);
+      StoreModel storeModel = StoreModel.fromJson(jsonDecode(response.body));
+      storeList = storeModel.data!.retailerInformation!;
+      notifyListeners();
+      print('retailerList');
+      print(retailerList);
     } catch (e) {
       rethrow;
     }

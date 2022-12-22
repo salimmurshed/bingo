@@ -14,6 +14,7 @@ import '../../../data_models/construction_model/confirmation_model/confirmation_
 import '../../../data_models/construction_model/dashboard_card_properties_model/dashboard_card_properties_model.dart';
 import '../../../data_models/construction_model/invoice_model/invoice_model.dart';
 import '../../../data_models/construction_model/recommandation_deposite_model/recommandation_deposite_model.dart';
+import '../../../data_models/enums/data_source.dart';
 import '../../../data_models/enums/home_page_bottom_tabs.dart';
 import '../../../data_models/models/association_request_model/association_request_model.dart';
 import '../../../data_models/models/association_request_wholesaler_model/association_request_wholesaler_model.dart';
@@ -28,7 +29,8 @@ import '../../../services/navigation/navigationService.dart';
 
 class GetId {
   String id;
-  GetId({this.id = ""});
+  RetailerTypeAssociationRequest type;
+  GetId({this.id = "", this.type = RetailerTypeAssociationRequest.wholesaler});
 }
 
 class HomeScreenViewModel extends ReactiveViewModel {
@@ -44,8 +46,10 @@ class HomeScreenViewModel extends ReactiveViewModel {
 
   List<StoreData> get storeData => _RepositoryRetailer.storeList;
 
-  List<AssociationRequestData> get associationRequestData =>
-      _RepositoryRetailer.associationRequestData.value;
+  List<AssociationRequestData> get wholesalerAssociationRequestData =>
+      _RepositoryRetailer.wholesalerAssociationRequestData.value;
+  List<AssociationRequestData> get fieAssociationRequestData =>
+      _RepositoryRetailer.fieAssociationRequestData.value;
   // _associationRequestData;
 
   List<AssociationRequestWholesalerData> _wholesalerAssociationRequest = [];
@@ -64,7 +68,10 @@ class HomeScreenViewModel extends ReactiveViewModel {
   UserModel get user => _authService.user.value;
   HomePageBottomTabs homeScreenBottomTabs = HomePageBottomTabs.dashboard;
 
-  HomePageRequestTabs requestTabTitle = HomePageRequestTabs.associateRequest;
+  HomePageRequestTabsW requestTabTitleWholesaler =
+      HomePageRequestTabsW.associateRequest;
+  HomePageRequestTabsR requestTabTitleRetailer =
+      HomePageRequestTabsR.wAssociateRequest;
   HomePageSettingTabs settingTabTitle = HomePageSettingTabs.stores;
   String appBarTitle = "DASHBOARD";
 
@@ -79,25 +86,27 @@ class HomeScreenViewModel extends ReactiveViewModel {
     _RepositoryRetailer.getWholesaler();
     _RepositoryRetailer.getFia();
     getRetailersAssociationData();
-    getCreditLinesList();
+    // getCreditLinesList();
   }
 
   void getRetailersAssociationData() async {
     setBusy(true);
     notifyListeners();
+    await Future.delayed(Duration(seconds: 1));
     await _RepositoryRetailer.getRetailersAssociationData();
+    await _RepositoryRetailer.getRetailersFieAssociationData();
+    await _RepositoryRetailer.getCreditLinesList();
     // associationRequestData = _RepositoryRetailer.associationRequestData.value;
     setBusy(false);
     notifyListeners();
   }
 
-  void getCreditLinesList() async {
-    setBusy(true);
-    notifyListeners();
-    await _RepositoryRetailer.getCreditLinesList();
-    setBusy(false);
-    notifyListeners();
-  }
+  // void getCreditLinesList() async {
+  //   setBusy(true);
+  //   notifyListeners();
+  //   setBusy(false);
+  //   notifyListeners();
+  // }
 
   // isRetailer ? getRetailerDocuments() :getWholesalerDocuments();
   void getWholesalerData() async {
@@ -132,10 +141,20 @@ class HomeScreenViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void changeRequestTab(int i, BuildContext context) {
-    requestTabTitle = i == 0
-        ? HomePageRequestTabs.associateRequest
-        : HomePageRequestTabs.creditLineRequest;
+  void changeRequestTabWholesaler(int i, BuildContext context) {
+    requestTabTitleWholesaler = i == 0
+        ? HomePageRequestTabsW.associateRequest
+        : HomePageRequestTabsW.creditLineRequest;
+    DefaultTabController.of(context)!.animateTo(i);
+    notifyListeners();
+  }
+
+  void changeRequestTabRetailer(int i, BuildContext context) {
+    requestTabTitleRetailer = i == 0
+        ? HomePageRequestTabsR.wAssociateRequest
+        : requestTabTitleRetailer = i == 1
+            ? HomePageRequestTabsR.fAssociateRequest
+            : HomePageRequestTabsR.creditLineRequest;
     DefaultTabController.of(context)!.animateTo(i);
     notifyListeners();
   }
@@ -156,8 +175,10 @@ class HomeScreenViewModel extends ReactiveViewModel {
     _navigationService.pushNamed(Routes.salesDetailsScreen, arguments: data);
   }
 
-  void gotoAddNewRequest() {
-    _navigationService.pushNamed(Routes.addNewAssociationRequest);
+  void gotoAddNewRequest(
+      RetailerTypeAssociationRequest retailerTypeAssociationRequest) {
+    _navigationService.pushNamed(Routes.addNewAssociationRequest,
+        arguments: retailerTypeAssociationRequest);
   }
 
   void gotoViewCreditLineWholeSaler(int j) {
@@ -177,8 +198,10 @@ class HomeScreenViewModel extends ReactiveViewModel {
     _navigationService.pushNamed(Routes.addStoreView, arguments: storeData[j]);
   }
 
-  void gotoAssociationRequestDetailsScreen(String id) {
-    GetId v = GetId(id: id);
+  void gotoAssociationRequestDetailsScreen(
+      String id, RetailerTypeAssociationRequest type) {
+    GetId v = GetId(id: id, type: type);
+    print(id);
     _navigationService.pushNamed(Routes.associationRequestDetailsScreen,
         arguments: v);
   }

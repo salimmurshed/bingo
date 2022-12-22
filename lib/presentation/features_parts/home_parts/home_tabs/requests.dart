@@ -22,7 +22,7 @@ class Requests extends StatelessWidget {
                 child: SizedBox(
                   width: 100.0.wp,
                   child: DefaultTabController(
-                    length: 2,
+                    length: 3,
                     initialIndex: 0,
                     child: Column(
                       children: [
@@ -56,8 +56,11 @@ class Requests extends StatelessWidget {
                                           children: [
                                             const SizedBox(),
                                             SubmitButton(
-                                              onPressed:
-                                                  model.gotoAddNewRequest,
+                                              onPressed: () {
+                                                model.gotoAddNewRequest(
+                                                    RetailerTypeAssociationRequest
+                                                        .wholesaler);
+                                              },
                                               width: 100.0,
                                               text: AppString.addNew,
                                             ),
@@ -65,33 +68,117 @@ class Requests extends StatelessWidget {
                                         ),
                                       ),
                                     ),
-                                    if (model.associationRequestData.isEmpty)
-                                       Center( 
+                                    if (model.wholesalerAssociationRequestData
+                                        .isEmpty)
+                                      Center(
                                         child: Text(AppString.noData),
                                       ),
                                     for (int j = 0;
-                                        j < model.associationRequestData.length;
+                                        j <
+                                            model
+                                                .wholesalerAssociationRequestData
+                                                .length;
                                         j++)
                                       StatusCard(
                                         onTap: () {
-                                          model
-                                              .gotoAssociationRequestDetailsScreen(
-                                                  model
-                                                      .associationRequestData[j]
-                                                      .associationUniqueId!);
+                                          model.gotoAssociationRequestDetailsScreen(
+                                              model
+                                                  .wholesalerAssociationRequestData[
+                                                      j]
+                                                  .associationUniqueId!,
+                                              RetailerTypeAssociationRequest
+                                                  .wholesaler);
                                         },
-                                        title: model.associationRequestData[j]
+                                        title: model
+                                            .wholesalerAssociationRequestData[j]
                                             .wholesalerName!,
-                                        subTitle:
-                                            model.associationRequestData[j].id!,
+                                        subTitle: model
+                                            .wholesalerAssociationRequestData[j]
+                                            .id!,
                                         status: model
-                                            .associationRequestData[j].status!,
+                                            .wholesalerAssociationRequestData[j]
+                                            .status!,
                                         bodyFirstKey: AppString.emailTitle,
                                         bodyFirstValue: model
-                                            .associationRequestData[j].email!,
+                                            .wholesalerAssociationRequestData[j]
+                                            .email!,
                                         bodySecondKey: AppString.phoneTitle,
                                         bodySecondValue: model
-                                            .associationRequestData[j]
+                                            .wholesalerAssociationRequestData[j]
+                                            .phoneNumber!,
+                                      ),
+                                    20.0.giveHeight,
+                                  ],
+                                ),
+                              ),
+                              SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    if (model.globalMessage.message != null)
+                                      SnackBarRepo(
+                                        success: !model.globalMessage.success!,
+                                        text: model.globalMessage.message!,
+                                      ),
+                                    Padding(
+                                      padding: AppPaddings
+                                          .requestSettingTabColumnPadding,
+                                      child: SizedBox(
+                                        width: 100.0.wp,
+                                        height: 80.0,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(),
+                                            SubmitButton(
+                                              onPressed: () {
+                                                model.gotoAddNewRequest(
+                                                    RetailerTypeAssociationRequest
+                                                        .fie);
+                                              },
+                                              width: 100.0,
+                                              text: AppString.addNew,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    if (model.fieAssociationRequestData.isEmpty)
+                                      Center(
+                                        child: Text(AppString.noData),
+                                      ),
+                                    for (int j = 0;
+                                        j <
+                                            model.fieAssociationRequestData
+                                                .length;
+                                        j++)
+                                      StatusCard(
+                                        onTap: () {
+                                          model.gotoAssociationRequestDetailsScreen(
+                                              model.fieAssociationRequestData[j]
+                                                  .uniqueId!,
+                                              RetailerTypeAssociationRequest
+                                                  .fie);
+                                        },
+                                        title: model
+                                            .fieAssociationRequestData[j]
+                                            .fieName!,
+                                        subTitle: model
+                                            .fieAssociationRequestData[j].id!,
+                                        status: model
+                                            .fieAssociationRequestData[j]
+                                            .statusFie!,
+                                        bodyFirstKey: AppString.emailTitle,
+                                        bodyFirstValue: model
+                                            .fieAssociationRequestData[j]
+                                            .email!,
+                                        bodySecondKey: AppString.phoneTitle,
+                                        bodySecondValue: model
+                                            .fieAssociationRequestData[j]
                                             .phoneNumber!,
                                       ),
                                     20.0.giveHeight,
@@ -137,11 +224,10 @@ class Requests extends StatelessWidget {
                                         },
                                         title: model
                                             .retailerCreditLineRequestData[j]
-                                            .wholesalerName!,
+                                            .fieName!,
                                         subTitle: model
                                             .retailerCreditLineRequestData[j]
-                                            .wholesalerUniqueId!
-                                            .substring(10, 18),
+                                            .wholesalerName!,
                                         status: model
                                             .retailerCreditLineRequestData[j]
                                             .status!,
@@ -178,7 +264,7 @@ class Requests extends StatelessWidget {
                     initialIndex: 0,
                     child: Column(
                       children: [
-                        RetailerTabsInRequestTab(model),
+                        WholesalerTabsInRequestTab(model),
                         Expanded(
                           child: TabBarView(
                             dragStartBehavior: DragStartBehavior.down,
@@ -194,7 +280,7 @@ class Requests extends StatelessWidget {
                                     children: [
                                       if (model
                                           .wholesalerAssociationRequest.isEmpty)
-                                         Center(
+                                        Center(
                                           child: Text(AppString.noData),
                                         ),
                                       for (int j = 0;
@@ -208,7 +294,9 @@ class Requests extends StatelessWidget {
                                                 model
                                                     .wholesalerAssociationRequest[
                                                         j]
-                                                    .associationUniqueId!);
+                                                    .associationUniqueId!,
+                                                RetailerTypeAssociationRequest
+                                                    .wholesaler);
                                           },
                                           title: model
                                               .wholesalerAssociationRequest[j]

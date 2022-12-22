@@ -12,6 +12,7 @@ import '../../../app/locator.dart';
 import '../../../const/app_strings.dart';
 import '../../../data/data_source/visit_frequently_list.dart';
 import '../../../data_models/construction_model/static_data_models/visit_frequent_list_model.dart';
+import '../../../data_models/enums/data_source.dart';
 import '../../../data_models/enums/status_name.dart';
 import '../../../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
 import '../../../data_models/models/component_models/sales_zone_model.dart';
@@ -45,16 +46,37 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
 
   void callDetails(GetId arguments) async {
     uniqueId = arguments.id;
+    type = arguments.type;
+    print(arguments.id);
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (isRetailer) {
         setBusy(true);
         notifyListeners();
-        await _repositoryRetailer.getRetailerAssociationDetails(arguments.id);
-        _associationRequestRetailerDetails =
-            _repositoryRetailer.associationRequestRetailerDetails.value;
+        if (arguments.type == RetailerTypeAssociationRequest.wholesaler) {
+          await _repositoryRetailer.getRetailerAssociationDetails(arguments.id);
+          _associationRequestRetailerDetails =
+              _repositoryRetailer.associationRequestRetailerDetails.value;
+          _companyInformationRetails =
+              associationRequestRetailerDetails.data![0].companyInformation![0];
+          _contactInformationRetails =
+              associationRequestRetailerDetails.data![0].contactInformation![0];
+          notifyListeners();
+        } else {
+          await _repositoryRetailer
+              .getRetailerFieAssociationDetails(arguments.id);
+          _associationRequestRetailerDetails =
+              _repositoryRetailer.associationRequestRetailerDetails.value;
+          _companyInformationRetails =
+              associationRequestRetailerDetails.data![0].companyInformation![0];
+          _contactInformationRetails =
+              associationRequestRetailerDetails.data![0].contactInformation![0];
+          notifyListeners();
+        }
+
         setBusy(false);
         notifyListeners();
       } else {
+        //RetailerTypeAssociationRequest
         await _repositoryWholesaler
             .getWholesalersAssociationDetails(arguments.id);
         _associationRequestWholesalerDetails =
@@ -78,11 +100,14 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   RetailerAssociationRequestDetailsModel
       get associationRequestRetailerDetails =>
           _associationRequestRetailerDetails;
-
+  CompanyInformationRetails _companyInformationRetails =
+      CompanyInformationRetails();
+  ContactInformationRetails _contactInformationRetails =
+      ContactInformationRetails();
   CompanyInformationRetails get companyInformationRetails =>
-      associationRequestRetailerDetails.data![0].companyInformation![0];
+      _companyInformationRetails;
   ContactInformationRetails get contactInformationRetails =>
-      associationRequestRetailerDetails.data![0].contactInformation![0];
+      _contactInformationRetails;
 
   ContactInformation get contactInformation =>
       associationRequestWholesalerDetails.data![0].contactInformation![0];
@@ -108,6 +133,8 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   int? selectedVisitFrequency;
   int status = 0;
   String uniqueId = "";
+  RetailerTypeAssociationRequest type =
+      RetailerTypeAssociationRequest.wholesaler;
 
   //local text controllers
   TextEditingController internalIdController = TextEditingController();

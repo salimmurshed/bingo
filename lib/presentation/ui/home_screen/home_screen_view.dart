@@ -10,6 +10,7 @@ import '../../../const/utils.dart';
 import '../../../data_models/construction_model/confirmation_model/confirmation_model.dart';
 import '../../../data_models/construction_model/invoice_model/invoice_model.dart';
 import '../../../data_models/construction_model/recommandation_deposite_model/recommandation_deposite_model.dart';
+import '../../../data_models/enums/data_source.dart';
 import '../../../data_models/enums/home_page_bottom_tabs.dart';
 import '../../widgets/buttons/submit_button.dart';
 import '../../widgets/buttons/tab_bar_button.dart';
@@ -31,6 +32,7 @@ part "../../features_parts/home_parts/retailer_parts_home/retailer_recommendatio
 part "../../features_parts/home_parts/wholesaler_parts_home/wholesaler_invoice_part_in_dashboard.dart";
 part "../../features_parts/home_parts/wholesaler_parts_home/wholesaler_new_order_part_in_dashboard.dart";
 part "../../features_parts/home_parts/wholesaler_parts_home/wholesaler_dashboard_request_tab_part.dart";
+part "../../features_parts/home_parts/wholesaler_parts_home/wholesaler_tabs_in_request_tab.dart";
 part "../../features_parts/home_parts/home_tabs/dashboard.dart";
 part "../../features_parts/home_parts/home_tabs/requests.dart";
 part "../../features_parts/home_parts/home_tabs/settings.dart";

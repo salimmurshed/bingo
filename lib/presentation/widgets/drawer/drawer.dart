@@ -3,9 +3,13 @@ import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/data_models/models/user_model/user_model.dart';
 import 'package:bingo_wholesale/presentation/widgets/buttons/submit_button.dart';
 import 'package:bingo_wholesale/presentation/widgets/text_fields/name_text_field_drop_down.dart';
+import 'package:bingo_wholesale/repository/repository_wholesaler.dart';
 import 'package:bingo_wholesale/services/auth_service/auth_service.dart';
 import 'package:bingo_wholesale/services/storage/deviceStorage.dart';
 import 'package:flutter/material.dart';
+import 'package:bingo_wholesale/repository/repository_retailer.dart' as _i2;
+import 'package:bingo_wholesale/repository/repository_wholesaler.dart' as _i3;
+import 'package:injectable/injectable.dart' as _i1;
 
 import '../../../app/locator.dart';
 import '../../../const/app_sizes/app_sizes.dart';
@@ -20,8 +24,18 @@ class MyDrawer extends StatelessWidget {
   final _localData = locator<LocalData>();
   UserModel get user => _authService.user.value;
   bool get isRetailer => _authService.isRetailer.value;
+
   void logout(context) {
-    _repositoryRetailer.creditLineInformation.value.clear();
+    final gh = _i1.GetItHelper(locator);
+    if (locator.isRegistered<RepositoryRetailer>()) {
+      locator.unregister<RepositoryRetailer>();
+      gh.lazySingleton<_i2.RepositoryRetailer>(() => _i2.RepositoryRetailer());
+    }
+    if (locator.isRegistered<RepositoryWholesaler>()) {
+      locator.unregister<RepositoryWholesaler>();
+      gh.lazySingleton<_i3.RepositoryWholesaler>(
+          () => _i3.RepositoryWholesaler());
+    }
     _deviceStorage.clearData();
     _localData.deleteDB();
     Navigator.pushReplacementNamed(context, Routes.login);

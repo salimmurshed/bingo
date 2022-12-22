@@ -1,4 +1,5 @@
 import 'package:bingo_wholesale/const/all_const.dart';
+import 'package:bingo_wholesale/data_models/enums/data_source.dart';
 import 'package:bingo_wholesale/presentation/widgets/alert/alert_dialog.dart';
 
 import '../../../repository/repository_retailer.dart';
@@ -68,6 +69,11 @@ class AddAssociationRequestViewModel extends ReactiveViewModel {
       setAddRequestBusy(false);
       notifyListeners();
     }
+  }
+
+  void setDetails(RetailerTypeAssociationRequest arguments) {
+    wholeSalerOrFia = arguments.index;
+    notifyListeners();
   }
 
   void sendFiaRequest() async {

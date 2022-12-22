@@ -15,26 +15,37 @@ class RetailerTabsInRequestTab extends StatelessWidget {
         indicatorColor: AppColors.transparent,
         padding: AppPaddings.zero,
         labelPadding: AppPaddings.zero,
-        isScrollable: false,
+        isScrollable: true,
         indicatorPadding: AppPaddings.zero,
         onTap: (int i) {
-          model.changeRequestTab(i, context);
+          model.changeRequestTabRetailer(i, context);
         },
         // mainAxisAlignment: MainAxisAlignment.center,
         tabs: [
           TabBarButton(
-            active:
-                model.requestTabTitle == HomePageRequestTabs.associateRequest
-                    ? true
-                    : false,
+            width: 50.0.wp,
+            active: model.requestTabTitleRetailer ==
+                    HomePageRequestTabsR.wAssociateRequest
+                ? true
+                : false,
             // width: 150.0,
-            text: AppString.associationRequests,
+            text: AppString.wAssociationRequests,
           ),
           TabBarButton(
-            active:
-                model.requestTabTitle == HomePageRequestTabs.creditLineRequest
-                    ? true
-                    : false,
+            width: 50.0.wp,
+            active: model.requestTabTitleRetailer ==
+                    HomePageRequestTabsR.fAssociateRequest
+                ? true
+                : false,
+            // width: 150.0,
+            text: AppString.fAssociationRequests,
+          ),
+          TabBarButton(
+            width: 50.0.wp,
+            active: model.requestTabTitleRetailer ==
+                    HomePageRequestTabsR.creditLineRequest
+                ? true
+                : false,
             // width: 150.0,
             text: AppString.creditLineRequests,
           ),

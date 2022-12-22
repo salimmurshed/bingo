@@ -4,7 +4,11 @@ import '../../const/database_helper.dart';
 
 @lazySingleton
 class LocalData {
+  LocalData() {
+    dbHelper.database;
+  }
   final dbHelper = DatabaseHelper.instance;
+
   void insert(tableName, tableData) async {
     for (int i = 0; i < tableData.length; i++) {
       var id = await dbHelper.insert(tableName, tableData[i].toJson());

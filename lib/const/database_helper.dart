@@ -6,8 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  final _databaseName = "bingo_database_17.db";
-  final _databaseVersion = 17;
+  final _databaseName = "bingo_database_5.db";
+  final _databaseVersion = 5;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -65,6 +65,18 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.wholesalerName} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.phoneNumber} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.id} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.email} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.status} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.statusFie} TEXT NOT NULL"
+        ")");
+    await db.execute("CREATE TABLE ${TableNames.retailerFieAssociationList}("
+        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.wholesalerName} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
         "${DataBaseHelperKeys.phoneNumber} TEXT NOT NULL,"
         "${DataBaseHelperKeys.id} TEXT NOT NULL,"
         "${DataBaseHelperKeys.email} TEXT NOT NULL,"
@@ -111,19 +123,19 @@ class DatabaseHelper {
             "${DataBaseHelperKeys.averagePurchaseTickets} TEXT NOT NULL,"
             "${DataBaseHelperKeys.requestedAmount} TEXT NOT NULL,"
             "${DataBaseHelperKeys.customerSinceDate} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.monthly_sales} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.average_sales_ticket} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.rc_crline_amt} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.visit_frequency} INTEGER NOT NULL,"
-            "${DataBaseHelperKeys.credit_officer_group} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.commercial_name_1} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.commercial_phone_1} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.commercial_name_2} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.commercial_phone_2} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.commercial_name_3} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.commercial_phone_3} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.monthlySales} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.averageSalesTicket} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.rcCrlineAmt} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.visitFrequency} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.creditOfficerGroup} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercialName1} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercialPhone1} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercialName2} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercialPhone2} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercialName3} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.commercialPhone3} TEXT NOT NULL,"
             "${DataBaseHelperKeys.currency} TEXT NOT NULL,"
-            "${DataBaseHelperKeys.financial_statements} TEXT NOT NULL,"
+            "${DataBaseHelperKeys.financialStatements} TEXT NOT NULL,"
             "${DataBaseHelperKeys.status} INTEGER NOT NULL,"
             "${DataBaseHelperKeys.country} TEXT NOT NULL,"
             "${DataBaseHelperKeys.statusFie} INTEGER NOT NULL,"
@@ -151,6 +163,25 @@ class DatabaseHelper {
             "${DataBaseHelperKeys.statusDescription} TEXT NOT NULL,"
             "${DataBaseHelperKeys.dateRequested} TEXT NOT NULL"
             ")");
+
+    await db.execute("CREATE TABLE ${TableNames.retailerList}("
+        "${DataBaseHelperKeys.bpIdR} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.internalId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.retailerName} TEXT NOT NULL"
+        ")");
+    await db.execute("CREATE TABLE ${TableNames.createSales}("
+        "${DataBaseHelperKeys.id}  INTEGER PRIMARY KEY,"
+        "${DataBaseHelperKeys.bpIdR} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.storeId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.wholesalerStoreId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.saleType} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.invoiceNumber} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.orderNumber} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.currency} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.amount} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.description} TEXT NOT NULL"
+        ")");
   }
 
   Future<int> insert(tableName, row) async {
@@ -174,6 +205,10 @@ class DatabaseHelper {
     await db.delete(TableNames.wholesalerList);
     await db.delete(TableNames.retailerCreditlineRequestList);
     await db.delete(TableNames.fieFistForCreditlineRequest);
+    await db.delete(TableNames.wholesalerCreditlineRequestList);
+    await db.delete(TableNames.retailerList);
+    await db.delete(TableNames.createSales);
+    await db.delete(TableNames.retailerFieAssociationList);
   }
 
   Future<List<Map<String, dynamic>>> queryAllRows(tblName) async {
@@ -243,19 +278,19 @@ class DataBaseHelperKeys {
   static String averagePurchaseTickets = 'average_purchase_tickets';
   // static String requestedAmount = 'requested_amount';
   static String customerSinceDate = 'customer_since_date';
-  static String monthly_sales = 'monthly_sales';
-  static String average_sales_ticket = 'average_sales_ticket';
-  static String rc_crline_amt = 'rc_crline_amt';
-  static String visit_frequency = 'visit_frequency';
-  static String credit_officer_group = 'credit_officer_group';
-  static String commercial_name_1 = 'commercial_name_1';
-  static String commercial_phone_1 = 'commercial_phone_1';
-  static String commercial_name_2 = 'commercial_name_2';
-  static String commercial_phone_2 = 'commercial_phone_2';
-  static String commercial_name_3 = 'commercial_name_3';
-  static String commercial_phone_3 = 'commercial_phone_3';
+  static String monthlySales = 'monthly_sales';
+  static String averageSalesTicket = 'average_sales_ticket';
+  static String rcCrlineAmt = 'rc_crline_amt';
+  static String visitFrequency = 'visit_frequency';
+  static String creditOfficerGroup = 'credit_officer_group';
+  static String commercialName1 = 'commercial_name_1';
+  static String commercialPhone1 = 'commercial_phone_1';
+  static String commercialName2 = 'commercial_name_2';
+  static String commercialPhone2 = 'commercial_phone_2';
+  static String commercialName3 = 'commercial_name_3';
+  static String commercialPhone3 = 'commercial_phone_3';
   // static String currency = 'currency';
-  static String financial_statements = 'financial_statements';
+  static String financialStatements = 'financial_statements';
   // static String status = 'status';
   // static String country = 'country';
   // static String statusFie = 'status_fie';
@@ -275,11 +310,22 @@ class DataBaseHelperKeys {
   static String parentClId = 'parent_cl_id';
   static String createdAt = 'created_at';
   static String updatedAt = 'updated_at';
-  // static String fieName = 'fie_name';
-  // static String retailerName = 'retailer_name';
-  // static String fieUniqueId = 'fie_unique_id';
-  // static String wholesalerUniqueId = 'wholesaler_unique_id';
+  static String internalId = 'internal_id';
   // static String associationUniqueId = 'association_unique_id';
-  // static String statusDescription = 'status_description';
+  static String storeId = 'store_id';
+  static String wholesalerStoreId = 'wholesaler_store_id';
+  static String saleType = 'sale_type';
+  static String invoiceNumber = 'invoice_number';
+  static String orderNumber = 'order_number';
+  static String amount = 'amount';
+  static String description = 'description';
   // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+  // static String dateRequested = 'date_requested';
+
 }

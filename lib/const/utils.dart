@@ -73,9 +73,9 @@ endOfData() {
   );
 }
 
-Widget validationText(String v) {
+Widget validationText(String text) {
   return Text(
-    v,
+    text,
     style: AppTextStyles.errorTextStyle,
   );
 }

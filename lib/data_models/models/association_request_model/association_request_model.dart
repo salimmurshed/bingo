@@ -22,6 +22,8 @@ class AssociationRequestData {
   String? associationUniqueId;
   @JsonKey(defaultValue: "", name: "wholesaler_name")
   String? wholesalerName;
+  @JsonKey(defaultValue: "", name: "fie_name")
+  String? fieName;
   @JsonKey(defaultValue: "", name: "phone_number")
   String? phoneNumber;
   @JsonKey(defaultValue: "", name: "id")
@@ -37,6 +39,7 @@ class AssociationRequestData {
       {this.uniqueId,
       this.associationUniqueId,
       this.wholesalerName,
+      this.fieName,
       this.phoneNumber,
       this.id,
       this.email,

@@ -1,6 +1,7 @@
 import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/const/app_sizes/app_icon_sizes.dart';
 import 'package:bingo_wholesale/const/app_sizes/app_sizes.dart';
+import 'package:bingo_wholesale/presentation/ui/add_sales/add_sales_view.dart';
 import 'package:bingo_wholesale/presentation/ui/home_screen/home_screen_view.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -43,9 +44,7 @@ class BottomTabsScreenView extends StatelessWidget {
                       Container(
                         color: Colors.green,
                       ),
-                      Container(
-                        color: Colors.yellow,
-                      ),
+                      AddSalesView(),
                       Container(
                         color: Colors.blue,
                       ),

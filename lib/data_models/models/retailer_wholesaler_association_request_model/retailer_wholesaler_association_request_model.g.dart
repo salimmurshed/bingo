@@ -48,6 +48,7 @@ CompanyInformationRetails _$CompanyInformationRetailsFromJson(
     CompanyInformationRetails(
       uniqueId: json['unique_id'] as String? ?? '',
       bpIdW: json['bp_id_r'] as String? ?? '',
+      bpIdF: json['bp_id_f'] as String? ?? '',
       companyName: json['company_name'] as String? ?? '',
       taxId: json['tax_id'] as String? ?? '',
       associationDate: json['association_date'] as String? ?? '',
@@ -61,6 +62,7 @@ Map<String, dynamic> _$CompanyInformationRetailsToJson(
     <String, dynamic>{
       'unique_id': instance.uniqueId,
       'bp_id_r': instance.bpIdW,
+      'bp_id_f': instance.bpIdF,
       'company_name': instance.companyName,
       'tax_id': instance.taxId,
       'association_date': instance.associationDate,

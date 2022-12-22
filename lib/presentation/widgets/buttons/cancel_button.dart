@@ -23,7 +23,7 @@ class CancelButton extends StatelessWidget {
       padding: AppPaddings.buttonWidgetPadding,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: AppColors.blackColor,
+          backgroundColor: AppColors.disableColor,
           elevation: 0,
           minimumSize: Size(width, height),
           shape: RoundedRectangleBorder(

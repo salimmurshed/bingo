@@ -36,6 +36,8 @@ class CompanyInformationRetails {
   String? uniqueId;
   @JsonKey(defaultValue: "", name: "bp_id_r")
   String? bpIdW;
+  @JsonKey(defaultValue: "", name: "bp_id_f")
+  String? bpIdF;
   @JsonKey(defaultValue: "", name: "company_name")
   String? companyName;
   @JsonKey(defaultValue: "", name: "tax_id")
@@ -52,6 +54,7 @@ class CompanyInformationRetails {
   CompanyInformationRetails(
       {this.uniqueId,
       this.bpIdW,
+      this.bpIdF,
       this.companyName,
       this.taxId,
       this.associationDate,
