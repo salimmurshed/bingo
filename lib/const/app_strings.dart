@@ -107,6 +107,7 @@ class AppString {
   static const String needToSelectFie = "You need to "
       "select minimum one Financial Institution";
   static const String pleaseSelectOne = "Please select one option";
+  static const String pleaseAelectARetailer = "Please select a retailer";
   static const String pleaseSelectTermConditions = "Please select term & "
       "conditions";
   static const String fillOneCommercialReferenceName = "Please fill minimum "

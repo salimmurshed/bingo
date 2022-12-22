@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
+import '../../../const/app_strings.dart';
 import '../../../data/data_source/sale_types.dart';
 import '../../../data_models/models/component_models/retailer_list_model.dart';
 import '../../../data_models/models/component_models/store_model.dart';
@@ -71,7 +72,7 @@ class AddSalesViewModel extends ReactiveViewModel {
   int maxEligibility = 100;
   void addNew() {
     if (selectRetailer == null) {
-      retailerValidation = "Please select a retailer";
+      retailerValidation = AppString.pleaseAelectARetailer;
     } else {
       retailerValidation = "";
     }
