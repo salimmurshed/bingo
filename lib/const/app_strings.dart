@@ -63,7 +63,7 @@ class AppString {
 
   static String wAssociationRequests = 'Wholesaler Association Requests';
   static String associationRequests = 'Association Requests';
-  static String fAssociationRequests = 'Fie Association Requests';
+  static String fAssociationRequests = 'FIE Association Requests';
   static String creditLineRequests = 'Credit Line Requests';
 //screen texts
   static String users = 'Users';
@@ -196,7 +196,7 @@ class AppString {
   static String requiredFieldText = "This page can not be empty";
 
   //Select Items
-  static String selectFie = "Select Single Fie";
+  static String selectFie = "Select Single FIE";
   static const String selectText = 'Select';
   static const String selectedSalesZoneStringDefaultValue = 'XXXXXX';
   static const String selectedWholeSalerStringDefaultValue = 'XXXXXX';

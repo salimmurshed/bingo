@@ -20,8 +20,11 @@ class LoginScreenViewModel extends BaseViewModel {
 
   String _emailError = "";
   String _passwordError = "";
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController =
+      TextEditingController(text: "anacaona@mailinator.com");
+  TextEditingController passwordController = TextEditingController(
+      text: "123"
+          "45678");
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
   bool isVisible = false;
@@ -89,8 +92,8 @@ class LoginScreenViewModel extends BaseViewModel {
 
           makeBusy(false);
           if (user.success!) {
-            makeBusy(false);
             _navigationService.pushReplacementNamed(Routes.dashboardScreen);
+            makeBusy(false);
           } else {
             makeBusy(false);
             _navigationService
