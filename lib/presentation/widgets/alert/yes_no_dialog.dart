@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 class YesNoDialog extends StatelessWidget {
   final String title;
   final String content;
-  YesNoDialog({this.title = "", this.content = ""});
+  final String submitButtonText;
+  YesNoDialog(
+      {this.title = "", this.content = "", this.submitButtonText = "Submit"});
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +22,20 @@ class YesNoDialog extends StatelessWidget {
               onPressed: () {
                 Navigator.pop(context, false);
               },
-              color: AppColors.statusReject,
+              color: submitButtonText == AppString.reject
+                  ? AppColors.statusVerified
+                  : AppColors.statusReject,
               text: AppString.cancelButton.toUpperCase(),
               width: 30.0.wp,
             ),
             SubmitButton(
+              color: submitButtonText == AppString.reject
+                  ? AppColors.statusReject
+                  : AppColors.statusVerified,
               onPressed: () {
                 Navigator.pop(context, true);
               },
-              text: AppString.submitButton.toUpperCase(),
+              text: submitButtonText.toUpperCase(),
               width: 30.0.wp,
             ),
           ],
