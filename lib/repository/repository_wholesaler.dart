@@ -63,13 +63,9 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   Future getWholesalersAssociationData() async {
     bool connection = await checkConnectivity();
     dbHelper.queryAllRows(TableNames.wholeSalerAssociationList).then((value) {
-      print('value');
-      print(value);
       wholesalerAssociationRequest.value = value
           .map((d) => AssociationRequestWholesalerData.fromJson(d))
           .toList();
-      print('wholesalerAssociationRequest');
-      print(wholesalerAssociationRequest.value);
       notifyListeners();
     });
     if (connection) {
