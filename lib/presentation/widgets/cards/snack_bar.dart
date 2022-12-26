@@ -9,7 +9,7 @@ class SnackBarRepo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: !success
+          color: success
               ? AppColors.messageColorError
               : AppColors.messageColorSuccess,
           borderRadius: BorderRadius.circular(10.0)),

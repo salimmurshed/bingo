@@ -20,11 +20,15 @@ class LoginScreenViewModel extends BaseViewModel {
 
   String _emailError = "";
   String _passwordError = "";
-  TextEditingController nameController =
-      TextEditingController(text: "anacaona@mailinator.com");
-  TextEditingController passwordController = TextEditingController(
-      text: "123"
-          "45678");
+  // TextEditingController nameController =
+  //     TextEditingController(text: "mayorista1@mailinator.com");
+  // TextEditingController nameController =
+  //     TextEditingController(text: "anacaona@mailinator.com");
+  // TextEditingController passwordController = TextEditingController(
+  //     text: "123"
+  //         "45678");
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
   bool isVisible = false;
@@ -83,8 +87,6 @@ class LoginScreenViewModel extends BaseViewModel {
     );
     if (_formKey.currentState!.validate()) {
       if (isTextFieldValidate) {
-        print('isTextFieldValidate');
-        print(isTextFieldValidate);
         try {
           makeBusy(true);
           UserModel user = await _authService.login(

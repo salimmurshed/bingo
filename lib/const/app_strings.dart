@@ -247,6 +247,7 @@ class AppString {
   static String exitApp = "Exit App";
   static String exitAppBody = "Do you want to exit an App?";
   static String noData = "No Data";
+  static String noInternet = "No Internet";
 
   //Status title
   static String accepted = "Accepted";

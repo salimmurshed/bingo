@@ -10,6 +10,7 @@ import '../../../data_models/models/component_models/retailer_list_model.dart';
 import '../../../data_models/models/component_models/store_model.dart';
 import '../../../data_models/models/user_model/user_model.dart';
 import '../../../repository/repository_components.dart';
+import '../../../repository/repository_sales.dart';
 
 class AddSalesViewModel extends ReactiveViewModel {
   AddSalesViewModel() {
@@ -17,7 +18,7 @@ class AddSalesViewModel extends ReactiveViewModel {
   }
   final RepositoryComponents _repositoryComponents =
       locator<RepositoryComponents>();
-  // final RepositorySales _repositorySales = locator<RepositorySales>();
+  final RepositorySales _repositorySales = locator<RepositorySales>();
   final AuthService _authService = locator<AuthService>();
   RetailerListData? selectRetailer;
   RetailerInformation? selectStore;

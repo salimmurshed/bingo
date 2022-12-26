@@ -84,7 +84,7 @@ class AddAssociationRequestView extends StatelessWidget {
                 Padding(
                   padding: AppPaddings.associationRequestButtonsWidgetV,
                   child: model.isAddRequestBusy
-                      ? CircularProgressIndicator(
+                      ? const CircularProgressIndicator(
                           color: AppColors.loader1,
                         )
                       : Row(

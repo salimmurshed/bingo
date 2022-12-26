@@ -366,6 +366,9 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
             await _repositoryRetailer.updateRetailerWholesalerAssociationStatus(
                 sendData, uniqueId, statusID);
         _navigationService.animatedDialog(AlertDialogMessage(data.message!));
+
+        setBusy(false);
+        notifyListeners();
       }
       await Future.delayed(const Duration(seconds: 1));
       setBusy(false);
@@ -392,10 +395,29 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
         "action": statusID.toString(),
       };
       if (yesNo == true) {
-        isRetailer
-            ? _repositoryRetailer.rejectRequest(data, uniqueId)
-            : _repositoryWholesaler.rejectRequest(data, uniqueId);
+        print(isBusy);
+        if (isRetailer) {
+          if (type == RetailerTypeAssociationRequest.wholesaler) {
+            setBusy(true);
+            notifyListeners();
+            await _repositoryRetailer.rejectRequest(data, uniqueId);
+            setBusy(false);
+            notifyListeners();
+          } else {
+            setBusy(true);
+            notifyListeners();
+            await _repositoryRetailer.rejectRequestFie(data, uniqueId);
+            setBusy(false);
+            notifyListeners();
+          }
+        } else {
+          await _repositoryWholesaler.rejectRequest(data, uniqueId);
+          setBusy(false);
+          notifyListeners();
+        }
       }
+      setBusy(false);
+      notifyListeners();
     } catch (e) {}
   }
 

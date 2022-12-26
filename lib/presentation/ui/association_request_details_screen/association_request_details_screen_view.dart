@@ -12,6 +12,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../data_models/enums/data_source.dart';
 import '../../../data_models/enums/status_name.dart';
 import '../../widgets/dropdowns/selected_dropdown_field.dart';
 import '../../widgets/text_fields/name_text_field.dart';
@@ -81,23 +82,42 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     commonText(AppString.companyInformation),
-                    "${model.companyInformationRetails.status}" !=
-                                describeEnum(StatusNames.active)
-                                    .toUpperCamelCase() &&
-                            "${model.companyInformationRetails.status}" !=
-                                describeEnum(StatusNames.rejected)
-                                    .toUpperCamelCase()
-                        ? InkWell(
-                            onTap: () {
-                              model.deleteRequest("2");
-                            },
-                            child: const Icon(
-                              Icons.cancel_schedule_send,
-                              color: AppColors.redColor,
-                              size: 24,
-                            ),
-                          )
-                        : const SizedBox(),
+                    if (model.type == RetailerTypeAssociationRequest.wholesaler)
+                      "${model.companyInformationRetails.status}" !=
+                                  describeEnum(StatusNames.active)
+                                      .toUpperCamelCase() &&
+                              "${model.companyInformationRetails.status}" !=
+                                  describeEnum(StatusNames.rejected)
+                                      .toUpperCamelCase()
+                          ? InkWell(
+                              onTap: () {
+                                model.deleteRequest("2");
+                              },
+                              child: const Icon(
+                                Icons.cancel_schedule_send,
+                                color: AppColors.redColor,
+                                size: 24,
+                              ),
+                            )
+                          : const SizedBox()
+                    else
+                      "${model.companyInformationRetails.statusFie}" !=
+                                  describeEnum(StatusNames.active)
+                                      .toUpperCamelCase() &&
+                              "${model.companyInformationRetails.statusFie}" !=
+                                  describeEnum(StatusNames.rejected)
+                                      .toUpperCamelCase()
+                          ? InkWell(
+                              onTap: () {
+                                model.deleteRequest("2");
+                              },
+                              child: const Icon(
+                                Icons.cancel_schedule_send,
+                                color: AppColors.redColor,
+                                size: 24,
+                              ),
+                            )
+                          : const SizedBox(),
                   ],
                 ),
                 18.0.giveHeight,
