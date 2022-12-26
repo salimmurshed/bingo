@@ -106,8 +106,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
       _localData.insert(
           TableNames.retailerCreditlineRequestList, responseData.data!.data!);
       notifyListeners();
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
@@ -122,8 +122,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
       final responseData = RetailerCreditLineReqDetailsModel.fromJson(
           convert.jsonDecode(response.body));
       retailerCreditLineReqDetails.value = responseData;
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
@@ -163,8 +163,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
           StoreModel.fromJson(convert.jsonDecode(response.body));
       storeList = responseData.data!;
       _localData.insert(TableNames.storeTableName, responseData.data!);
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
 
     notifyListeners();
@@ -183,8 +183,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
           WholeSalerOrFiaListModel.fromJson(convert.jsonDecode(response.body));
       wholeSaleList = responseData.data!;
       _localData.insert(TableNames.wholesalerList, responseData.data!);
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
@@ -231,8 +231,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
           WholeSalerOrFiaListModel.fromJson(convert.jsonDecode(response.body));
       fiaList = responseData.data!;
       _localData.insert(TableNames.fiaList, responseData.data!);
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
@@ -248,7 +248,7 @@ class RepositoryRetailer with ReactiveServiceMixin {
       );
       ResponseMessages result = ResponseMessages.fromJson(jsonDecode(res.body));
 
-      await getRetailersAssociationData();
+      await getRetailersFieAssociationData();
       globalMessage.value = result;
       notifyListeners();
       refreshGlobalMessage();
@@ -272,8 +272,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
       wholesalerAssociationRequestData.value = responseData.data!;
       _localData.insert(TableNames.retailerAssociationList, responseData.data!);
       notifyListeners();
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
@@ -293,8 +293,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
       _localData.insert(
           TableNames.retailerFieAssociationList, responseData.data!);
       notifyListeners();
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+    } on Exception catch (_) {
+      // _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
@@ -421,48 +421,94 @@ class RepositoryRetailer with ReactiveServiceMixin {
     }
   }
 
-  void rejectRequest(dynamic data, String uniqueId) async {
+  Future<void> rejectRequest(dynamic data, String uniqueId) async {
     int index = retailerAssociationRequestDetailsList.value.indexWhere(
         (element) =>
             element.data![0].companyInformation![0].uniqueId == uniqueId);
-    print(index);
     int index2 = wholesalerAssociationRequestData.value
         .indexWhere((element) => element.associationUniqueId == uniqueId);
+
+    try {
+      Response response = await _webService.postRequest(
+        NetworkUrls.updateRetailerWholesalerAssociationStatus,
+        data,
+      );
+      final responseData =
+          UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
+
+      if (responseData.success!) {
+        //responseData.success!
+        _navigationService.animatedDialog(
+            const AlertDialogMessage(AppString.rejectionCompleteSuccessful));
+        retailerAssociationRequestDetailsList
+            .value[index]
+            .data![0]
+            .companyInformation![0]
+            .status = describeEnum(StatusNames.verified).toUpperCamelCase();
+        wholesalerAssociationRequestData.value[index2].status =
+            describeEnum(StatusNames.verified).toUpperCamelCase();
+        notifyListeners();
+
+        notifyListeners();
+      } else {
+        _navigationService.animatedDialog(
+            const AlertDialogMessage(AppString.rejectionCompleteUnsuccessful));
+      }
+    } on Exception catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> rejectRequestFie(dynamic data, String uniqueId) async {
+    print("calllll");
+    int index = retailerFieAssociationRequestDetailsList.value.indexWhere(
+        (element) =>
+            element.data![0].companyInformation![0].uniqueId == uniqueId);
+    int index2 = fieAssociationRequestData.value
+        .indexWhere((element) => element.uniqueId == uniqueId);
+    print(index);
     print(index2);
-    Response response = await _webService.postRequest(
-      NetworkUrls.updateRetailerWholesalerAssociationStatus,
-      data,
-    );
-    final responseData =
-        UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
-    if (responseData.success!) {
-      _navigationService.animatedDialog(
-          const AlertDialogMessage(AppString.rejectionCompleteSuccessful));
-      retailerAssociationRequestDetailsList
-          .value[index]
-          .data![0]
-          .companyInformation![0]
-          .status = describeEnum(StatusNames.rejected).toUpperCamelCase();
-      wholesalerAssociationRequestData.value[index2].status =
-          describeEnum(StatusNames.rejected).toUpperCamelCase();
-      notifyListeners();
-    } else {
-      _navigationService.animatedDialog(
-          const AlertDialogMessage(AppString.rejectionCompleteUnsuccessful));
+
+    try {
+      Response response = await _webService.postRequest(
+        NetworkUrls.updateRetailerWholesalerAssociationStatus,
+        data,
+      );
+      final responseData =
+          UpdateResponseModel.fromJson(convert.jsonDecode(response.body));
+
+      if (responseData.success!) {
+        //responseData.success!
+
+        retailerFieAssociationRequestDetailsList
+            .value[index]
+            .data![0]
+            .companyInformation![0]
+            .statusFie = describeEnum(StatusNames.verified).toUpperCamelCase();
+        fieAssociationRequestData.value[index2].statusFie =
+            describeEnum(StatusNames.verified).toUpperCamelCase();
+
+        _navigationService.animatedDialog(
+            const AlertDialogMessage(AppString.rejectionCompleteSuccessful));
+        notifyListeners();
+      } else {
+        _navigationService.animatedDialog(
+            const AlertDialogMessage(AppString.rejectionCompleteUnsuccessful));
+      }
+    } on Exception catch (e) {
+      print(e.toString());
     }
   }
 
   http.MultipartRequest requestPostResponse() {
     MultipartRequest request =
         _webService.getResponse(NetworkUrls.addCreditlineRequests);
-
     return request;
   }
 
   http.MultipartRequest requestReplyResponse() {
     MultipartRequest request =
         _webService.getResponse(NetworkUrls.retailerCreditlineRequestreply);
-
     return request;
   }
 
@@ -470,7 +516,6 @@ class RepositoryRetailer with ReactiveServiceMixin {
       http.MultipartRequest request, List files) async {
     Response response = await _webService.sendMultiPartRequest(
         NetworkUrls.addCreditlineRequests, request, files);
-    print(response.body);
     return response;
   }
 

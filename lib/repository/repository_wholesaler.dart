@@ -7,6 +7,7 @@ import 'package:stacked/stacked.dart';
 
 import '../app/locator.dart';
 import '../const/app_strings.dart';
+import '../const/connectivity.dart';
 import '../const/database_helper.dart';
 import '../data_models/models/association_request_wholesaler_model/association_request_wholesaler_model.dart';
 import '../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
@@ -60,22 +61,27 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   bool hasCreditLineNextPage = true;
   //all Wholesaler Association list
   Future getWholesalersAssociationData() async {
+    bool connection = await checkConnectivity();
     dbHelper.queryAllRows(TableNames.wholeSalerAssociationList).then((value) {
       wholesalerAssociationRequest.value = value
           .map((d) => AssociationRequestWholesalerData.fromJson(d))
           .toList();
+      notifyListeners();
     });
-    try {
-      Response response = await _webService.getRequest(
-          Uri.parse(NetworkUrls.requestAssociationListForWholesaler));
-      final responseData = AssociationRequestWholesalerModel.fromJson(
-          convert.jsonDecode(response.body));
-      wholesalerAssociationRequest.value = responseData.data!;
+    if (connection) {
+      try {
+        Response response = await _webService.getRequest(
+            Uri.parse(NetworkUrls.requestAssociationListForWholesaler));
+        final responseData = AssociationRequestWholesalerModel.fromJson(
+            convert.jsonDecode(response.body));
+        wholesalerAssociationRequest.value = responseData.data!;
 
-      _localData.insert(
-          TableNames.wholeSalerAssociationList, responseData.data!);
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+        _localData.insert(
+            TableNames.wholeSalerAssociationList, responseData.data!);
+      } on Exception catch (e) {
+        print(e.toString());
+        _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+      }
     }
     notifyListeners();
   }
@@ -112,8 +118,10 @@ class RepositoryWholesaler with ReactiveServiceMixin {
         wholesalerAssociationRequestDetails.value = responseData;
         setScreenBusy.value = false;
         notifyListeners();
-      } on Exception catch (e) {
-        _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+      } on Exception catch (_) {
+        // print(e.toString());
+        // _navigationService
+        //     .displayDialog(AlertDialogMessage(AppString.noInternet));
       }
     }
     notifyListeners();
@@ -169,7 +177,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
     }
   }
 
-  void rejectRequest(dynamic data, String uniqueId) async {
+  Future rejectRequest(dynamic data, String uniqueId) async {
     int index = wholesalerAssociationRequestDetailsReactive.value.indexWhere(
         (element) =>
             element.data![0].companyInformation![0].uniqueId == uniqueId);
@@ -199,6 +207,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
   }
 
   Future getCreditLinesList() async {
+    bool connection = await checkConnectivity();
     pageCreditLineWholesale = 1;
     dbHelper
         .queryAllRows(TableNames.wholesalerCreditlineRequestList)
@@ -206,49 +215,54 @@ class RepositoryWholesaler with ReactiveServiceMixin {
       wholesalerCreditLineRequestData =
           value.map((d) => WholesalerCreditLineData.fromJson(d)).toList();
     });
-    try {
-      print(
-          "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale");
-      Response response = await _webService.getRequest(Uri.parse(
-          "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale"));
-      final responseData =
-          WholesalerCreditLineModel.fromJson(convert.jsonDecode(response.body));
-      wholesalerCreditLineRequestData = responseData.data!.data!;
-      if (responseData.data!.nextPageUrl!.isEmpty) {
-        hasCreditLineNextPage = false;
+    if (connection) {
+      try {
+        print(
+            "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale");
+        Response response = await _webService.getRequest(Uri.parse(
+            "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale"));
+        final responseData = WholesalerCreditLineModel.fromJson(
+            convert.jsonDecode(response.body));
+        wholesalerCreditLineRequestData = responseData.data!.data!;
+        if (responseData.data!.nextPageUrl!.isEmpty) {
+          hasCreditLineNextPage = false;
+          notifyListeners();
+        } else {
+          hasCreditLineNextPage = true;
+          notifyListeners();
+        }
+        _localData.insert(TableNames.wholesalerCreditlineRequestList,
+            responseData.data!.data!);
         notifyListeners();
-      } else {
-        hasCreditLineNextPage = true;
-        notifyListeners();
+      } on Exception catch (e) {
+        _navigationService.displayDialog(AlertDialogMessage(e.toString()));
       }
-      _localData.insert(
-          TableNames.wholesalerCreditlineRequestList, responseData.data!.data!);
-      notifyListeners();
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
     notifyListeners();
   }
 
   Future loadMoreCreditLinesList() async {
-    pageCreditLineWholesale += pageCreditLineWholesale;
-    try {
-      Response response = await _webService.getRequest(Uri.parse(
-          "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale"));
-      final responseData =
-          WholesalerCreditLineModel.fromJson(convert.jsonDecode(response.body));
-      wholesalerCreditLineRequestData.addAll(responseData.data!.data!);
-      if (responseData.data!.nextPageUrl == null) {
-        hasCreditLineNextPage = false;
+    bool connection = await checkConnectivity();
+    if (connection) {
+      pageCreditLineWholesale += pageCreditLineWholesale;
+      try {
+        Response response = await _webService.getRequest(Uri.parse(
+            "${NetworkUrls.wholesalerCreditlineRequestList}$pageCreditLineWholesale"));
+        final responseData = WholesalerCreditLineModel.fromJson(
+            convert.jsonDecode(response.body));
+        wholesalerCreditLineRequestData.addAll(responseData.data!.data!);
+        if (responseData.data!.nextPageUrl == null) {
+          hasCreditLineNextPage = false;
+          notifyListeners();
+        } else {
+          hasCreditLineNextPage = true;
+          notifyListeners();
+        }
         notifyListeners();
-      } else {
-        hasCreditLineNextPage = true;
-        notifyListeners();
+      } on Exception catch (e) {
+        _navigationService.displayDialog(AlertDialogMessage(e.toString()));
       }
       notifyListeners();
-    } on Exception catch (e) {
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
     }
-    notifyListeners();
   }
 }

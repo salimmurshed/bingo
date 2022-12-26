@@ -33,6 +33,8 @@ class NetworkUrls {
       "${Config.baseURL}update-wholesaler-retailer-association-status");
   static Uri updateRetailerWholesalerAssociationStatus = Uri.parse(
       "${Config.baseURL}update-retailer-wholesaler-association-status");
+  static Uri updateRetailerFieAssociationStatus =
+      Uri.parse("${Config.baseURL}update-retailer-fie-association-status");
   static Uri retailerCreditlineRequestList =
       Uri.parse("${Config.baseURL}retailer-creditline-request-list");
   static Uri retailerCreditlineRequestDetails =

@@ -84,7 +84,7 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.statusFie} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.wholeSalerAssociationList}("
-        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.uniqueId} TEXT  PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.retailerName} TEXT NOT NULL,"
         "${DataBaseHelperKeys.phoneNumber} TEXT NOT NULL,"
@@ -93,7 +93,7 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.status} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.retailerCreditlineRequestList}("
-        "${DataBaseHelperKeys.creditlineUniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.creditlineUniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.type} TEXT NOT NULL,"
         "${DataBaseHelperKeys.dateRequested} TEXT NOT NULL,"
         "${DataBaseHelperKeys.status} INT NOT NULL,"
@@ -107,13 +107,13 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.currency} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.fieFistForCreditlineRequest}("
-        "${DataBaseHelperKeys.id} INTEGER PRIMARY KEY,"
-        "${DataBaseHelperKeys.fieUniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.id} INTEGER KEY,"
+        "${DataBaseHelperKeys.fieUniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.bpName} TEXT NOT NULL"
         ")");
     await db
         .execute("CREATE TABLE ${TableNames.wholesalerCreditlineRequestList}("
-            "${DataBaseHelperKeys.id} INTEGER NOT NULL,"
+            "${DataBaseHelperKeys.id} INTEGER PRIMARY KEY NOT NULL,"
             "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
             "${DataBaseHelperKeys.associationId} INTEGER NOT NULL,"
             "${DataBaseHelperKeys.fieId} TEXT NOT NULL,"
@@ -165,13 +165,13 @@ class DatabaseHelper {
             ")");
 
     await db.execute("CREATE TABLE ${TableNames.retailerList}("
-        "${DataBaseHelperKeys.bpIdR} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.bpIdR} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.internalId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.retailerName} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.createSales}("
-        "${DataBaseHelperKeys.id}  INTEGER PRIMARY KEY,"
+        "${DataBaseHelperKeys.id}  INTEGER PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.bpIdR} TEXT NOT NULL,"
         "${DataBaseHelperKeys.storeId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.wholesalerStoreId} TEXT NOT NULL,"

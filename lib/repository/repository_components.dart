@@ -14,6 +14,7 @@ import 'package:injectable/injectable.dart';
 import '../../../app/locator.dart';
 import 'package:stacked/stacked.dart';
 
+import '../const/connectivity.dart';
 import '../const/database_helper.dart';
 import '../data_models/models/component_models/fie_list_creditline_request_model.dart';
 import '../data_models/models/component_models/grace_period_group.dart';
@@ -58,52 +59,75 @@ class RepositoryComponents with ReactiveServiceMixin {
   }
 
   void getTaxIdType() async {
-    Response response = await _webService.getRequest(NetworkUrls.taxIdType);
-    _deviceStorage.setString(DataBase.taxIdType, response.body);
-    taxIdType = TaxIdType.fromJson(jsonDecode(response.body));
-    print(taxIdType);
+    bool connection = await checkConnectivity();
+    if (connection) {
+      Response response = await _webService.getRequest(NetworkUrls.taxIdType);
+      _deviceStorage.setString(DataBase.taxIdType, response.body);
+      taxIdType = TaxIdType.fromJson(jsonDecode(response.body));
+    }
   }
 
   void getCustomerType() async {
-    Response response = await _webService.getRequest(NetworkUrls.customerType);
-    _deviceStorage.setString(DataBase.customerType, response.body);
-    customerType = CustomerTypeModel.fromJson(jsonDecode(response.body));
+    bool connection = await checkConnectivity();
+    if (connection) {
+      Response response =
+          await _webService.getRequest(NetworkUrls.customerType);
+      _deviceStorage.setString(DataBase.customerType, response.body);
+      customerType = CustomerTypeModel.fromJson(jsonDecode(response.body));
+    }
   }
 
   void getGracePeriodGroup() async {
-    Response response =
-        await _webService.getRequest(NetworkUrls.gracePeriodGroup);
-    _deviceStorage.setString(DataBase.gracePeriodGroup, response.body);
-    gracePeriodGroup =
-        GracePeriodGroupModel.fromJson(jsonDecode(response.body));
+    bool connection = await checkConnectivity();
+    if (connection) {
+      Response response =
+          await _webService.getRequest(NetworkUrls.gracePeriodGroup);
+      _deviceStorage.setString(DataBase.gracePeriodGroup, response.body);
+      gracePeriodGroup =
+          GracePeriodGroupModel.fromJson(jsonDecode(response.body));
+    }
   }
 
   void getPricingGroup() async {
-    Response response = await _webService.getRequest(NetworkUrls.pricingGroup);
-    _deviceStorage.setString(DataBase.pricingGroup, response.body);
-    pricingGroup = PricingGroupModel.fromJson(jsonDecode(response.body));
+    bool connection = await checkConnectivity();
+    if (connection) {
+      Response response =
+          await _webService.getRequest(NetworkUrls.pricingGroup);
+      _deviceStorage.setString(DataBase.pricingGroup, response.body);
+      pricingGroup = PricingGroupModel.fromJson(jsonDecode(response.body));
+    }
   }
 
   void getSalesZone() async {
-    Response response = await _webService.getRequest(NetworkUrls.salesZone);
-    _deviceStorage.setString(DataBase.salesZone, response.body);
-    salesZone = SalesZoneModel.fromJson(jsonDecode(response.body));
+    bool connection = await checkConnectivity();
+    if (connection) {
+      Response response = await _webService.getRequest(NetworkUrls.salesZone);
+      _deviceStorage.setString(DataBase.salesZone, response.body);
+      salesZone = SalesZoneModel.fromJson(jsonDecode(response.body));
+    }
   }
 
   Future getCountry() async {
-    if (allCountryData.value.data == null) {
-      Response response = await _webService.getRequest(NetworkUrls.countryUri);
-      _deviceStorage.setString(DataBase.allCountry, response.body);
-      allCountryData.value =
-          AllCountryModel.fromJson(jsonDecode(response.body));
+    bool connection = await checkConnectivity();
+    if (connection) {
+      if (allCountryData.value.data == null) {
+        Response response =
+            await _webService.getRequest(NetworkUrls.countryUri);
+        _deviceStorage.setString(DataBase.allCountry, response.body);
+        allCountryData.value =
+            AllCountryModel.fromJson(jsonDecode(response.body));
+      }
     }
   }
 
   Future getCity() async {
-    if (allCityData.value.data == null) {
-      Response response = await _webService.getRequest(NetworkUrls.cityUri);
-      _deviceStorage.setString(DataBase.allCity, response.body);
-      allCityData.value = AllCityModel.fromJson(jsonDecode(response.body));
+    bool connection = await checkConnectivity();
+    if (connection) {
+      if (allCityData.value.data == null) {
+        Response response = await _webService.getRequest(NetworkUrls.cityUri);
+        _deviceStorage.setString(DataBase.allCity, response.body);
+        allCityData.value = AllCityModel.fromJson(jsonDecode(response.body));
+      }
     }
   }
 
@@ -131,22 +155,26 @@ class RepositoryComponents with ReactiveServiceMixin {
       rethrow;
     }
   }
+  // final Connectivity _connectivity = Connectivity();
 
   Future getRetailerList() async {
     dbHelper.queryAllRows(TableNames.retailerList).then((value) {
       retailerList = value.map((d) => RetailerListData.fromJson(d)).toList();
       notifyListeners();
     });
-    try {
-      Response response =
-          await _webService.getRequest(NetworkUrls.retailerList);
-      RetailerListModel retailerListModel =
-          RetailerListModel.fromJson(jsonDecode(response.body));
-      retailerList = retailerListModel.data!;
-      _localData.insert(TableNames.retailerList, retailerListModel.data!);
-      notifyListeners();
-    } catch (e) {
-      rethrow;
+    bool connection = await checkConnectivity();
+    if (connection) {
+      try {
+        Response response =
+            await _webService.getRequest(NetworkUrls.retailerList);
+        RetailerListModel retailerListModel =
+            RetailerListModel.fromJson(jsonDecode(response.body));
+        retailerList = retailerListModel.data!;
+        _localData.insert(TableNames.retailerList, retailerListModel.data!);
+        notifyListeners();
+      } catch (e) {
+        rethrow;
+      }
     }
   }
 
@@ -159,8 +187,6 @@ class RepositoryComponents with ReactiveServiceMixin {
       StoreModel storeModel = StoreModel.fromJson(jsonDecode(response.body));
       storeList = storeModel.data!.retailerInformation!;
       notifyListeners();
-      print('retailerList');
-      print(retailerList);
     } catch (e) {
       rethrow;
     }

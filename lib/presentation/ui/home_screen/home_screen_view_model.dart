@@ -52,9 +52,8 @@ class HomeScreenViewModel extends ReactiveViewModel {
       _RepositoryRetailer.fieAssociationRequestData.value;
   // _associationRequestData;
 
-  List<AssociationRequestWholesalerData> _wholesalerAssociationRequest = [];
   List<AssociationRequestWholesalerData> get wholesalerAssociationRequest =>
-      _wholesalerAssociationRequest;
+      _repositoryWholesaler.wholesalerAssociationRequest.value;
 
   List<RetailerCreditLineRequestData> get retailerCreditLineRequestData =>
       _RepositoryRetailer.retailerCreditLineRequestData.value;
@@ -114,8 +113,6 @@ class HomeScreenViewModel extends ReactiveViewModel {
     notifyListeners();
     await _repositoryWholesaler.getWholesalersAssociationData();
     await _repositoryWholesaler.getCreditLinesList();
-    _wholesalerAssociationRequest =
-        _repositoryWholesaler.wholesalerAssociationRequest.value;
     setBusy(false);
     notifyListeners();
   }
