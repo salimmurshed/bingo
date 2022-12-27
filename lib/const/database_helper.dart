@@ -6,8 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  final _databaseName = "bingo_database_5.db";
-  final _databaseVersion = 5;
+  final _databaseName = "bingo_database_11.db";
+  final _databaseVersion = 11;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -28,8 +28,8 @@ class DatabaseHelper {
 
   Future _onCreate(Database db, int version) async {
     await db.execute("CREATE TABLE ${TableNames.countryTableName} ("
-        "${DataBaseHelperKeys.id} INTEGER PRIMARY KEY,"
-        "${DataBaseHelperKeys.country} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.id} INTEGER ,"
+        "${DataBaseHelperKeys.country} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.timezone} TEXT NOT NULL,"
         "${DataBaseHelperKeys.glId} INTEGER NOT NULL,"
         "${DataBaseHelperKeys.status} TEXT NOT NULL,"
@@ -43,8 +43,8 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.language} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.storeTableName}("
-        "${DataBaseHelperKeys.id} INTEGER PRIMARY KEY,"
-        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.id} INTEGER ,"
+        "${DataBaseHelperKeys.uniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.name} TEXT NOT NULL,"
         "${DataBaseHelperKeys.city} TEXT NOT NULL,"
         "${DataBaseHelperKeys.address} INTEGER NOT NULL,"
@@ -52,17 +52,17 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.status} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.wholesalerList}("
-        "${DataBaseHelperKeys.id} INTEGER PRIMARY KEY,"
-        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.id} INTEGER ,"
+        "${DataBaseHelperKeys.uniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.name} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.fiaList}("
-        "${DataBaseHelperKeys.id} INTEGER PRIMARY KEY,"
-        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.id} INTEGER,"
+        "${DataBaseHelperKeys.uniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.name} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.retailerAssociationList}("
-        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.uniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.wholesalerName} TEXT NOT NULL,"
         "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
@@ -73,7 +73,7 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.statusFie} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.retailerFieAssociationList}("
-        "${DataBaseHelperKeys.uniqueId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.uniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.wholesalerName} TEXT NOT NULL,"
         "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
@@ -170,8 +170,19 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.associationUniqueId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.retailerName} TEXT NOT NULL"
         ")");
+    await db.execute("CREATE TABLE ${TableNames.storeList}("
+        "${DataBaseHelperKeys.storeId} TEXT PRIMARY KEY NOT NULL,"
+        "${DataBaseHelperKeys.name} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.city} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.address} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.associationIdStore} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.saleType} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.creditlineId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.approvedCreditLineCurrency} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.availableAmount} NUMBER NOT NULL"
+        ")");
     await db.execute("CREATE TABLE ${TableNames.createSales}("
-        "${DataBaseHelperKeys.id}  INTEGER PRIMARY KEY NOT NULL,"
+        "${DataBaseHelperKeys.id}  INTEGER PRIMARY KEY AUTOINCREMENT,"
         "${DataBaseHelperKeys.bpIdR} TEXT NOT NULL,"
         "${DataBaseHelperKeys.storeId} TEXT NOT NULL,"
         "${DataBaseHelperKeys.wholesalerStoreId} TEXT NOT NULL,"
@@ -209,11 +220,18 @@ class DatabaseHelper {
     await db.delete(TableNames.retailerList);
     await db.delete(TableNames.createSales);
     await db.delete(TableNames.retailerFieAssociationList);
+    await db.delete(TableNames.storeList);
   }
 
   Future<List<Map<String, dynamic>>> queryAllRows(tblName) async {
     Database db = await instance.database;
     return await db.query(tblName);
+  }
+
+  Future<List<Map<String, dynamic>>> queryAllSortedRows(
+      String tblName, String field, String? arg) async {
+    Database db = await instance.database;
+    return await db.query(tblName, where: '$field  = ?', whereArgs: [arg]);
   }
 
   // Future<int?> queryRowCount() async {
@@ -319,13 +337,7 @@ class DataBaseHelperKeys {
   static String orderNumber = 'order_number';
   static String amount = 'amount';
   static String description = 'description';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-  // static String dateRequested = 'date_requested';
-
+  static String creditlineId = 'creditline_id';
+  static String associationIdStore = 'associationId';
+  static String availableAmount = 'available_amount';
 }

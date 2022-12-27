@@ -17,16 +17,22 @@ import '../../../const/database_helper.dart';
 import '../../../data_models/construction_model/reply_model.dart';
 import '../../../data_models/construction_model/wholesaler_data.dart';
 import '../../../data_models/models/component_models/fie_list_creditline_request_model.dart';
+import '../../../data_models/models/component_models/partner_with_currency_list.dart';
 import '../../../data_models/models/component_models/response_model.dart';
+import '../../../repository/repository_components.dart';
 import '../../../services/local_data/table_names.dart';
 
 class AddCreditLineViewModel extends ReactiveViewModel {
   AddCreditLineViewModel() {
     getAllFieListForCreditLine();
     multipleSearch();
+    getWholesalerWithCurrenct();
   }
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [_repositoryRetailer];
+  List<ReactiveServiceMixin> get reactiveServices =>
+      [_repositoryRetailer, _repositoryComponents];
+  final RepositoryComponents _repositoryComponents =
+      locator<RepositoryComponents>();
 
   final dbHelper = DatabaseHelper.instance;
   NavigationService _navigationService = locator<NavigationService>();
@@ -66,7 +72,8 @@ class AddCreditLineViewModel extends ReactiveViewModel {
 
   List<WholesalersData> get creditLineInformation =>
       _repositoryRetailer.creditLineInformation.value;
-
+  PartnerWithCurrencyList get allWholesalers =>
+      _repositoryComponents.wholesalerWithCurrency.value;
   //view credit line full data base
   RetailerCreditLineReqDetailsModel get retailerCreditLineReqDetails =>
       _repositoryRetailer.retailerCreditLineReqDetails.value;
@@ -78,6 +85,14 @@ class AddCreditLineViewModel extends ReactiveViewModel {
 
   void makeAnswerButtonBusy(bool v, int i) {
     isAnswerButtonBusy[i] = v;
+    notifyListeners();
+  }
+
+  void getWholesalerWithCurrenct() async {
+    setBusy(true);
+    notifyListeners();
+    await _repositoryComponents.getWholesalerWithCurrency();
+    setBusy(false);
     notifyListeners();
   }
 
@@ -125,17 +140,18 @@ class AddCreditLineViewModel extends ReactiveViewModel {
     }
   }
 
-  void addFieList(FieCreditLineRequestData item) {
-    print(item.fieUniqueId);
-    if (listFie.any((e) => e.fieUniqueId == item.fieUniqueId)) {
-      listFie.remove(item);
-      _allFieCreditLine.add(item);
-      _allFieCreditLine.sort((a, b) => a.bpName!.compareTo(b.bpName!));
-    } else {
-      listFie.add(item);
-      _allFieCreditLine.remove(item);
-    }
-    print(listFie);
+  void addFieList(List<FieCreditLineRequestData> item) {
+    // print(item.fieUniqueId);
+    // if (listFie.any((e) => e.fieUniqueId == item.fieUniqueId)) {
+    //   listFie.remove(item);
+    //   _allFieCreditLine.add(item);
+    //   _allFieCreditLine.sort((a, b) => a.bpName!.compareTo(b.bpName!));
+    // } else {
+    //   listFie.add(item);
+    //   _allFieCreditLine.remove(item);
+    // }
+    // print(listFie);
+    listFie = item;
     notifyListeners();
   }
 
@@ -206,7 +222,7 @@ class AddCreditLineViewModel extends ReactiveViewModel {
       acceptTermConditionErrorMessage = "";
     }
     print(_allFieCreditLine.length);
-    if (_fileList.isEmpty) {
+    if (listFie.isEmpty) {
       fileListErrorMessage = (AppString.needToSelectFie);
     } else {
       fileListErrorMessage = "";
@@ -229,7 +245,7 @@ class AddCreditLineViewModel extends ReactiveViewModel {
     try {
       if (creditLineInformation.isNotEmpty &&
           acceptTermCondition &&
-          _fileList.isNotEmpty &&
+          listFie.isNotEmpty &&
           crn1Controller.text.isNotEmpty &&
           crp1Controller.text.isNotEmpty &&
           (selectedOption == 0 || selectedOption == 1) &&

@@ -12,7 +12,6 @@ import 'package:stacked/stacked.dart';
 import '../../../const/app_sizes/app_sizes.dart';
 import '../../../data_models/construction_model/sale_types_model.dart';
 import '../../../data_models/models/component_models/retailer_list_model.dart';
-import '../../../data_models/models/component_models/store_model.dart';
 import '../../widgets/text_fields/name_text_field.dart';
 import 'add_sales_view_model.dart';
 
@@ -38,6 +37,7 @@ class AddSalesView extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        ////Select Retailer
                         SelectedDropdown<RetailerListData>(
                             dropdownValue: model.selectRetailer,
                             fieldName: AppString.retailer,
@@ -58,24 +58,78 @@ class AddSalesView extends StatelessWidget {
                         if (model.selectRetailer != null) 20.0.giveHeight,
                         if (model.selectRetailer != null)
                           if (model.retailerList.isNotEmpty)
+                            ////Colmado Troncoso
                             model.isStoreBusy
                                 ? const SingleLineShimmerScreen()
-                                : SelectedDropdown<RetailerInformation>(
+                                : SelectedDropdown<StoreList>(
                                     dropdownValue: model.selectStore,
                                     fieldName: AppString.store,
                                     hintText: AppString.selectStore,
-                                    items: model.storeList
+                                    items: model.sortedStoreList
                                         .map(
-                                          (e) => DropdownMenuItem<
-                                              RetailerInformation>(
+                                          (e) => DropdownMenuItem<StoreList>(
                                             value: e,
                                             child: Text(e.name!),
                                           ),
                                         )
                                         .toList(),
-                                    onChange: (RetailerInformation? newValue) {
+                                    onChange: (StoreList? newValue) {
                                       model.changeStore(newValue!);
                                     }),
+                        if (model.selectStore != null)
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              20.0.giveHeight,
+                              Container(
+                                padding: const EdgeInsets.all(17.0),
+                                width: 100.0.wp,
+                                // height: 65.0,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                  color: AppColors.addSaleAmountSectionColor,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Image.asset(
+                                      AppAsset.dollerSign,
+                                      width: 28.0,
+                                      height: 28.0,
+                                    ),
+                                    17.0.giveWidth,
+                                    Flexible(
+                                      child: RichText(
+                                        text: TextSpan(
+                                          text: AppString.availableAmount,
+                                          style:
+                                              AppTextStyles.addSaleGreenBoxText,
+                                          children: <TextSpan>[
+                                            TextSpan(
+                                              text: model.selectStore!.name!,
+                                              style: AppTextStyles
+                                                  .addSaleGreenBoxTextBold,
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  ' ${model.selectStore!.approvedCreditLineCurrency!}',
+                                              style: AppTextStyles
+                                                  .addSaleGreenBoxTextBold,
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  ' ${model.selectStore!.availableAmount!}',
+                                              style: AppTextStyles
+                                                  .addSaleGreenBoxTextBold,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         if (model.storeValidation.isNotEmpty)
                           validationText(model.storeValidation),
                         if (model.retailerList.isNotEmpty) 20.0.giveHeight,
@@ -139,6 +193,9 @@ class AddSalesView extends StatelessWidget {
                           model.isStoreBusy
                               ? const SingleLineShimmerScreen()
                               : NameTextField(
+                                  isNumber: true,
+                                  onChanged: (String value) =>
+                                      model.checkBalance(value),
                                   hintText: AppString.hintTextAmountController,
                                   controller: model.amountController,
                                   fieldName: AppString.amount,

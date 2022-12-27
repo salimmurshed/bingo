@@ -11,6 +11,7 @@ class NameTextField extends StatelessWidget {
   final bool isNumber;
   final bool enable;
   final int maxLine;
+  ValueChanged<String>? onChanged;
   NameTextField({
     Key? key,
     this.controller,
@@ -22,6 +23,7 @@ class NameTextField extends StatelessWidget {
     this.isNumber = false,
     this.enable = true,
     this.maxLine = 1,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class NameTextField extends StatelessWidget {
           SizedBox(
             height: 45.0 * maxLine - (30 * (maxLine - 1)),
             child: TextFormField(
+              onChanged: onChanged,
               maxLines: maxLine,
               style: AppTextStyles.successStyle.copyWith(
                   color: enable ? AppColors.blackColor : AppColors.ashColor),

@@ -160,4 +160,14 @@ class AppTextStyles {
     fontSize: AppFontSize.s12,
     color: AppColors.redColor,
   );
+
+  //sales
+  static const TextStyle addSaleGreenBoxText = TextStyle(
+    fontFamily: AppFont.mainTextFontFamily,
+    fontWeight: AppFontWeighs.regular,
+    fontSize: AppFontSize.s12,
+    color: AppColors.whiteColor,
+  );
+  static const TextStyle addSaleGreenBoxTextBold =
+      TextStyle(fontWeight: AppFontWeighs.bold);
 }

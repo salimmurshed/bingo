@@ -100,7 +100,7 @@ class AddWholesalerView extends StatelessWidget {
                                 ),
                           if (model.wholesalerValidationText.isNotEmpty)
                             validationText(model.wholesalerValidationText),
-                          20.0.giveHeight,
+                          if (model.selectWholesaler != null) 20.0.giveHeight,
                           if (model.selectWholesaler != null)
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,9 +5,9 @@ import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
 import '../../../const/app_strings.dart';
+import '../../../const/database_helper.dart';
 import '../../../data/data_source/sale_types.dart';
 import '../../../data_models/models/component_models/retailer_list_model.dart';
-import '../../../data_models/models/component_models/store_model.dart';
 import '../../../data_models/models/user_model/user_model.dart';
 import '../../../repository/repository_components.dart';
 import '../../../repository/repository_sales.dart';
@@ -21,12 +21,13 @@ class AddSalesViewModel extends ReactiveViewModel {
   final RepositorySales _repositorySales = locator<RepositorySales>();
   final AuthService _authService = locator<AuthService>();
   RetailerListData? selectRetailer;
-  RetailerInformation? selectStore;
+  StoreList? selectStore;
   SaleTypesModel? selectSaleType;
   UserModel get user => _authService.user.value;
 
   List<RetailerListData> get retailerList => _repositoryComponents.retailerList;
-  List<RetailerInformation> get storeList => _repositoryComponents.storeList;
+  List<StoreList> get storeList => _repositoryComponents.storeList;
+  List<StoreList> get sortedStoreList => _repositoryComponents.sortedStoreList;
   List<SaleTypesModel> get saleTypes => saleTypesList;
 
   bool isStoreBusy = false;
@@ -46,12 +47,14 @@ class AddSalesViewModel extends ReactiveViewModel {
     selectRetailer = v;
     selectStore = null;
     setStoreBudy(true);
-    await _repositoryComponents.getStoreList(v.bpIdR);
+    _repositoryComponents.getSortedStore(v.associationUniqueId);
+    notifyListeners();
+
     setStoreBudy(false);
     notifyListeners();
   }
 
-  void changeStore(RetailerInformation v) async {
+  void changeStore(StoreList v) async {
     selectStore = v;
     currencyController.text = selectStore!.approvedCreditLineCurrency!;
     notifyListeners();
@@ -70,7 +73,20 @@ class AddSalesViewModel extends ReactiveViewModel {
   String invoiceValidation = "";
   String orderValidation = "";
   String amountValidation = "";
-  int maxEligibility = 100;
+  double? get maxEligibility => selectStore!.availableAmount;
+
+  void checkBalance(v) {
+    if (maxEligibility! < double.parse(v)) {
+      amountValidation =
+          "${AppString.purchaseAbilityTextFormat} ${selectStore!.approvedCreditLineCurrency!} "
+          "$maxEligibility.";
+    } else {
+      amountValidation = "";
+    }
+
+    notifyListeners();
+  }
+
   void addNew() {
     if (selectRetailer == null) {
       retailerValidation = AppString.pleaseAelectARetailer;
@@ -114,7 +130,7 @@ class AddSalesViewModel extends ReactiveViewModel {
 
     if (amountController.text.isEmpty) {
       amountValidation = "Amount can't be empty";
-    } else if (int.parse(amountController.text) > maxEligibility) {
+    } else if (int.parse(amountController.text) > maxEligibility!) {
       amountValidation = "Amount can't be more than available balance\n"
           "you can purchase maximum ${selectStore!.approvedCreditLineCurrency!} $maxEligibility.";
     } else {
@@ -122,19 +138,18 @@ class AddSalesViewModel extends ReactiveViewModel {
     }
 
     notifyListeners();
-    print(user.data!.uniqueId);
-    // var body = {
-    //   DataBaseHelperKeys.bpIdR: selectRetailer!.bpIdR,
-    //   DataBaseHelperKeys.storeId: selectStore!.storeId,
-    //   DataBaseHelperKeys.wholesalerStoreId: user.data!.uniqueId,
-    //   DataBaseHelperKeys.saleType: selectSaleType!.initiate,
-    //   DataBaseHelperKeys.invoiceNumber: invoiceController.text,
-    //   DataBaseHelperKeys.orderNumber: orderController.text,
-    //   DataBaseHelperKeys.currency: selectStore!.approvedCreditLineCurrency,
-    //   DataBaseHelperKeys.amount: amountController.text,
-    //   DataBaseHelperKeys.description: descriptionController.text,
-    // };
-    // _repositorySales.addSales(body);
+    var body = {
+      DataBaseHelperKeys.bpIdR: selectRetailer!.bpIdR,
+      DataBaseHelperKeys.storeId: selectStore!.storeId,
+      DataBaseHelperKeys.wholesalerStoreId: user.data!.uniqueId,
+      DataBaseHelperKeys.saleType: selectSaleType!.initiate,
+      DataBaseHelperKeys.invoiceNumber: invoiceController.text,
+      DataBaseHelperKeys.orderNumber: orderController.text,
+      DataBaseHelperKeys.currency: selectStore!.approvedCreditLineCurrency,
+      DataBaseHelperKeys.amount: amountController.text,
+      DataBaseHelperKeys.description: descriptionController.text,
+    };
+    _repositorySales.addSales(body);
   }
 
   @override

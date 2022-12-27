@@ -36,9 +36,11 @@ class AppString {
   static String put6DigitCode = "Please add "
       "valid 6 numbers code";
   static String retailer = "Retailer";
+  static String availableAmount = "Available Amount to ";
 
   //all buttons
   static String addNew = 'Add New';
+  static String addNewWholesaler = 'Add New Wholesaler';
   static String chooseFiles = 'Choose Files';
   static String approve = 'aprove';
   static String reject = 'reject';
@@ -194,7 +196,12 @@ class AppString {
       "Request to As Many Finacial Institutions deemed appropriate";
   static String specificFIA = "Send Credit Line Request To a Specific "
       "Financial institution";
-  static String requiredFieldText = "This page can not be empty";
+  static String wholesalerValidationText = "Need to select wholesaler";
+  static String currencyValidationText = "Need to select currency";
+  static String mPurchaseValidationText = "Monthly purchase can not be empty";
+  static String aPurchaseValidationText = "Average purchase can not be empty";
+  static String vFrequencyValidationText = "Need to select visit frequency";
+  static String rAmountValidationText = "Requested amount can not be empty";
 
   //Select Items
   static String selectFie = "Select Single FIE";
@@ -263,4 +270,9 @@ class AppString {
   static String endOfPage = "End Of Page";
   static String noName = "No Name";
   static String editProfile = "Edit Profile";
+  static String noWholesaler = "No Wholesaler "
+      "Available.\n you need to create wholesaler first.";
+  static String purchaseAbilityTextFormat = "Amount can't be more than "
+      "available balance\n"
+      "you can purchase maximum ";
 }

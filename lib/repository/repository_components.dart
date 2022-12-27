@@ -20,7 +20,6 @@ import '../data_models/models/component_models/fie_list_creditline_request_model
 import '../data_models/models/component_models/grace_period_group.dart';
 import '../data_models/models/component_models/partner_with_currency_list.dart';
 import '../data_models/models/component_models/retailer_list_model.dart';
-import '../data_models/models/component_models/store_model.dart';
 import '../services/local_data/local_data.dart';
 import '../services/local_data/table_names.dart';
 import '../services/network/web_service.dart';
@@ -32,7 +31,7 @@ class RepositoryComponents with ReactiveServiceMixin {
   final ZDeviceStorage _deviceStorage = locator<ZDeviceStorage>();
   final LocalData _localData = locator<LocalData>();
   RepositoryComponents() {
-    listenToReactiveValues([]);
+    listenToReactiveValues([wholesalerWithCurrency]);
   }
   TaxIdType taxIdType = TaxIdType();
   CustomerTypeModel customerType = CustomerTypeModel();
@@ -43,6 +42,9 @@ class RepositoryComponents with ReactiveServiceMixin {
   ReactiveValue<AllCountryModel> allCountryData =
       ReactiveValue(AllCountryModel());
   ReactiveValue<AllCityModel> allCityData = ReactiveValue(AllCityModel());
+
+  ReactiveValue<PartnerWithCurrencyList> wholesalerWithCurrency =
+      ReactiveValue<PartnerWithCurrencyList>(PartnerWithCurrencyList());
   List<RetailerListData> retailerList = [];
 
   void getComponentsReady() async {
@@ -146,11 +148,12 @@ class RepositoryComponents with ReactiveServiceMixin {
     }
   }
 
-  Future<PartnerWithCurrencyList> getWholesalerWithCurrenct() async {
+  Future getWholesalerWithCurrency() async {
     try {
       Response response =
           await _webService.getRequest(NetworkUrls.partnerWithCurrencyList);
-      return PartnerWithCurrencyList.fromJson(jsonDecode(response.body));
+      wholesalerWithCurrency.value =
+          PartnerWithCurrencyList.fromJson(jsonDecode(response.body));
     } catch (e) {
       rethrow;
     }
@@ -162,6 +165,10 @@ class RepositoryComponents with ReactiveServiceMixin {
       retailerList = value.map((d) => RetailerListData.fromJson(d)).toList();
       notifyListeners();
     });
+    dbHelper.queryAllRows(TableNames.storeList).then((value) {
+      storeList = value.map((d) => StoreList.fromJson(d)).toList();
+      notifyListeners();
+    });
     bool connection = await checkConnectivity();
     if (connection) {
       try {
@@ -170,7 +177,20 @@ class RepositoryComponents with ReactiveServiceMixin {
         RetailerListModel retailerListModel =
             RetailerListModel.fromJson(jsonDecode(response.body));
         retailerList = retailerListModel.data!;
-        _localData.insert(TableNames.retailerList, retailerListModel.data!);
+        List retailerListCustom = [];
+        for (RetailerListData item in retailerList) {
+          RetailerListData data = RetailerListData(
+              bpIdR: item.bpIdR,
+              internalId: item.internalId,
+              associationUniqueId: item.associationUniqueId,
+              retailerName: item.retailerName);
+          retailerListCustom.add(data);
+        }
+        _localData.insert(TableNames.retailerList, retailerListCustom);
+
+        for (RetailerListData item in retailerListModel.data!) {
+          _localData.insert(TableNames.storeList, item.storeList);
+        }
         notifyListeners();
       } catch (e) {
         rethrow;
@@ -178,17 +198,20 @@ class RepositoryComponents with ReactiveServiceMixin {
     }
   }
 
-  List<RetailerInformation> storeList = [];
-  Future getStoreList(String? bpIdR) async {
-    var body = {"bp_id_r": bpIdR};
-    try {
-      Response response = await _webService.postRequest(
-          NetworkUrls.storeCreditlineDetails, body);
-      StoreModel storeModel = StoreModel.fromJson(jsonDecode(response.body));
-      storeList = storeModel.data!.retailerInformation!;
+  List<StoreList> storeList = [];
+  List<StoreList> sortedStoreList = [];
+  void getSortedStore(String? associationUniqueId) {
+    dbHelper
+        .queryAllSortedRows(
+      TableNames.storeList,
+      DataBaseHelperKeys.associationIdStore,
+      associationUniqueId,
+    )
+        .then((value) {
+      sortedStoreList = value.map((d) => StoreList.fromJson(d)).toList();
+      print("sortedStoreList");
+      print(sortedStoreList);
       notifyListeners();
-    } catch (e) {
-      rethrow;
-    }
+    });
   }
 }
