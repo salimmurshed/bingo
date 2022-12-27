@@ -393,8 +393,11 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                                   in model.contactInformation.companyDocument!)
                                 GestureDetector(
                                   onTap: () {
-                                    model.launchInBrowser(
-                                        Uri.parse("http://google.com"));
+                                    if (doc.url != null ||
+                                        doc.url!.isNotEmpty) {
+                                      model
+                                          .launchInBrowser(Uri.parse(doc.url!));
+                                    }
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
@@ -525,45 +528,38 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                           children: [
                             for (RetailerStoreDetails doc in model
                                 .internalInformation.retailerStoreDetails!)
-                              GestureDetector(
-                                onTap: () {
-                                  model.launchInBrowser(
-                                      Uri.parse("http://google.com"));
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 20.0,
-                                    horizontal: 10.0,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.borderColors,
-                                    borderRadius: BorderRadius.circular(10.0),
-                                  ),
-                                  width: 100.0.wp,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        doc.storeName!,
-                                        style: AppTextStyles.retailerStoreCard,
-                                      ),
-                                      Text(
-                                        doc.location!,
-                                        style: AppTextStyles.retailerStoreCard
-                                            .copyWith(
-                                                fontWeight:
-                                                    AppFontWeighs.regular),
-                                      ),
-                                      Text(
-                                        doc.salesZone!,
-                                        style: AppTextStyles.retailerStoreCard
-                                            .copyWith(
-                                                fontWeight:
-                                                    AppFontWeighs.regular),
-                                      ),
-                                    ],
-                                  ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 20.0,
+                                  horizontal: 10.0,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.borderColors,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                width: 100.0.wp,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      doc.storeName!,
+                                      style: AppTextStyles.retailerStoreCard,
+                                    ),
+                                    Text(
+                                      doc.location!,
+                                      style: AppTextStyles.retailerStoreCard
+                                          .copyWith(
+                                              fontWeight:
+                                                  AppFontWeighs.regular),
+                                    ),
+                                    Text(
+                                      doc.salesZone!,
+                                      style: AppTextStyles.retailerStoreCard
+                                          .copyWith(
+                                              fontWeight:
+                                                  AppFontWeighs.regular),
+                                    ),
+                                  ],
                                 ),
                               ),
                           ],
