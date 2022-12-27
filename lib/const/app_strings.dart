@@ -16,6 +16,7 @@ class AppString {
   static String contactInformation = 'Contact Information';
   static String ownerLegalRepresentative = 'Owner/Legal Representative';
   static String internalInformation = 'Internal Information';
+  static String creditLine = 'Credit Line';
   static String viewRetailerStores = 'View Retailer Stores';
   static String noDataInTable = 'No data available in table';
   static String internalID = "Internal ID";

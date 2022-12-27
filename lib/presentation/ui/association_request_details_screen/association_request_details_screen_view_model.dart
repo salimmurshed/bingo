@@ -7,6 +7,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../app/locator.dart';
 import '../../../const/app_strings.dart';
@@ -419,6 +420,21 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       setBusy(false);
       notifyListeners();
     } catch (e) {}
+  }
+
+  bool isViewDocumentOpen = false;
+  void changeViewDocumentOpen() {
+    isViewDocumentOpen = !isViewDocumentOpen;
+    notifyListeners();
+  }
+
+  Future<void> launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
   }
 
   @override

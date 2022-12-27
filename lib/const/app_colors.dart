@@ -26,6 +26,7 @@ class AppColors {
   static const Color backgroundSecondary = Color(0xffF9F9F9);
   static const Color activeButtonColor = Color(0xff5DC151);
   static const Color inactiveButtonColor = Color(0xffEBEBEB);
+  static const Color toggleConfirmed = Color(0xffFF9800);
 // static const Color backgroundTrans = Color(0xd81a0370);
 
   //Status //Color
