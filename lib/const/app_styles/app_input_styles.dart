@@ -20,6 +20,7 @@ class AppInputStyles {
 
   /// [NameTextField]
   static InputDecoration ashOutlineBorder = const InputDecoration(
+    // contentPadding: EdgeInsets.symmetric(horizontal: 8.0),
     fillColor: AppColors.whiteColor,
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(color: AppColors.cardShaddow, width: 1.0),

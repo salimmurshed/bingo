@@ -40,4 +40,5 @@ class AppAsset {
   static String pngImage = "assets/images/png.png";
   static String jpgImage = "assets/images/jpg.png";
   static String pdfImage = "assets/images/pdf.png";
+  static String dollerSign = "assets/icons/ic_doller.png";
 }

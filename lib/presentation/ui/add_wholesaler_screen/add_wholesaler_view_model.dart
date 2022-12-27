@@ -14,9 +14,7 @@ import '../../../data_models/models/component_models/partner_with_currency_list.
 // import '../../../data_models/models/component_models/partner_with_currency_list.dart';
 
 class AddWholesalerViewModel extends ReactiveViewModel {
-  AddWholesalerViewModel() {
-    getWholesalerWithCurrenct();
-  }
+  AddWholesalerViewModel() {}
   final RepositoryRetailer _repositoryRetailer = locator<RepositoryRetailer>();
   final RepositoryComponents _repositoryComponents =
       locator<RepositoryComponents>();
@@ -35,8 +33,9 @@ class AddWholesalerViewModel extends ReactiveViewModel {
 
   List<WholesalersData> _creditLineInformation = [];
   List<WholesalersData> get creditLineInformation => _creditLineInformation;
-  PartnerWithCurrencyList _allWholesalers = PartnerWithCurrencyList();
-  PartnerWithCurrencyList get allWholesalers => _allWholesalers;
+
+  PartnerWithCurrencyList get allWholesalers =>
+      _repositoryComponents.wholesalerWithCurrency.value;
   List<VisitFrequentListModel> visitFrequentlyList =
       AppList.visitFrequentlyList;
   WholesalersData wholesalerData = WholesalersData();
@@ -52,14 +51,6 @@ class AddWholesalerViewModel extends ReactiveViewModel {
     submitButton = AppString.update;
     isNew = false;
     preFix(arguments);
-    notifyListeners();
-  }
-
-  void getWholesalerWithCurrenct() async {
-    setBusy(true);
-    notifyListeners();
-    _allWholesalers = await _repositoryComponents.getWholesalerWithCurrenct();
-    setBusy(false);
     notifyListeners();
   }
 
@@ -112,42 +103,42 @@ class AddWholesalerViewModel extends ReactiveViewModel {
 
   void sendErrorMessage() {
     if (selectWholesaler == null) {
-      _wValidationText = AppString.requiredFieldText;
+      _wValidationText = AppString.wholesalerValidationText;
       notifyListeners();
     } else {
       _wValidationText = "";
       notifyListeners();
     }
     if (selectCurrency == AppString.selectCurrency) {
-      _cValidationText = AppString.requiredFieldText;
+      _cValidationText = AppString.currencyValidationText;
       notifyListeners();
     } else {
       _cValidationText = "";
       notifyListeners();
     }
     if (purchaseController.text.isEmpty) {
-      _mPValidationText = AppString.requiredFieldText;
+      _mPValidationText = AppString.mPurchaseValidationText;
       notifyListeners();
     } else {
       _mPValidationText = "";
       notifyListeners();
     }
     if (averageTicketController.text.isEmpty) {
-      _aPValidationText = AppString.requiredFieldText;
+      _aPValidationText = AppString.aPurchaseValidationText;
       notifyListeners();
     } else {
       _aPValidationText = "";
       notifyListeners();
     }
     if (visitFrequency == null) {
-      _vFValidationText = AppString.requiredFieldText;
+      _vFValidationText = AppString.vFrequencyValidationText;
       notifyListeners();
     } else {
       _vFValidationText = "";
       notifyListeners();
     }
     if (amountController.text.isEmpty) {
-      _rAValidationText = AppString.requiredFieldText;
+      _rAValidationText = AppString.rAmountValidationText;
       notifyListeners();
     } else {
       _rAValidationText = "";
@@ -232,5 +223,6 @@ class AddWholesalerViewModel extends ReactiveViewModel {
   bool isTextFieldValidate = false;
 
   @override
-  List<ReactiveServiceMixin> get reactiveServices => [_repositoryRetailer];
+  List<ReactiveServiceMixin> get reactiveServices =>
+      [_repositoryRetailer, _repositoryComponents];
 }

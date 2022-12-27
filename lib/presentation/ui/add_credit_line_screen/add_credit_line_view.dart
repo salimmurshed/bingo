@@ -5,6 +5,8 @@ import 'package:bingo_wholesale/const/app_bar_titles.dart';
 import 'package:bingo_wholesale/const/app_extensions/sizes.dart';
 import 'package:bingo_wholesale/presentation/widgets/text_fields/name_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../const/app_colors.dart';
@@ -226,14 +228,27 @@ class AddCreditLineView extends StatelessWidget {
                                   model.creditLineInformationErrorMessage),
                               10.0.giveHeight,
                               if (!model.isView)
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: SubmitButton(
-                                    onPressed: model.gotoAddWholesalerScreen,
-                                    width: 100.0,
-                                    text: AppString.addNew,
-                                  ),
-                                ),
+                                model.allWholesalers.data![0].wholesalerData!
+                                        .isEmpty
+                                    ? Center(
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsets.only(bottom: 10.0),
+                                          child: Text(
+                                            AppString.noWholesaler,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      )
+                                    : Align(
+                                        alignment: Alignment.centerRight,
+                                        child: SubmitButton(
+                                          onPressed:
+                                              model.gotoAddWholesalerScreen,
+                                          width: 100.0,
+                                          text: AppString.addNewWholesaler,
+                                        ),
+                                      ),
                               10.0.giveHeight,
                               Container(
                                 padding:
@@ -250,7 +265,7 @@ class AddCreditLineView extends StatelessWidget {
                                       fieldName: AppString.crn1TextField,
                                     ),
                                     validationText(model.crn1ErrorMessage),
-                                    20.0.giveHeight,
+                                    // 20.0.giveHeight,
                                     NameTextField(
                                       enable: !model.isView,
                                       readOnly: model.isView,
@@ -273,7 +288,7 @@ class AddCreditLineView extends StatelessWidget {
                                       fieldName: AppString.crp1TextField,
                                     ),
                                     validationText(model.crp1ErrorMessage),
-                                    20.0.giveHeight,
+                                    // 20.0.giveHeight,
                                     NameTextField(
                                       enable: !model.isView,
                                       isNumber: true,
@@ -298,7 +313,9 @@ class AddCreditLineView extends StatelessWidget {
                                           MultipleSearchSelectionPart(model),
                                           validationText(
                                               model.fileListErrorMessage),
-                                          20.0.giveHeight,
+                                          10.0.giveHeight,
+                                          Divider(),
+                                          10.0.giveHeight,
                                           Text(
                                             AppString.uploadFie,
                                             style: AppTextStyles.successStyle,
@@ -313,14 +330,15 @@ class AddCreditLineView extends StatelessWidget {
                                               model.filesErrorMessage),
                                           10.0.giveHeight,
                                           FilesViewerBody(model.files),
-                                          20.0.giveHeight,
+                                          10.0.giveHeight,
+                                          Divider(),
+                                          10.0.giveHeight,
                                           Text(
                                             AppString.chooseOptions,
                                             style: AppTextStyles.successStyle,
                                           ),
-                                          validationText(
-                                              model.selectedOptionErrorMessage),
-                                          20.0.giveHeight,
+                                          10.0.giveHeight,
+                                          10.0.giveHeight,
                                           submitButton(
                                               AppString.bingoCanForwardRequest,
                                               model.selectedOption,
@@ -332,6 +350,8 @@ class AddCreditLineView extends StatelessWidget {
                                               model.selectedOption,
                                               0,
                                               model.changeSelectedOption),
+                                          validationText(
+                                              model.selectedOptionErrorMessage),
                                           if (model.selectedOption == 0)
                                             20.0.giveHeight,
                                           if (model.selectedOption == 0)
@@ -390,7 +410,9 @@ class AddCreditLineView extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                          20.0.giveHeight,
+                                          10.0.giveHeight,
+                                          Divider(),
+                                          10.0.giveHeight,
                                           GestureDetector(
                                             onTap:
                                                 model.changeAcceptTermCondition,
@@ -421,27 +443,30 @@ class AddCreditLineView extends StatelessWidget {
                                           validationText(model
                                               .acceptTermConditionErrorMessage),
                                           50.0.giveHeight,
-                                          model.isButtonBusy
-                                              ? const Center(
-                                                  child: SizedBox(
-                                                    height: 16.0,
-                                                    width: 16.0,
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: AppColors.loader1,
+                                          if (model.allWholesalers.data![0]
+                                              .wholesalerData!.isNotEmpty)
+                                            model.isButtonBusy
+                                                ? const Center(
+                                                    child: SizedBox(
+                                                      height: 16.0,
+                                                      width: 16.0,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color:
+                                                            AppColors.loader1,
+                                                      ),
                                                     ),
+                                                  )
+                                                : SubmitButton(
+                                                    onPressed: () {
+                                                      model.addCreditLine(
+                                                          context);
+                                                    },
+                                                    width: 100.0.wp,
+                                                    height: 45.0,
+                                                    text: AppString
+                                                        .createCreditLineRequest,
                                                   ),
-                                                )
-                                              : SubmitButton(
-                                                  onPressed: () {
-                                                    model
-                                                        .addCreditLine(context);
-                                                  },
-                                                  width: 100.0.wp,
-                                                  height: 45.0,
-                                                  text: AppString
-                                                      .createCreditLineRequest,
-                                                ),
                                         ],
                                       ),
                                     37.0.giveHeight,

@@ -61,8 +61,13 @@ class LoginScreenView extends StatelessWidget {
                                     height: 45.0,
                                     width: 62.0.wp,
                                     child: TextFormField(
-                                      scrollPadding:
-                                          EdgeInsets.only(left: 10.0),
+                                      scrollPhysics:
+                                          NeverScrollableScrollPhysics(),
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      maxLines: 1,
+                                      // scrollPadding:
+                                      //     const EdgeInsets.only(left: 10.0),
                                       validator: (v) => model.checkEmail(v!),
                                       decoration:
                                           AppInputStyles.ashOutlineBorder,
@@ -92,6 +97,9 @@ class LoginScreenView extends StatelessWidget {
                                     height: 45.0,
                                     width: 62.0.wp,
                                     child: TextFormField(
+                                      textAlignVertical:
+                                          TextAlignVertical.center,
+                                      maxLines: 1,
                                       obscureText: !model.isVisible,
                                       decoration: AppInputStyles
                                           .ashOutlineBorder

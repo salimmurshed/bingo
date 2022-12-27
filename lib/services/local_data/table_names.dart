@@ -14,5 +14,6 @@ class TableNames {
       "line_requ"
       "est";
   static String retailerList = "retailer_list";
+  static String storeList = "store_list";
   static String createSales = "create_temporary_table";
 }

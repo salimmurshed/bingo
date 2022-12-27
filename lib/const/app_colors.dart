@@ -47,6 +47,7 @@ class AppColors {
   //Status //Color
   static const Color checkBoxSelected = Color(0xff5DC151);
   static const Color checkBox = Color(0xff6C7B8A);
+  static const Color addSaleAmountSectionColor = Color(0xff5DC151);
 
   //card background
   static const Color cardColor = Color(0xffffffff);

@@ -213,6 +213,11 @@ class Requests extends StatelessWidget {
                                         ),
                                       ),
                                     ),
+                                    if (model
+                                        .retailerCreditLineRequestData.isEmpty)
+                                      Center(
+                                        child: Text(AppString.noData),
+                                      ),
                                     for (int j = 0;
                                         j <
                                             model.retailerCreditLineRequestData
