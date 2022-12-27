@@ -45,7 +45,7 @@ class SelectedDropdownField extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                elevation: 0,
+                elevation: 8,
                 isDense: false,
                 isExpanded: true,
                 value: dropdownValue,

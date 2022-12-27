@@ -36,6 +36,7 @@ class SelectedDropdown<T> extends StatelessWidget {
             padding: AppPaddings.zero,
             child: DropdownButtonHideUnderline(
               child: DropdownButton<T>(
+                elevation: 8,
                 itemHeight: 50.0,
                 hint: Text(
                   hintText,
@@ -45,7 +46,6 @@ class SelectedDropdown<T> extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                elevation: 0,
                 isDense: false,
                 isExpanded: true,
                 value: dropdownValue,

@@ -113,6 +113,12 @@ class AppTextStyles {
     color: AppColors.whiteColor,
   );
 
+  static const TextStyle retailerStoreCard = TextStyle(
+    fontFamily: AppFont.mainTextFontFamily,
+    fontWeight: AppFontWeighs.semiBold,
+    fontSize: AppFontSize.s12,
+    color: AppColors.blackColor,
+  );
   static const TextStyle addRequestHeader = TextStyle(
     fontFamily: AppFont.mainTextFontFamily,
     fontWeight: AppFontWeighs.semiBold,

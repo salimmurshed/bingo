@@ -377,7 +377,7 @@ class AddCreditLineView extends StatelessWidget {
                                                           TextAlign.center,
                                                     ),
                                                     itemHeight: 50.0,
-                                                    elevation: 0,
+                                                    elevation: 8,
                                                     isDense: false,
                                                     isExpanded: true,
                                                     value: model.selectedFie,

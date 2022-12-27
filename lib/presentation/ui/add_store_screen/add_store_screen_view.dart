@@ -42,7 +42,7 @@ class AddStoreView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   NameTextField(
-                    controller: model.locationName,
+                    controller: model.locationNameController,
                     fieldName: AppString.locationName,
                   ),
                   20.0.giveHeight,
@@ -77,7 +77,11 @@ class AddStoreView extends StatelessWidget {
                   ),
                   10.0.giveHeight,
                   TextField(
-                    controller: model.address,
+                    onTap: () {
+                      model.addStore(context);
+                    },
+                    readOnly: true,
+                    controller: model.addressController,
                     decoration: AppInputStyles.ashOutlineBorder,
                     maxLines: 3,
                   ),
@@ -131,7 +135,7 @@ class AddStoreView extends StatelessWidget {
                   ),
                   10.0.giveHeight,
                   TextField(
-                    controller: model.remark,
+                    controller: model.remarkController,
                     decoration: AppInputStyles.ashOutlineBorder,
                     maxLines: 6,
                   ),

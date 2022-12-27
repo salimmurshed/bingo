@@ -14,6 +14,7 @@ import 'package:stacked/stacked.dart';
 
 import '../../../data_models/enums/data_source.dart';
 import '../../../data_models/enums/status_name.dart';
+import '../../../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
 import '../../widgets/dropdowns/selected_dropdown_field.dart';
 import '../../widgets/text_fields/name_text_field.dart';
 import 'association_request_details_screen_view_model.dart';
@@ -369,13 +370,47 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                           "${AppString.city}: ${model.contactInformation.city}"),
                       _subTitleText(
                           "${AppString.position}: ${model.contactInformation.position}"),
-                      SubmitButton(
-                        color: AppColors.backgroundSecondary,
-                        height: 30.0,
-                        width: 123.0,
-                        text: AppString.viewDocuments,
-                        active: false,
-                      )
+                      if (model.contactInformation.companyDocument!.isNotEmpty)
+                        SubmitButton(
+                          onPressed: model.changeViewDocumentOpen,
+                          color: !model.isViewDocumentOpen
+                              ? AppColors.activeButtonColor
+                              : AppColors.toggleConfirmed,
+                          height: 30.0,
+                          width: 123.0,
+                          text: AppString.viewDocuments,
+                        ),
+                      10.0.giveHeight,
+                      if (model.isViewDocumentOpen)
+                        SizedBox(
+                          width: 100.0.wp,
+                          child: Wrap(
+                            runSpacing: 10.0,
+                            spacing: 10.0,
+                            runAlignment: WrapAlignment.spaceBetween,
+                            children: [
+                              for (CompanyDocument doc
+                                  in model.contactInformation.companyDocument!)
+                                GestureDetector(
+                                  onTap: () {
+                                    model.launchInBrowser(
+                                        Uri.parse("http://google.com"));
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: AppColors.borderColors,
+                                      borderRadius: BorderRadius.circular(10.0),
+                                    ),
+                                    height: 100.0,
+                                    width: 100.0,
+                                    child: Center(
+                                      child: Text(doc.name!),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        )
                     ],
                   ),
                 ),
@@ -432,6 +467,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                           padding: AppPaddings.zero,
                           child: DropdownButtonHideUnderline(
                             child: DropdownButton<String>(
+                              dropdownColor: AppColors.whiteColor,
                               hint: Text(
                                 AppString.salesZone,
                                 style: const TextStyle(
@@ -440,7 +476,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                                 ),
                                 textAlign: TextAlign.center,
                               ),
-                              elevation: 0,
+                              elevation: 8,
                               isDense: false,
                               isExpanded: true,
                               value: model.selectedSalesZoneString,
@@ -481,14 +517,66 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                 32.0.giveHeight,
                 commonText(AppString.viewRetailerStores),
                 18.0.giveHeight,
-                Center(
-                  child: Text(
-                    AppString.noDataInTable,
-                    style: AppTextStyles.noDataTextStyle,
-                  ),
-                ),
+                model.internalInformation.retailerStoreDetails!.isNotEmpty
+                    ? SizedBox(
+                        width: 100.0.wp,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            for (RetailerStoreDetails doc in model
+                                .internalInformation.retailerStoreDetails!)
+                              GestureDetector(
+                                onTap: () {
+                                  model.launchInBrowser(
+                                      Uri.parse("http://google.com"));
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0,
+                                    horizontal: 10.0,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.borderColors,
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  width: 100.0.wp,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        doc.storeName!,
+                                        style: AppTextStyles.retailerStoreCard,
+                                      ),
+                                      Text(
+                                        doc.location!,
+                                        style: AppTextStyles.retailerStoreCard
+                                            .copyWith(
+                                                fontWeight:
+                                                    AppFontWeighs.regular),
+                                      ),
+                                      Text(
+                                        doc.salesZone!,
+                                        style: AppTextStyles.retailerStoreCard
+                                            .copyWith(
+                                                fontWeight:
+                                                    AppFontWeighs.regular),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          AppString.noDataInTable,
+                          style: AppTextStyles.noDataTextStyle,
+                        ),
+                      ),
                 32.0.giveHeight,
-                commonText(AppString.internalInformation),
+                commonText(AppString.creditLine),
                 18.0.giveHeight,
                 Container(
                   margin: AppMargins.screenARDSWidgetMarginH,
@@ -541,7 +629,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
-                                  elevation: 0,
+                                  elevation: 8,
                                   isDense: false,
                                   isExpanded: true,
                                   value: model.selectedVisitFrequency,

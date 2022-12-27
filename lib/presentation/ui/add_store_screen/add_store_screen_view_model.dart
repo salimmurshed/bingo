@@ -1,10 +1,13 @@
 import 'package:bingo_wholesale/const/app_bar_titles.dart';
 import 'package:bingo_wholesale/const/app_strings.dart';
 import 'package:bingo_wholesale/data_models/models/store_model/store_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../app/app_secrets.dart';
 import '../../../app/locator.dart';
 import '../../../repository/repository_components.dart';
 import '../../../services/navigation/navigationService.dart';
@@ -17,9 +20,12 @@ class AddStoreViewModel extends BaseViewModel {
     getCity();
     getCountry();
   }
-  TextEditingController locationName = TextEditingController();
-  TextEditingController address = TextEditingController();
-  TextEditingController remark = TextEditingController();
+  TextEditingController locationNameController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController remarkController = TextEditingController();
+
+  Prediction? p;
+
   String allCountryData = "";
   List<String> allCityData = [];
   final ImagePicker _picker = ImagePicker();
@@ -83,11 +89,21 @@ class AddStoreViewModel extends BaseViewModel {
   }
 
   void preFix(StoreData data) {
-    locationName.text = data.name!;
-    address.text = data.address!;
-    remark.text = data.remarks!;
+    locationNameController.text = data.name!;
+    addressController.text = data.address!;
+    remarkController.text = data.remarks!;
     title = AppBarTitles.editStore;
     submitButton = AppString.editStore;
     notifyListeners();
+  }
+
+  Future<void> addStore(context) async {
+    p = await PlacesAutocomplete.show(
+        context: context,
+        apiKey: AppSecrets.kGoogleApiKey,
+        mode: Mode.overlay, // Mode.fullscreen
+        language: "fr",
+        components: [Component(Component.country, "fr")]);
+    addressController.text = p!.description!;
   }
 }
