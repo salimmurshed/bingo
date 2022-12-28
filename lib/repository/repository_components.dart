@@ -16,6 +16,7 @@ import 'package:stacked/stacked.dart';
 
 import '../const/connectivity.dart';
 import '../const/database_helper.dart';
+import '../data_models/models/component_models/bank_list.dart';
 import '../data_models/models/component_models/fie_list_creditline_request_model.dart';
 import '../data_models/models/component_models/grace_period_group.dart';
 import '../data_models/models/component_models/partner_with_currency_list.dart';
@@ -47,6 +48,10 @@ class RepositoryComponents with ReactiveServiceMixin {
       ReactiveValue<PartnerWithCurrencyList>(PartnerWithCurrencyList());
   List<RetailerListData> retailerList = [];
 
+  List<StoreList> storeList = [];
+  List<StoreList> sortedStoreList = [];
+  List<BankListData> retailerBankList = [];
+
   void getComponentsReady() async {
     getTaxIdType();
     getCustomerType();
@@ -56,8 +61,9 @@ class RepositoryComponents with ReactiveServiceMixin {
     getRetailerList();
   }
 
-  void getComponentsRetailerReady() async {
+  void getComponentsRetailerReady() {
     getAllFieListForCreditLine();
+    getRetailerBankList();
   }
 
   void getTaxIdType() async {
@@ -198,8 +204,6 @@ class RepositoryComponents with ReactiveServiceMixin {
     }
   }
 
-  List<StoreList> storeList = [];
-  List<StoreList> sortedStoreList = [];
   void getSortedStore(String? associationUniqueId) {
     dbHelper
         .queryAllSortedRows(
@@ -209,9 +213,23 @@ class RepositoryComponents with ReactiveServiceMixin {
     )
         .then((value) {
       sortedStoreList = value.map((d) => StoreList.fromJson(d)).toList();
-      print("sortedStoreList");
-      print(sortedStoreList);
       notifyListeners();
     });
+  }
+
+  void getRetailerBankList() async {
+    bool connection = await checkConnectivity();
+    if (connection) {
+      try {
+        Response response =
+            await _webService.getRequest(NetworkUrls.retailerBankList);
+        BankList retailerBankListObject =
+            BankList.fromJson(jsonDecode(response.body));
+        retailerBankList = retailerBankListObject.data!;
+        notifyListeners();
+      } catch (e) {
+        rethrow;
+      }
+    }
   }
 }

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app/locator.dart';
 import 'app/router.dart';
 import 'const/app_colors.dart';
+import 'const/database_helper.dart';
 
 late SharedPreferences prefs;
 String deviceToken = "abcd set after";
@@ -41,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-
+    final dbHelper = DatabaseHelper.instance;
     // FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
     // _firebaseMessaging.getToken().then((token) {
     //   deviceToken = token!;

@@ -78,7 +78,7 @@ class AddStoreView extends StatelessWidget {
                   10.0.giveHeight,
                   TextField(
                     onTap: () {
-                      model.addStore(context);
+                      model.addAddress(context);
                     },
                     readOnly: true,
                     controller: model.addressController,

@@ -11,6 +11,7 @@ class StatusCardFourPart extends StatelessWidget {
     this.title = "",
     this.subTitle = '',
     this.status = '',
+    this.statusChild,
     this.bodyFirstKey = '',
     this.bodyFirstValue = '',
     this.bodySecondKey = '',
@@ -22,6 +23,7 @@ class StatusCardFourPart extends StatelessWidget {
   final String subTitle;
 
   final String status;
+  final Widget? statusChild;
 
   final String bodyFirstKey;
   final String bodyFirstValue;
@@ -64,26 +66,29 @@ class StatusCardFourPart extends StatelessWidget {
                         ),
                     ],
                   ),
-                  SizedBox(
-                    width: 120.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        statusWidget(
-                          color: AppColors.statusProgress,
-                          text: "",
-                        ),
-                        Flexible(
-                          child: Text(
-                            status,
-                            maxLines: 2,
-                            style: AppTextStyles.statusCardStatus
-                                .copyWith(color: AppColors.statusProgress),
+                  statusChild != null
+                      ? statusChild!
+                      : SizedBox(
+                          width: 120.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              statusWidget(
+                                color: AppColors.statusProgress,
+                                text: "",
+                              ),
+                              Flexible(
+                                child: Text(
+                                  status,
+                                  maxLines: 2,
+                                  style: AppTextStyles.statusCardStatus
+                                      .copyWith(
+                                          color: AppColors.statusProgress),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
                 ],
               ),
               SizedBox(

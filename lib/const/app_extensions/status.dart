@@ -282,3 +282,44 @@ extension StatusExtensionFromInt on int {
     }
   }
 }
+
+extension CardStatusExtensionFromInt on int {
+  Widget toCardStatusFromInt(
+      {bool isIconAvailable = true,
+      TextStyle textStyle = AppTextStyles.statusCardStatus,
+      required String value}) {
+    switch (this) {
+      case 0:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusReject,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 1:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 2:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusReject,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 3:
+        return statusWidget(
+            text: value,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+
+      default:
+        return statusWidget(
+            text: "Error",
+            color: AppColors.ashColor,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+    }
+  }
+}

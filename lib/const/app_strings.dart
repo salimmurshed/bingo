@@ -2,8 +2,8 @@ import 'package:bingo_wholesale/presentation/ui/add_store_screen/add_store_scree
 
 class AppString {
   AppString._();
-  static String emailAddredd = 'Email Address';
-  static String password = 'Password';
+  static String emailAddress = '* Email Address';
+  static String password = '* Password';
   static String login = 'login';
 
   static String forgotPassword = 'Forgot Password?';
@@ -38,6 +38,12 @@ class AppString {
       "valid 6 numbers code";
   static String retailer = "Retailer";
   static String availableAmount = "Available Amount to ";
+  static String bankAccountTypeValidationText = "Need to select bank account";
+  static String bankNameValidationText = "Need to select bank name";
+  static String currencyValidationText = "Need to select currency";
+  static String bankAccountValidationText =
+      "Bank account number can't be blank";
+  static String ibanValidationText = "IBAN account number can't be blank";
 
   //all buttons
   static String addNew = 'Add New';
@@ -198,7 +204,6 @@ class AppString {
   static String specificFIA = "Send Credit Line Request To a Specific "
       "Financial institution";
   static String wholesalerValidationText = "Need to select wholesaler";
-  static String currencyValidationText = "Need to select currency";
   static String mPurchaseValidationText = "Monthly purchase can not be empty";
   static String aPurchaseValidationText = "Average purchase can not be empty";
   static String vFrequencyValidationText = "Need to select visit frequency";
@@ -218,6 +223,11 @@ class AppString {
   static String selectRetailer = "Select Retailer";
   static String selectStore = "Select Store";
   static String selectSaleType = "Select Sales Type";
+  static String emptyPasswordValidationText = "Password field can't be empty";
+  static String smallPasswordValidationText = "Password should be more than 8";
+  static String emptyEmailValidationText = "Email field can't be empty";
+  static String wrongEmailFormatValidationText = "Please put a valid email "
+      "address";
 
   //tab names
   static String wholesaler = "Wholesaler";

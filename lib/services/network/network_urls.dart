@@ -46,8 +46,14 @@ class NetworkUrls {
   static String wholesalerCreditlineRequestList =
       ("${Config.baseURL}wholesaler-creditline-request-list?page=");
   static Uri retailerList = Uri.parse("${Config.baseURL}retailer-list");
+  static Uri retailerBankList =
+      Uri.parse("${Config.baseURL}retailer-bank-list");
   static Uri storeCreditlineDetails =
       Uri.parse("${Config.baseURL}store-creditline-details");
+  static Uri retailerBankAccountList =
+      Uri.parse("${Config.baseURL}retailer-bank-account-list");
+  static Uri addEditRetailerBankAccount =
+      Uri.parse("${Config.baseURL}add-edit-retailer-bank-account");
 
   //components urls
 

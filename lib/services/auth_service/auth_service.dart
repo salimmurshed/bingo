@@ -41,10 +41,14 @@ class AuthService with ReactiveServiceMixin {
   void getLoggedUserDetails() {
     user.value = UserModel.fromJson(
         convert.jsonDecode(_storage.getString(DataBase.userData)));
+    print('DataBase.userType');
+    print(DataBase.userType);
+    print(_storage.getString(DataBase.userType));
     isRetailer.value = _storage.getString(DataBase.userType).toLowerCase() ==
             "Retailer".toLowerCase()
         ? true
         : false;
+    print(isRetailer.value);
     notifyListeners();
   }
 
@@ -88,6 +92,7 @@ class AuthService with ReactiveServiceMixin {
         } else {
           _repositoryComponents.getComponentsRetailerReady();
         }
+        notifyListeners();
         return responseData;
       } else {
         return responseData;

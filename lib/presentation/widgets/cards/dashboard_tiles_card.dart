@@ -20,8 +20,8 @@ class DashboardTilesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        height: 150.0,
-        width: 176.0,
+        height: 160.0,
+        width: 42.0.wp,
         decoration: BoxDecoration(
           borderRadius: AppRadius.dashboardTilesCardRadius,
           color: color,
@@ -48,7 +48,7 @@ class DashboardTilesCard extends StatelessWidget {
                   ),
                   AutoSizeText(
                     title,
-                    maxLines: 1,
+                    maxLines: 2,
                     style: AppTextStyles.cartTitleText,
                   ),
                 ],
