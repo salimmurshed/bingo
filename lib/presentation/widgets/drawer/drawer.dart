@@ -43,6 +43,8 @@ class MyDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('isRetailer');
+    print(isRetailer);
     return Scaffold(
       body: Stack(
         children: [

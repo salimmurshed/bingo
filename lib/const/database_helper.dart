@@ -6,8 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  final _databaseName = "bingo_database_11.db";
-  final _databaseVersion = 11;
+  final _databaseName = "bingo_database_17.db";
+  final _databaseVersion = 17;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -193,6 +193,18 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.amount} TEXT NOT NULL,"
         "${DataBaseHelperKeys.description} TEXT NOT NULL"
         ")");
+    await db.execute("CREATE TABLE ${TableNames.retailerBankAccounts}("
+        "${DataBaseHelperKeys.uniqueId}  INTEGER PRIMARY KEY,"
+        "${DataBaseHelperKeys.status} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.bankAccountType} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.currency} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.bankAccountNumber} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.iban} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.updatedAt} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.fieId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.statusDescription} TEXT NOT NULL"
+        ")");
   }
 
   Future<int> insert(tableName, row) async {
@@ -221,6 +233,7 @@ class DatabaseHelper {
     await db.delete(TableNames.createSales);
     await db.delete(TableNames.retailerFieAssociationList);
     await db.delete(TableNames.storeList);
+    await db.delete(TableNames.retailerBankAccounts);
   }
 
   Future<List<Map<String, dynamic>>> queryAllRows(tblName) async {
@@ -340,4 +353,7 @@ class DataBaseHelperKeys {
   static String creditlineId = 'creditline_id';
   static String associationIdStore = 'associationId';
   static String availableAmount = 'available_amount';
+  static String bankAccountType = 'bank_account_type';
+  static String bankAccountNumber = 'bank_account_number';
+  static String iban = 'iban';
 }

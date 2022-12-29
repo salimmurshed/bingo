@@ -52,7 +52,7 @@ class LoginScreenView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppString.emailAddredd,
+                                    AppString.emailAddress,
                                     style: AppTextStyles.successStyle
                                         .copyWith(color: AppColors.blackColor),
                                   ),

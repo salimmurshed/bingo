@@ -3,6 +3,8 @@ import 'package:bingo_wholesale/const/app_strings.dart';
 import 'package:bingo_wholesale/data_models/models/store_model/store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+// import 'package:google_api_headers/google_api_headers.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -24,8 +26,6 @@ class AddStoreViewModel extends BaseViewModel {
   TextEditingController addressController = TextEditingController();
   TextEditingController remarkController = TextEditingController();
 
-  Prediction? p;
-
   String allCountryData = "";
   List<String> allCityData = [];
   final ImagePicker _picker = ImagePicker();
@@ -36,6 +36,8 @@ class AddStoreViewModel extends BaseViewModel {
   String selectedCity = AppString.selectCity;
   String title = AppBarTitles.addStore;
   String submitButton = AppString.addStore;
+  double lat = 0.0;
+  double long = 0.0;
   void pickFrontBusinessPhoto() async {
     frontBusinessPhoto = await _picker.pickImage(source: ImageSource.gallery);
     notifyListeners();
@@ -97,13 +99,55 @@ class AddStoreViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> addStore(context) async {
-    p = await PlacesAutocomplete.show(
-        context: context,
-        apiKey: AppSecrets.kGoogleApiKey,
-        mode: Mode.overlay, // Mode.fullscreen
-        language: "fr",
-        components: [Component(Component.country, "fr")]);
+  Future<void> addAddress(context) async {
+    Prediction? p = await PlacesAutocomplete.show(
+      offset: 0,
+      radius: 1000,
+      strictbounds: false,
+      region: "us",
+      language: "en",
+      context: context,
+      mode: Mode.overlay,
+      apiKey: AppSecrets.kGoogleApiKey,
+      // sessionToken: sessionToken,
+      components: [new Component(Component.country, "us")],
+      types: ["(cities)"],
+      hint: "Search City",
+      // startText: city == null || city == "" ? "" : city,
+    );
     addressController.text = p!.description!;
+    await displayPrediction(p);
+  }
+
+  Future displayPrediction(Prediction pos) async {
+    if (pos != null) {
+      GoogleMapsPlaces _places = GoogleMapsPlaces(
+        apiKey: AppSecrets.kGoogleApiKey,
+        apiHeaders: await const GoogleApiHeaders().getHeaders(),
+      );
+      PlacesDetailsResponse detail =
+          await _places.getDetailsByPlaceId(pos.placeId!);
+
+      lat = detail.result.geometry!.location.lat;
+      long = detail.result.geometry!.location.lng;
+
+      var address = detail.result.formattedAddress;
+
+      print(lat);
+      print(long);
+      print(address);
+    }
+  }
+
+  void addStore() {
+    var data = {
+      "name": locationNameController.text,
+      "city": selectedCity,
+      "address": addressController.text,
+      "lattitude": lat,
+      "longitude": long,
+      "country": selectedCountry,
+      "remark": remarkController.text,
+    };
   }
 }

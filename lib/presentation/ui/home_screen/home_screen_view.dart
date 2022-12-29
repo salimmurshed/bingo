@@ -7,6 +7,7 @@ import 'package:stacked/stacked.dart';
 import '../../../const/app_sizes/app_sizes.dart';
 import '../../../const/app_styles/app_box_decoration.dart';
 import '../../../const/utils.dart';
+import '../../../data/data_source/bank_account_type.dart';
 import '../../../data_models/construction_model/confirmation_model/confirmation_model.dart';
 import '../../../data_models/construction_model/invoice_model/invoice_model.dart';
 import '../../../data_models/construction_model/recommandation_deposite_model/recommandation_deposite_model.dart';

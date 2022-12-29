@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bingo_wholesale/data_models/models/failure.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:bingo_wholesale/const/app_extensions/widgets_extensions.dart';
@@ -10,12 +11,14 @@ import 'package:injectable/injectable.dart';
 import 'package:stacked/stacked.dart';
 import 'dart:convert' as convert;
 import '../../app/locator.dart';
+import '../const/connectivity.dart';
 import '../const/database_helper.dart';
 import '../../services/network/network_info.dart';
 import '../data_models/construction_model/wholesaler_data.dart';
 import '../data_models/enums/status_name.dart';
 import '../data_models/models/association_request_model/association_request_model.dart';
 import '../data_models/models/component_models/response_model.dart';
+import '../data_models/models/retailer_bank_list/retailer_bank_list.dart';
 import '../data_models/models/retailer_credit_line_req_model/retailer_credit_line_req_model.dart';
 import '../data_models/models/retailer_creditline_request_details_model/retailer_creditline_request_details_model.dart';
 import '../data_models/models/retailer_wholesaler_association_request_model/retailer_wholesaler_association_request_model.dart';
@@ -190,8 +193,11 @@ class RepositoryRetailer with ReactiveServiceMixin {
   }
 
   Future sendWholesalerRequest(List<String> selectedWholeSaler) async {
-    String value =
-        selectedWholeSaler.toString().replaceAll('[', "").replaceAll(']', "");
+    String value = selectedWholeSaler
+        .toString()
+        .replaceAll('[', "")
+        .replaceAll(']', "")
+        .replaceAll(' ', "");
     var jsonBody = {"unique_id": value};
     try {
       Response res = await _webService.postRequest(
@@ -238,8 +244,11 @@ class RepositoryRetailer with ReactiveServiceMixin {
   }
 
   Future sendFiaRequest(List<String> selectedFia) async {
-    String value =
-        selectedFia.toString().replaceAll('[', "").replaceAll(']', "");
+    String value = selectedFia
+        .toString()
+        .replaceAll('[', "")
+        .replaceAll(']', "")
+        .replaceAll(' ', "");
     var jsonBody = {"unique_id": value};
     try {
       Response res = await _webService.postRequest(
@@ -344,7 +353,6 @@ class RepositoryRetailer with ReactiveServiceMixin {
   Future<void> getRetailerFieAssociationDetails(String id) async {
     int index = 0;
     bool isAvailable = false;
-    print(id);
     if (retailerFieAssociationRequestDetailsList.value.isNotEmpty) {
       index = retailerFieAssociationRequestDetailsList.value.indexWhere(
           (element) => element.data![0].companyInformation![0].uniqueId == id);
@@ -358,8 +366,6 @@ class RepositoryRetailer with ReactiveServiceMixin {
     if (isAvailable) {
       associationRequestRetailerDetails.value =
           retailerFieAssociationRequestDetailsList.value[index];
-      print('responseData');
-      print(associationRequestRetailerDetails.value);
     } else {
       try {
         setScreenBusy.value = true;
@@ -370,16 +376,11 @@ class RepositoryRetailer with ReactiveServiceMixin {
           jsonBody,
         );
 
-        print(response.body);
         RetailerAssociationRequestDetailsModel responseData =
             RetailerAssociationRequestDetailsModel.fromJson(
                 convert.jsonDecode(response.body));
         retailerFieAssociationRequestDetailsList.value.add(responseData);
         associationRequestRetailerDetails.value = responseData;
-        print('responseData');
-        print(associationRequestRetailerDetails.value);
-        print('responseData');
-        print(responseData);
         setScreenBusy.value = false;
         notifyListeners();
       } on Exception catch (_) {
@@ -538,5 +539,57 @@ class RepositoryRetailer with ReactiveServiceMixin {
       _navigationService.animatedDialog(AlertDialogMessage(body.message!));
     }
     return response;
+  }
+
+  ReactiveValue<List<RetailerBankListData>> retailsBankAccounts =
+      ReactiveValue<List<RetailerBankListData>>([]);
+
+  Future<void> getRetailerBankAccounts() async {
+    bool connection = await checkConnectivity();
+    dbHelper.queryAllRows(TableNames.retailerBankAccounts).then((value) {
+      retailsBankAccounts.value =
+          value.map((d) => RetailerBankListData.fromJson(d)).toList();
+      notifyListeners();
+    });
+
+    if (connection) {
+      try {
+        Response response = await _webService.getRequest(
+          NetworkUrls.retailerBankAccountList,
+        );
+        RetailerBankList responseData =
+            RetailerBankList.fromJson(convert.jsonDecode(response.body));
+        retailsBankAccounts.value = responseData.data!;
+        _localData.insert(TableNames.retailerBankAccounts, responseData.data!);
+        notifyListeners();
+      } on Exception catch (_) {
+        notifyListeners();
+      }
+    }
+    notifyListeners();
+  }
+
+  Future<Failure> addRetailerBankAccounts(Map<String, String?> jsonBody) async {
+    bool connection = await checkConnectivity();
+    if (connection) {
+      try {
+        Response response = await _webService.postRequest(
+          NetworkUrls.addEditRetailerBankAccount,
+          jsonBody,
+        );
+        RetailerBankList responseData =
+            RetailerBankList.fromJson(convert.jsonDecode(response.body));
+        retailsBankAccounts.value = responseData.data!;
+        _localData.insert(TableNames.retailerBankAccounts, responseData.data!);
+        notifyListeners();
+        return Failure(
+            status: responseData.success!, message: responseData.message!);
+      } on Exception catch (_) {
+        notifyListeners();
+        rethrow;
+      }
+    } else {
+      return Failure(status: false, message: ResponseMessage.noInternetError);
+    }
   }
 }

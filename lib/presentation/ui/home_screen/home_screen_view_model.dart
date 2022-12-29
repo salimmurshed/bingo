@@ -1,6 +1,7 @@
 import 'package:bingo_wholesale/app/router.dart';
 
 import 'package:bingo_wholesale/const/app_bar_titles.dart';
+import 'package:bingo_wholesale/data_models/models/retailer_bank_list/retailer_bank_list.dart';
 import 'package:bingo_wholesale/data_models/models/store_model/store_model.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
@@ -60,6 +61,9 @@ class HomeScreenViewModel extends ReactiveViewModel {
   List<WholesalerCreditLineData> get wholesalerCreditLineRequestData =>
       _repositoryWholesaler.wholesalerCreditLineRequestData;
 
+  List<RetailerBankListData> get retailsBankAccounts =>
+      _RepositoryRetailer.retailsBankAccounts.value;
+
   //mock data
   List<RecommendationModel> recommadationData = recommadationDataMockUp;
 
@@ -85,6 +89,7 @@ class HomeScreenViewModel extends ReactiveViewModel {
     _RepositoryRetailer.getWholesaler();
     _RepositoryRetailer.getFia();
     getRetailersAssociationData();
+    getRetailerBankAccounts();
     // getCreditLinesList();
   }
 
@@ -95,6 +100,16 @@ class HomeScreenViewModel extends ReactiveViewModel {
     await _RepositoryRetailer.getRetailersAssociationData();
     await _RepositoryRetailer.getRetailersFieAssociationData();
     await _RepositoryRetailer.getCreditLinesList();
+    // associationRequestData = _RepositoryRetailer.associationRequestData.value;
+    setBusy(false);
+    notifyListeners();
+  }
+
+  void getRetailerBankAccounts() async {
+    setBusy(true);
+    notifyListeners();
+    await Future.delayed(Duration(seconds: 1));
+    await _RepositoryRetailer.getRetailerBankAccounts();
     // associationRequestData = _RepositoryRetailer.associationRequestData.value;
     setBusy(false);
     notifyListeners();
@@ -208,7 +223,8 @@ class HomeScreenViewModel extends ReactiveViewModel {
   }
 
   void gotoViewManageAccount(int j) {
-    _navigationService.pushNamed(Routes.addManageAccountView);
+    _navigationService.pushNamed(Routes.addManageAccountView,
+        arguments: retailsBankAccounts[j]);
   }
 
   ///[CreditLine]

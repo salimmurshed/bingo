@@ -126,54 +126,63 @@ class Settings extends StatelessWidget {
                               ),
                             ),
                           )
-                        : Padding(
-                            padding: AppPaddings.requestSettingTabViewPadding,
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: AppPaddings
-                                        .requestSettingTabColumnPadding,
-                                    child: SizedBox(
-                                      width: 100.0.wp,
-                                      height: 80.0,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          const SizedBox(),
-                                          SubmitButton(
-                                            onPressed:
-                                                model.gotoAddManageAccount,
-                                            width: 100.0,
-                                            text: AppString.addNew,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  for (int j = 0; j < 10; j++)
-                                    GestureDetector(
-                                        onTap: () {
-                                          model.gotoViewManageAccount(j);
-                                        },
-                                        child: StatusCardFourPart(
-                                          title: "Banco 1",
-                                          subTitle: "2022-06-05 18:15:28",
-                                          status: "Active",
-                                          bodyFirstKey: "Acc Type: Saving",
-                                          bodyFirstValue: "Currency: DOP",
-                                          bodySecondKey: "Acc No.: 885585585",
-                                          bodySecondValue: "IBAN: ",
-                                        )),
-                                ],
-                              ),
-                            ),
+                        : manageAccount(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget manageAccount() {
+    return Padding(
+      padding: AppPaddings.requestSettingTabViewPadding,
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            model.retailsBankAccounts.isEmpty
+                ? Center(child: Text(AppString.noData))
+                : Padding(
+                    padding: AppPaddings.requestSettingTabColumnPadding,
+                    child: SizedBox(
+                      width: 100.0.wp,
+                      height: 80.0,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(),
+                          SubmitButton(
+                            onPressed: model.gotoAddManageAccount,
+                            width: 100.0,
+                            text: AppString.addNew,
                           ),
+                        ],
+                      ),
+                    ),
+                  ),
+            for (int j = 0; j < model.retailsBankAccounts.length; j++)
+              GestureDetector(
+                  onTap: () {
+                    model.gotoViewManageAccount(j);
+                  },
+                  child: StatusCardFourPart(
+                    title: model.retailsBankAccounts[j].fieName!,
+                    subTitle: model.retailsBankAccounts[j].updatedAt!,
+                    statusChild: model.retailsBankAccounts[j].status!
+                        .toCardStatusFromInt(
+                            value: model
+                                .retailsBankAccounts[j].statusDescription!),
+                    bodyFirstKey:
+                        "${BankInfo.checkBankAccountType(model.retailsBankAccounts[j].bankAccountType!)}",
+                    bodyFirstValue:
+                        "Currency: ${model.retailsBankAccounts[j].currency}",
+                    bodySecondKey:
+                        "Acc No.: ${model.retailsBankAccounts[j].bankAccountNumber}",
+                    bodySecondValue:
+                        "IBAN: ${model.retailsBankAccounts[j].iban}",
+                  )),
           ],
         ),
       ),

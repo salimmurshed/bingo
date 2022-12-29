@@ -88,6 +88,7 @@ class AuthService with ReactiveServiceMixin {
         } else {
           _repositoryComponents.getComponentsRetailerReady();
         }
+        notifyListeners();
         return responseData;
       } else {
         return responseData;

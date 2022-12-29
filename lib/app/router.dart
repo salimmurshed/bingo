@@ -13,6 +13,7 @@ import '../presentation/ui/association_request_details_screen/association_reques
 import '../presentation/ui/bottom_tabs/bottom_tabs_screen_view.dart';
 import '../presentation/ui/login_screen/login_screen_view.dart';
 import '../presentation/ui/sales_details_screen/sales_details_screen_view.dart';
+import '../presentation/ui/view_manage_account/view_manage_account_view.dart';
 
 abstract class Routes {
   static const startupView = '/';
@@ -24,6 +25,7 @@ abstract class Routes {
   static const associationRequestDetailsScreen = 'association_request_details';
   static const addStoreView = 'add_store_view';
   static const addManageAccountView = 'add_manage_account_view';
+  static const viewManageAccountView = 'view_manage_account_view';
   static const addCreditLineView = 'add_credit_line_view';
   static const addWholesalerView = 'add_wholesaler_view';
   static const viewCreditLineRequestWholesalerView = 'view_credit_line_request'
@@ -39,6 +41,7 @@ abstract class Routes {
     associationRequestDetailsScreen,
     addStoreView,
     addManageAccountView,
+    viewManageAccountView,
     addCreditLineView,
     addWholesalerView,
     viewCreditLineRequestWholesalerView,
@@ -99,6 +102,11 @@ class Router {
       case Routes.addManageAccountView:
         return MaterialPageRoute<dynamic>(
           builder: (context) => AddManageAccountView(),
+          settings: settings,
+        );
+      case Routes.viewManageAccountView:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => ViewManageAccountView(),
           settings: settings,
         );
 

@@ -15,30 +15,34 @@ class SplashScreenViewModel extends ReactiveViewModel {
   final AuthService _authService = locator<AuthService>();
   final RepositoryComponents _repositoryComponents =
       locator<RepositoryComponents>();
+  bool isRetailer = false;
 
   SplashScreenViewModel() {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       // requestFilePermission();
 
-      alreadyLogIn();
+      alreadyLogIn().then((value) {
+        if (_storage.getString(DataBase.userData).isNotEmpty) {
+          print('_authService.isRetailer.value');
+          print(isRetailer);
+          if (!isRetailer) {
+            _repositoryComponents.getComponentsReady();
+          } else {
+            _repositoryComponents.getComponentsRetailerReady();
+          }
+        }
+      });
+      print(_storage.getString(DataBase.userData));
+      // _storage.clearData();
     });
-    print(_storage.getString(DataBase.userData));
-    // _storage.clearData();
-    if (_storage.getString(DataBase.userData).isNotEmpty) {
-      print(_authService.isRetailer.value);
-      if (!_authService.isRetailer.value) {
-        _repositoryComponents.getComponentsReady();
-      } else {
-        _repositoryComponents.getComponentsRetailerReady();
-      }
-    }
   }
 
   Future<void> alreadyLogIn() async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 3));
     if (_storage.getString(DataBase.userToken).isNotEmpty) {
       _authService.getLoggedUserDetails();
       print(_storage.getString(DataBase.userToken));
+      isRetailer = _authService.isRetailer.value;
       _navigationService.pushReplacementNamed(Routes.dashboardScreen);
     } else {
       _navigationService.pushReplacementNamed(Routes.login);

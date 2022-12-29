@@ -8,7 +8,7 @@ class Failure {
   bool status; // 200 or 400
   String message; // error or success
 
-  Failure(this.code, this.message, this.status);
+  Failure({this.code = 200, this.message = "", this.status = true});
 }
 
 class ResponseCode {
@@ -71,44 +71,70 @@ extension DataSourceExtension on DataSource {
   Failure getFailure() {
     switch (this) {
       case DataSource.badRequest:
-        return Failure(ResponseCode.badRequest,
-            ResponseMessage.badRequestError.trim(), false);
+        return Failure(
+            code: ResponseCode.badRequest,
+            message: ResponseMessage.badRequestError.trim(),
+            status: false);
       case DataSource.forbidden:
-        return Failure(ResponseCode.forbidden,
-            ResponseMessage.forbiddenError.trim(), false);
+        return Failure(
+            code: ResponseCode.forbidden,
+            message: ResponseMessage.forbiddenError.trim(),
+            status: false);
       case DataSource.unauthorised:
-        return Failure(ResponseCode.unauthorized,
-            ResponseMessage.unauthorizedError.trim(), false);
+        return Failure(
+            code: ResponseCode.unauthorized,
+            message: ResponseMessage.unauthorizedError.trim(),
+            status: false);
       case DataSource.notFound:
         return Failure(
-            ResponseCode.notFound, ResponseMessage.notFoundError.trim(), false);
+            code: ResponseCode.notFound,
+            message: ResponseMessage.notFoundError.trim(),
+            status: false);
       case DataSource.internalServerError:
-        return Failure(ResponseCode.internalServerError,
-            ResponseMessage.internalServerError.trim(), false);
+        return Failure(
+            code: ResponseCode.internalServerError,
+            message: ResponseMessage.internalServerError.trim(),
+            status: false);
       case DataSource.connectTimeout:
-        return Failure(ResponseCode.connecError,
-            ResponseMessage.connectTimeout.trim(), false);
+        return Failure(
+            code: ResponseCode.connecError,
+            message: ResponseMessage.connectTimeout.trim(),
+            status: false);
       case DataSource.cancel:
         return Failure(
-            ResponseCode.cancel, ResponseMessage.cancel.trim(), false);
+            code: ResponseCode.cancel,
+            message: ResponseMessage.cancel.trim(),
+            status: false);
       case DataSource.receiveTimeout:
-        return Failure(ResponseCode.receiveTimeout,
-            ResponseMessage.receiveTimeout.trim(), false);
+        return Failure(
+            code: ResponseCode.receiveTimeout,
+            message: ResponseMessage.receiveTimeout.trim(),
+            status: false);
       case DataSource.sendTimeoutT:
-        return Failure(ResponseCode.sendTimeout,
-            ResponseMessage.sendTimeout.trim(), false);
+        return Failure(
+            code: ResponseCode.sendTimeout,
+            message: ResponseMessage.sendTimeout.trim(),
+            status: false);
       case DataSource.cacheError:
         return Failure(
-            ResponseCode.cacheError, ResponseMessage.cacheError.trim(), false);
+            code: ResponseCode.cacheError,
+            message: ResponseMessage.cacheError.trim(),
+            status: false);
       case DataSource.noInternetConnection:
-        return Failure(ResponseCode.noInternetConnection,
-            ResponseMessage.noInternetError.trim(), false);
+        return Failure(
+            code: ResponseCode.noInternetConnection,
+            message: ResponseMessage.noInternetError.trim(),
+            status: false);
       case DataSource.defaultError:
         return Failure(
-            ResponseCode.defaultError, ResponseMessage.defaultError, false);
+            code: ResponseCode.defaultError,
+            message: ResponseMessage.defaultError,
+            status: false);
       default:
         return Failure(
-            ResponseCode.defaultError, ResponseMessage.defaultError, false);
+            code: ResponseCode.defaultError,
+            message: ResponseMessage.defaultError,
+            status: false);
     }
   }
 }

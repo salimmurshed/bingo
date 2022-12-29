@@ -45,6 +45,7 @@ class AppTextStyles {
   );
 
   static const TextStyle cartTitleText = TextStyle(
+    height: 0.9,
     fontFamily: AppFont.mainTextFontFamily,
     fontWeight: AppFontWeighs.light,
     fontSize: AppFontSize.s13,

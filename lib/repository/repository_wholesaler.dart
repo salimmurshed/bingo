@@ -78,6 +78,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
 
         _localData.insert(
             TableNames.wholeSalerAssociationList, responseData.data!);
+        await Future.delayed(const Duration(seconds: 1));
       } on Exception catch (e) {
         print(e.toString());
         _navigationService.displayDialog(AlertDialogMessage(e.toString()));
@@ -233,6 +234,7 @@ class RepositoryWholesaler with ReactiveServiceMixin {
         }
         _localData.insert(TableNames.wholesalerCreditlineRequestList,
             responseData.data!.data!);
+        await Future.delayed(const Duration(seconds: 1));
         notifyListeners();
       } on Exception catch (e) {
         _navigationService.displayDialog(AlertDialogMessage(e.toString()));

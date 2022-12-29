@@ -1,3 +1,4 @@
+import 'package:bingo_wholesale/const/app_strings.dart';
 import 'package:bingo_wholesale/const/email_validator.dart';
 import 'package:bingo_wholesale/data_models/models/user_model/user_model.dart';
 import 'package:bingo_wholesale/services/auth_service/auth_service.dart';
@@ -48,11 +49,11 @@ class LoginScreenViewModel extends BaseViewModel {
 
   String? checkEmail(String v) {
     if (v.isEmpty) {
-      _emailError = "Email field can't be empty";
+      _emailError = AppString.emptyEmailValidationText;
       isTextFieldValidate = false;
       notifyListeners();
     } else if (!EmailValidator.validate(v)) {
-      _emailError = "Please put a valid email address";
+      _emailError = AppString.wrongEmailFormatValidationText;
       isTextFieldValidate = false;
       notifyListeners();
     } else {
@@ -66,11 +67,11 @@ class LoginScreenViewModel extends BaseViewModel {
   String? checkPassword(String v) {
     if (v.isEmpty) {
       isTextFieldValidate = false;
-      _passwordError = "Password field can't be empty";
+      _passwordError = AppString.emptyPasswordValidationText;
       notifyListeners();
     } else if (v.length < 8) {
       isTextFieldValidate = false;
-      _passwordError = "Password should be more than 8";
+      _passwordError = AppString.smallPasswordValidationText;
       notifyListeners();
     } else {
       _passwordError = "";
