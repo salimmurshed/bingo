@@ -1,9 +1,11 @@
 import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/const/app_extensions/status.dart';
+import 'package:bingo_wholesale/const/app_extensions/strings_extention.dart';
 import 'package:bingo_wholesale/const/app_extensions/widgets_extensions.dart';
 import 'package:bingo_wholesale/const/app_sizes/app_sizes.dart';
 import 'package:bingo_wholesale/const/app_styles/app_box_decoration.dart';
 import 'package:bingo_wholesale/const/utils.dart';
+import 'package:bingo_wholesale/data_models/construction_model/static_data_models/visit_frequent_list_model.dart';
 import 'package:bingo_wholesale/presentation/ui/home_screen/home_screen_view_model.dart';
 import 'package:bingo_wholesale/presentation/widgets/buttons/cancel_button.dart';
 import 'package:bingo_wholesale/presentation/widgets/buttons/submit_button.dart';
@@ -15,7 +17,8 @@ import 'package:stacked/stacked.dart';
 import '../../../data_models/enums/data_source.dart';
 import '../../../data_models/enums/status_name.dart';
 import '../../../data_models/models/association_wholesaler_equest_details_model/association_wholesaler_equest_details_model.dart';
-import '../../widgets/dropdowns/selected_dropdown_field.dart';
+import '../../../data_models/models/component_models/sales_zone_model.dart';
+import '../../widgets/dropdowns/selected_dropdown.dart';
 import '../../widgets/text_fields/name_text_field.dart';
 import 'association_request_details_screen_view_model.dart';
 
@@ -432,87 +435,94 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                         controller: model.internalIdController,
                         fieldName: AppString.internalID,
                       ),
+                      if (model.internalIdValidation != "")
+                        validationText(model.internalIdValidation),
                       24.0.giveHeight,
-                      SelectedDropdownField(
-                        fieldName: AppString.selectCustomerType,
-                        items: model.customerType,
+                      SelectedDropdown<String>(
+                        hintText: AppString.selectCustomerType,
+                        fieldName: AppString.selectCustomerType.isRequired,
+                        items: model.customerType
+                            .map((e) => DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(e),
+                                ))
+                            .toList(),
                         dropdownValue: model.selectedCustomerType,
                         onChange: (String value) {
                           model.changeCustomerType(value);
                         },
                       ),
+                      if (model.selectedCustomerTypeValidation != "")
+                        validationText(model.selectedCustomerTypeValidation),
                       24.0.giveHeight,
-                      SelectedDropdownField(
+                      SelectedDropdown<String>(
                         fieldName: AppString.gracePeriodGroups,
-                        items: model.gracePeriodGroup,
+                        hintText: AppString.gracePeriodGroups,
+                        items: model.gracePeriodGroup
+                            .map((e) => DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(e),
+                                ))
+                            .toList(),
                         dropdownValue: model.selectedGracePeriodGroups,
                         onChange: (String value) {
                           model.changeGracePeriodGroups(value);
                         },
                       ),
+                      if (model.selectedGracePeriodGroupsValidation != "")
+                        validationText(
+                            model.selectedGracePeriodGroupsValidation),
                       24.0.giveHeight,
-                      SelectedDropdownField(
+                      SelectedDropdown<String>(
                         fieldName: AppString.pricingGroups,
-                        items: model.pricingGroup,
+                        hintText: AppString.pricingGroups,
+                        items: model.pricingGroup
+                            .map((e) => DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(e),
+                                ))
+                            .toList(),
                         dropdownValue: model.selectedPricingGroups,
                         onChange: (String value) {
                           model.changePricingGroups(value);
                         },
                       ),
+                      if (model.selectedPricingGroupsValidation != "")
+                        validationText(model.selectedPricingGroupsValidation),
                       24.0.giveHeight,
-                      Text(AppString.salesZone),
-                      15.0.giveHeight,
-                      Container(
-                        decoration: AppBoxDecoration.borderDecoration,
-                        height: 45.0,
-                        child: ButtonTheme(
-                          alignedDropdown: true,
-                          padding: AppPaddings.zero,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              dropdownColor: AppColors.whiteColor,
-                              hint: Text(
-                                AppString.salesZone,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFFa5a5a5),
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              elevation: 8,
-                              isDense: false,
-                              isExpanded: true,
-                              value: model.selectedSalesZoneString,
-                              icon: const Icon(Icons.arrow_drop_down_outlined),
-                              items: [
-                                DropdownMenuItem<String>(
-                                  value: AppString
-                                      .selectedSalesZoneStringDefaultValue,
-                                  child: Text(
-                                      '${AppString.selectText} ${AppString.salesZone}'),
-                                ),
-                                for (var i = 0; i < model.salesZone.length; i++)
-                                  DropdownMenuItem<String>(
-                                    value: model.salesZone[i].saleZone,
-                                    child: Text(model.salesZone[i].zoneName!),
-                                  )
-                              ],
-                              onChanged: (String? newValue) {
-                                model.changeSalesZone(newValue!);
-                              },
-                            ),
-                          ),
-                        ),
+                      SelectedDropdown<SalesZoneModelData>(
+                        fieldName: AppString.salesZone,
+                        hintText: AppString.salesZone,
+                        items: model.salesZone
+                            .map((e) => DropdownMenuItem<SalesZoneModelData>(
+                                  value: e,
+                                  child: Text(e.zoneName!),
+                                ))
+                            .toList(),
+                        dropdownValue: model.selectedSalesZoneString,
+                        onChange: (SalesZoneModelData value) {
+                          model.changeSalesZone(value);
+                        },
                       ),
+                      if (model.selectedSalesZoneStringValidation != "")
+                        validationText(model.selectedSalesZoneStringValidation),
                       24.0.giveHeight,
-                      SelectedDropdownField(
+                      SelectedDropdown(
                         fieldName: AppString.allowOrders,
-                        items: model.allowOrdersList,
+                        hintText: AppString.allowOrders,
+                        items: model.allowOrdersList
+                            .map((e) => DropdownMenuItem<String>(
+                                  value: e,
+                                  child: Text(e),
+                                ))
+                            .toList(),
                         dropdownValue: model.selectedAllowOrders,
                         onChange: (String value) {
                           model.changeAllowOrders(value);
                         },
                       ),
+                      if (model.selectedAllowOrdersValidation != "")
+                        validationText(model.selectedAllowOrdersValidation),
                       24.0.giveHeight,
                     ],
                   ),
@@ -533,6 +543,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                                   vertical: 20.0,
                                   horizontal: 10.0,
                                 ),
+                                margin: EdgeInsets.only(bottom: 5.0),
                                 decoration: BoxDecoration(
                                   color: AppColors.borderColors,
                                   borderRadius: BorderRadius.circular(10.0),
@@ -593,68 +604,47 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                           controller: model.selectDate,
                         ),
                       ),
+                      if (model.selectDateValidation != "")
+                        validationText(model.selectDateValidation),
                       24.0.giveHeight,
                       NameTextField(
                         controller: model.monthlySalesController,
                         fieldName: AppString.monthlySales,
                       ),
+                      if (model.monthlySalesValidation != "")
+                        validationText(model.monthlySalesValidation),
                       24.0.giveHeight,
                       NameTextField(
                         controller: model.averageSalesTicketController,
                         fieldName: AppString.averageSalesTicket,
                       ),
+                      if (model.averageSalesTicketValidation != "")
+                        validationText(model.averageSalesTicketValidation),
                       24.0.giveHeight,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(AppString.visitFrequency),
-                          15.0.giveHeight,
-                          Container(
-                            decoration: AppBoxDecoration.borderDecoration,
-                            height: 45.0,
-                            child: ButtonTheme(
-                              alignedDropdown: true,
-                              padding: AppPaddings.zero,
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<int>(
-                                  hint: Text(
-                                    AppString.visitFrequency,
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Color(0xFFa5a5a5),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  elevation: 8,
-                                  isDense: false,
-                                  isExpanded: true,
-                                  value: model.selectedVisitFrequency,
-                                  icon: const Icon(
-                                      Icons.arrow_drop_down_outlined),
-                                  items: [
-                                    for (var i = 0;
-                                        i < model.visitFrequentlyList.length;
-                                        i++)
-                                      DropdownMenuItem<int>(
-                                        value: model.visitFrequentlyList[i].id!,
-                                        child: Text(model
-                                            .visitFrequentlyList[i].title!),
-                                      )
-                                  ],
-                                  onChanged: (int? newValue) {
-                                    model.changeVisitFrequency(newValue!);
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      SelectedDropdown<VisitFrequentListModel>(
+                        fieldName: AppString.visitFrequency,
+                        hintText: AppString.visitFrequency,
+                        items: model.visitFrequentlyList
+                            .map(
+                                (e) => DropdownMenuItem<VisitFrequentListModel>(
+                                      value: e,
+                                      child: Text(e.title!),
+                                    ))
+                            .toList(),
+                        dropdownValue: model.selectedVisitFrequency,
+                        onChange: (VisitFrequentListModel value) {
+                          model.changeVisitFrequency(value);
+                        },
                       ),
+                      if (model.selectedVisitFrequencyValidation != "")
+                        validationText(model.selectedVisitFrequencyValidation),
                       24.0.giveHeight,
                       NameTextField(
                         controller: model.suggestedCreditLineController,
                         fieldName: AppString.suggestedCreditLineAmount,
                       ),
+                      if (model.suggestedCreditLineValidation != "")
+                        validationText(model.suggestedCreditLineValidation),
                       24.0.giveHeight,
                     ],
                   ),

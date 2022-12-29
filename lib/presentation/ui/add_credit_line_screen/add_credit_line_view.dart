@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_select_flutter/dialog/mult_select_dialog.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:stacked/stacked.dart';
+import 'package:path/path.dart' as p;
 
 import '../../../const/app_colors.dart';
 import '../../../const/app_sizes/app_sizes.dart';
@@ -487,14 +488,16 @@ class AddCreditLineView extends StatelessWidget {
                           ),
                         20.0.giveHeight,
                         if (model.isView)
-                          Padding(
-                            padding: AppPaddings.cardBodyHorizontal,
-                            child: Container(
-                              padding: AppPaddings.screenARDSWidgetInnerPadding,
-                              decoration: AppBoxDecoration.shadowBox,
-                              child: QuestionAnswerPart(model),
+                          if (model.listOfQuestion.isNotEmpty)
+                            Padding(
+                              padding: AppPaddings.cardBodyHorizontal,
+                              child: Container(
+                                padding:
+                                    AppPaddings.screenARDSWidgetInnerPadding,
+                                decoration: AppBoxDecoration.shadowBox,
+                                child: QuestionAnswerPart(model),
+                              ),
                             ),
-                          ),
                       ],
                     ),
                   ),

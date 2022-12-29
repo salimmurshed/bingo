@@ -48,7 +48,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   void callDetails(GetId arguments) async {
     uniqueId = arguments.id;
     type = arguments.type;
-    print(arguments.id);
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (isRetailer) {
         setBusy(true);
@@ -82,7 +81,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
             .getWholesalersAssociationDetails(arguments.id);
         _associationRequestWholesalerDetails =
             _repositoryWholesaler.wholesalerAssociationRequestDetails.value;
-        presetFunction();
       }
     });
   }
@@ -90,11 +88,8 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   AssociationWholesalerRequestDetailsModel
       _associationRequestWholesalerDetails =
       AssociationWholesalerRequestDetailsModel();
-  // _repositoryWholesaler
-  //     .wholesalerAssociationRequestDetails.value;
   RetailerAssociationRequestDetailsModel _associationRequestRetailerDetails =
       RetailerAssociationRequestDetailsModel();
-  // _repositoryRetailer.associationRequestRetailerDetails.value;
   AssociationWholesalerRequestDetailsModel
       get associationRequestWholesalerDetails =>
           _associationRequestWholesalerDetails;
@@ -119,19 +114,14 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   CompanyInformation get companyInformation =>
       associationRequestWholesalerDetails.data![0].companyInformation![0];
   //local variables
-  String selectedCustomerType =
-      "${AppString.selectText} ${AppString.selectCustomerType}";
-  String selectedGracePeriodGroups =
-      "${AppString.selectText} ${AppString.gracePeriodGroups}";
-  String selectedPricingGroups =
-      "${AppString.selectText} ${AppString.pricingGroups}";
-  String selectedSalesZoneString =
-      AppString.selectedSalesZoneStringDefaultValue;
-  String selectedAllowOrders =
-      "${AppString.selectText} ${AppString.allowOrders}";
+  String? selectedCustomerType;
+  String? selectedGracePeriodGroups;
+  String? selectedPricingGroups;
+  SalesZoneModelData? selectedSalesZoneString;
+  String? selectedAllowOrders;
   String selectedCustomerSinceDate =
       "${AppString.selectText} ${AppString.customerSinceDate}";
-  int? selectedVisitFrequency;
+  VisitFrequentListModel? selectedVisitFrequency;
   int status = 0;
   String uniqueId = "";
   RetailerTypeAssociationRequest type =
@@ -180,38 +170,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     }
   }
 
-  void presetFunction() {
-    internalIdController.text = internalInformation.internalId!;
-    monthlySalesController.text = creditlineInformation.monthlySales!;
-    averageSalesTicketController.text =
-        creditlineInformation.averageSalesTicket!;
-    suggestedCreditLineController.text =
-        creditlineInformation.suggestedCreditlineAmount!;
-    selectDate.text =
-        DateFormat('dd/MM/yyyy').format(DateTime.now()).toString();
-    selectedCustomerType = internalInformation.customerType!.isEmpty
-        ? "${AppString.selectText} ${AppString.selectCustomerType}"
-        : internalInformation.customerType!;
-    selectedGracePeriodGroups = internalInformation.gracePeriodGroup == ""
-        ? "${AppString.selectText} ${AppString.gracePeriodGroups}"
-        : internalInformation.gracePeriodGroup!;
-    selectedAllowOrders = internalInformation.allowOrders == 0
-        ? AppString.noText
-        : AppString.yesText;
-    selectedPricingGroups = internalInformation.pricingGroup!.isEmpty
-        ? "${AppString.selectText} ${AppString.pricingGroups}"
-        : internalInformation.pricingGroup!;
-    selectedSalesZoneString = internalInformation.salesZone == null
-        ? selectedSalesZoneString
-        : internalInformation.salesZone!;
-    selectedVisitFrequency = creditlineInformation.visitFrequency == 0
-        ? selectedVisitFrequency
-        : creditlineInformation.visitFrequency!;
-    status = getStatus(_repositoryWholesaler.wholesalerAssociationRequestDetails
-        .value.data![0].companyInformation![0].status!);
-    notifyListeners();
-  }
-
   void openCalender() async {
     selectDate.text = (DateFormat('dd/MM/yyyy')
             .format(await _navigationService.animatedDialog(DatePicker())))
@@ -238,7 +196,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void changeSalesZone(String data) {
+  void changeSalesZone(SalesZoneModelData data) {
     selectedSalesZoneString = data;
     notifyListeners();
   }
@@ -253,7 +211,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void changeVisitFrequency(int data) {
+  void changeVisitFrequency(VisitFrequentListModel data) {
     selectedVisitFrequency = data;
     notifyListeners();
   }
@@ -262,57 +220,127 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     _navigationService.pop();
   }
 
+  String internalIdValidation = "";
+  String monthlySalesValidation = "";
+  String selectDateValidation = "";
+  String averageSalesTicketValidation = "";
+  String suggestedCreditLineValidation = "";
+  String selectedCustomerTypeValidation = "";
+  String selectedGracePeriodGroupsValidation = "";
+  String selectedPricingGroupsValidation = "";
+  String selectedSalesZoneStringValidation = "";
+  String selectedAllowOrdersValidation = "";
+  String selectedVisitFrequencyValidation = "";
+
   void updateWholesalerRetailerAssociationStatus() async {
+    if (internalIdController.text == "") {
+      internalIdValidation = AppString.internalIdValidationMessage;
+    } else {
+      internalIdValidation = "";
+    }
+    if (monthlySalesController.text == "") {
+      monthlySalesValidation = AppString.monthlySalesValidationMessage;
+    } else {
+      monthlySalesValidation = "";
+    }
+    if (selectDate.text == "") {
+      selectDateValidation = AppString.selectDateValidationMessage;
+    } else {
+      selectDateValidation = "";
+    }
+    if (averageSalesTicketController.text == "") {
+      averageSalesTicketValidation =
+          AppString.averageSalesTicketValidationMessage;
+    } else {
+      averageSalesTicketValidation = "";
+    }
+    if (suggestedCreditLineController.text == "") {
+      suggestedCreditLineValidation =
+          AppString.suggestedCreditLineValidationMessage;
+    } else {
+      suggestedCreditLineValidation = "";
+    }
+    if (selectedCustomerType == null) {
+      selectedCustomerTypeValidation =
+          AppString.selectedCustomerTypeValidationMessage;
+    } else {
+      selectedCustomerTypeValidation = "";
+    }
+    if (selectedGracePeriodGroups == null) {
+      selectedGracePeriodGroupsValidation =
+          AppString.selectedGracePeriodGroupsValidationMessage;
+    } else {
+      selectedGracePeriodGroupsValidation = "";
+    }
+    if (selectedPricingGroups == null) {
+      selectedPricingGroupsValidation =
+          AppString.selectedPricingGroupsValidationMessage;
+    } else {
+      selectedPricingGroupsValidation = "";
+    }
+    if (selectedSalesZoneString == null) {
+      selectedSalesZoneStringValidation =
+          AppString.selectedSalesZoneStringValidationMessage;
+    } else {
+      selectedSalesZoneStringValidation = "";
+    }
+    if (selectedAllowOrders == null) {
+      selectedAllowOrdersValidation =
+          AppString.selectedAllowOrdersValidationMessage;
+    } else {
+      selectedAllowOrdersValidation = "";
+    }
+    if (selectedVisitFrequency == null) {
+      selectedVisitFrequencyValidation =
+          AppString.selectedVisitFrequencyValidationMessage;
+    } else {
+      selectedVisitFrequencyValidation = "";
+    }
+    notifyListeners();
     bool isItemPostAble() {
       return internalIdController.text != "" &&
           monthlySalesController.text != "" &&
+          selectDate.text != "" &&
           averageSalesTicketController.text != "" &&
           suggestedCreditLineController.text != "" &&
-          selectedCustomerType !=
-              "${AppString.selectText} ${AppString.selectCustomerType}" &&
-          selectedGracePeriodGroups !=
-              "${AppString.selectText} ${AppString.gracePeriodGroups}" &&
-          selectedPricingGroups !=
-              "${AppString.selectText} ${AppString.pricingGroups}" &&
-          selectedSalesZoneString !=
-              AppString.selectedSalesZoneStringDefaultValue &&
-          selectedAllowOrders !=
-              "${AppString.selectText} ${AppString.allowOrders}" &&
-          selectedVisitFrequency != 0;
+          selectedCustomerType != null &&
+          selectedGracePeriodGroups != null &&
+          selectedPricingGroups != null &&
+          selectedSalesZoneString != null &&
+          selectedAllowOrders != null &&
+          selectedVisitFrequency != null;
     }
 
-    if (!isItemPostAble()) {
-      _navigationService
-          .animatedDialog(const AlertDialogMessage(AppString.pleaseCheckText));
-    }
+    if (isItemPostAble()) {
+      var sendData = {
+        "unique_id": uniqueId,
+        "action": "4",
+        "internal_id": internalIdController.text,
+        "customer_type": selectedCustomerType.toString(),
+        "grace_period_group": selectedGracePeriodGroups.toString(),
+        "pricing_group": selectedPricingGroups.toString(),
+        "sales_zone_unique_id": selectedSalesZoneString!.saleZone!.toString(),
+        "allow_orders": selectedAllowOrders == "Yes" ? '1' : '0',
+        "customer_since_date": selectDate.text,
+        "monthly_sales": monthlySalesController.text,
+        "average_sales_ticket": averageSalesTicketController.text,
+        "visit_frequency": selectedVisitFrequency!.id!.toString(),
+        "suggested_creditline_amount": suggestedCreditLineController.text
+      };
+      try {
+        setBusy(true);
+        notifyListeners();
+        await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
+            sendData, uniqueId, 4);
 
-    var sendData = {
-      "unique_id": uniqueId,
-      "action": "4",
-      "internal_id": internalIdController.text,
-      "customer_type": selectedCustomerType.toString(),
-      "grace_period_group": selectedGracePeriodGroups.toString(),
-      "pricing_group": selectedPricingGroups.toString(),
-      "sales_zone_unique_id": selectedSalesZoneString.toString(),
-      "allow_orders": selectedAllowOrders == "Yes" ? '1' : '0',
-      "customer_since_date": selectDate.text,
-      "monthly_sales": monthlySalesController.text,
-      "average_sales_ticket": averageSalesTicketController.text,
-      "visit_frequency": selectedVisitFrequency.toString(),
-      "suggested_creditline_amount": suggestedCreditLineController.text
-    };
-    try {
-      setBusy(true);
-      notifyListeners();
-      await _repositoryWholesaler.updateWholesalerRetailerAssociationStatus(
-          sendData, uniqueId, 4);
-
-      setBusy(false);
-      notifyListeners();
-    } on Exception catch (e) {
-      setBusy(false);
-      notifyListeners();
-      _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+        setBusy(false);
+        notifyListeners();
+        _navigationService.pop();
+      } on Exception catch (e) {
+        setBusy(false);
+        notifyListeners();
+        _navigationService.displayDialog(AlertDialogMessage(e.toString()));
+      }
     }
   }
 
@@ -345,8 +373,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   void openActivationCodeSubmitForRetailerDialog(int statusID) async {
     var code = await _navigationService
         .animatedDialog(ActivationDialog(isRetailer: isRetailer));
-    print('code');
-    print(code);
+
     var sendData = {
       "unique_id": uniqueId,
       "action": statusID.toString(),
@@ -396,7 +423,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
         "action": statusID.toString(),
       };
       if (yesNo == true) {
-        print(isBusy);
         if (isRetailer) {
           if (type == RetailerTypeAssociationRequest.wholesaler) {
             setBusy(true);
@@ -419,7 +445,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       }
       setBusy(false);
       notifyListeners();
-    } catch (e) {}
+    } catch (_) {}
   }
 
   bool isViewDocumentOpen = false;

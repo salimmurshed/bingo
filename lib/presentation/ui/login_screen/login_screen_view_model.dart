@@ -28,19 +28,20 @@ class LoginScreenViewModel extends BaseViewModel {
   // TextEditingController passwordController = TextEditingController(
   //     text: "123"
   //         "45678");
-  // TextEditingController nameController =
-  //     TextEditingController(text: "devyani.gohil@sensussoft.com");
-  // TextEditingController passwordController =
-  //     TextEditingController(text: "Dragon1!12345");
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController =
+      TextEditingController(text: "devyani.gohil@sensussoft.com");
+  TextEditingController passwordController =
+      TextEditingController(text: "Dragon1!12345");
+  // TextEditingController nameController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
   bool isVisible = false;
   bool isLoginAttempt = false;
   String get emailError => _emailError;
   String get passwordError => _passwordError;
-  bool isTextFieldValidate = false;
+  bool isEmailValidate = false;
+  bool isPasswordValidate = false;
 
   void changeVisibility() {
     isVisible = !isVisible;
@@ -48,17 +49,19 @@ class LoginScreenViewModel extends BaseViewModel {
   }
 
   String? checkEmail(String v) {
+    print('vvvvvvvvv');
+    print(v);
     if (v.isEmpty) {
       _emailError = AppString.emptyEmailValidationText;
-      isTextFieldValidate = false;
+      isEmailValidate = false;
       notifyListeners();
     } else if (!EmailValidator.validate(v)) {
       _emailError = AppString.wrongEmailFormatValidationText;
-      isTextFieldValidate = false;
+      isEmailValidate = false;
       notifyListeners();
     } else {
       _emailError = "";
-      isTextFieldValidate = true;
+      isEmailValidate = true;
       notifyListeners();
     }
     return null;
@@ -66,16 +69,16 @@ class LoginScreenViewModel extends BaseViewModel {
 
   String? checkPassword(String v) {
     if (v.isEmpty) {
-      isTextFieldValidate = false;
+      isPasswordValidate = false;
       _passwordError = AppString.emptyPasswordValidationText;
       notifyListeners();
     } else if (v.length < 8) {
-      isTextFieldValidate = false;
+      isPasswordValidate = false;
       _passwordError = AppString.smallPasswordValidationText;
       notifyListeners();
     } else {
       _passwordError = "";
-      isTextFieldValidate = true;
+      isPasswordValidate = true;
       notifyListeners();
     }
     return null;
@@ -91,7 +94,7 @@ class LoginScreenViewModel extends BaseViewModel {
       FocusNode(),
     );
     if (_formKey.currentState!.validate()) {
-      if (isTextFieldValidate) {
+      if (isEmailValidate && isPasswordValidate) {
         try {
           makeBusy(true);
           UserModel user = await _authService.login(

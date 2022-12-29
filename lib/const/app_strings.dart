@@ -2,8 +2,8 @@ import 'package:bingo_wholesale/presentation/ui/add_store_screen/add_store_scree
 
 class AppString {
   AppString._();
-  static String emailAddress = '* Email Address';
-  static String password = '* Password';
+  static String emailAddress = 'Email Address';
+  static String password = 'Password';
   static String login = 'login';
 
   static String forgotPassword = 'Forgot Password?';
@@ -232,6 +232,27 @@ class AppString {
   static String emptyEmailValidationText = "Email field can't be empty";
   static String wrongEmailFormatValidationText = "Please put a valid email "
       "address";
+  static String internalIdValidationMessage = "Internal ID required";
+  static String monthlySalesValidationMessage =
+      "Monthly sales amount is required";
+  static String selectDateValidationMessage = "Sales date required";
+  static String averageSalesTicketValidationMessage =
+      "Average sales ticket is required";
+  static String suggestedCreditLineValidationMessage =
+      "Suggested creditline is required";
+  static String selectedCustomerTypeValidationMessage =
+      "Need to select customer type";
+  static String selectedGracePeriodGroupsValidationMessage =
+      "Need to select grace period group";
+  static String selectedPricingGroupsValidationMessage =
+      "Need to select pricing group";
+  static String selectedSalesZoneStringValidationMessage =
+      "Need to select sales zone";
+  static String selectedAllowOrdersValidationMessage =
+      "Need to select allow orders";
+  static String selectedVisitFrequencyValidationMessage =
+      "Need to select visit frequency "
+      "number";
 
   //tab names
   static String wholesaler = "Wholesaler";

@@ -35,15 +35,27 @@ class RetailerRecommendationCardInDashboard extends StatelessWidget {
                       text2: "RD\$ ${recommadationData.balance}"),
                 ],
               ),
-              const SizedBox(
-                width: 10.0,
-              ),
+              10.0.giveWidth,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ClassifiedText(
-                      text1: "${AppString.caNumber}\n",
-                      text2: "${recommadationData.caNumber}"),
+                  SizedBox(
+                    width: 40.0.wp,
+                    child: RichText(
+                      // maxLines: 3,
+                      text: TextSpan(
+                        text: '${AppString.caNumber}\n',
+                        style: AppTextStyles.dashboardHeadTitleAsh,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: "${recommadationData.caNumber}",
+                            style: AppTextStyles.dashboardHeadTitleAsh
+                                .copyWith(fontWeight: AppFontWeighs.semiBold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   ClassifiedText(
                       text1: AppString.serialNo,
                       text2: "${recommadationData.sNo}"),

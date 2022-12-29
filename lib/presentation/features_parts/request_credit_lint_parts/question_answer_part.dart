@@ -30,6 +30,8 @@ class QuestionAnswerPart extends StatelessWidget {
                 fieldName: model.listOfQuestion[i].question!,
               ),
               if (model.replyData.isNotEmpty)
+                if (model.replyData[i].documents!.isNotEmpty) 10.0.giveHeight,
+              if (model.replyData.isNotEmpty)
                 if (model.replyData[i].documents!.isNotEmpty)
                   Wrap(
                     runSpacing: 10.0,
@@ -39,10 +41,15 @@ class QuestionAnswerPart extends StatelessWidget {
                         SizedBox(
                           height: 100.0,
                           width: 100.0,
-                          child: Image.file(
-                            File(image.path),
-                            fit: BoxFit.cover,
-                          ),
+                          child: p.extension(image.path) == ".pdf"
+                              ? Image.asset(
+                                  AppAsset.pdfImage,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  File(image.path),
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                     ],
                   ),
