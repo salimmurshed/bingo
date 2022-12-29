@@ -433,7 +433,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                     children: [
                       NameTextField(
                         controller: model.internalIdController,
-                        fieldName: AppString.internalID,
+                        fieldName: AppString.internalID.isRequired,
                       ),
                       if (model.internalIdValidation != "")
                         validationText(model.internalIdValidation),
@@ -456,7 +456,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                         validationText(model.selectedCustomerTypeValidation),
                       24.0.giveHeight,
                       SelectedDropdown<String>(
-                        fieldName: AppString.gracePeriodGroups,
+                        fieldName: AppString.gracePeriodGroups.isRequired,
                         hintText: AppString.gracePeriodGroups,
                         items: model.gracePeriodGroup
                             .map((e) => DropdownMenuItem<String>(
@@ -474,7 +474,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                             model.selectedGracePeriodGroupsValidation),
                       24.0.giveHeight,
                       SelectedDropdown<String>(
-                        fieldName: AppString.pricingGroups,
+                        fieldName: AppString.pricingGroups.isRequired,
                         hintText: AppString.pricingGroups,
                         items: model.pricingGroup
                             .map((e) => DropdownMenuItem<String>(
@@ -491,7 +491,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                         validationText(model.selectedPricingGroupsValidation),
                       24.0.giveHeight,
                       SelectedDropdown<SalesZoneModelData>(
-                        fieldName: AppString.salesZone,
+                        fieldName: AppString.salesZone.isRequired,
                         hintText: AppString.salesZone,
                         items: model.salesZone
                             .map((e) => DropdownMenuItem<SalesZoneModelData>(
@@ -508,7 +508,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                         validationText(model.selectedSalesZoneStringValidation),
                       24.0.giveHeight,
                       SelectedDropdown(
-                        fieldName: AppString.allowOrders,
+                        fieldName: AppString.allowOrders.isRequired,
                         hintText: AppString.allowOrders,
                         items: model.allowOrdersList
                             .map((e) => DropdownMenuItem<String>(
@@ -593,7 +593,7 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(AppString.customerSinceDate),
+                      Text(AppString.customerSinceDate.isRequired),
                       10.0.giveHeight,
                       SizedBox(
                         height: 45.0,
@@ -609,20 +609,20 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                       24.0.giveHeight,
                       NameTextField(
                         controller: model.monthlySalesController,
-                        fieldName: AppString.monthlySales,
+                        fieldName: AppString.monthlySales.isRequired,
                       ),
                       if (model.monthlySalesValidation != "")
                         validationText(model.monthlySalesValidation),
                       24.0.giveHeight,
                       NameTextField(
                         controller: model.averageSalesTicketController,
-                        fieldName: AppString.averageSalesTicket,
+                        fieldName: AppString.averageSalesTicket.isRequired,
                       ),
                       if (model.averageSalesTicketValidation != "")
                         validationText(model.averageSalesTicketValidation),
                       24.0.giveHeight,
                       SelectedDropdown<VisitFrequentListModel>(
-                        fieldName: AppString.visitFrequency,
+                        fieldName: AppString.visitFrequency.isRequired,
                         hintText: AppString.visitFrequency,
                         items: model.visitFrequentlyList
                             .map(
@@ -641,7 +641,8 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                       24.0.giveHeight,
                       NameTextField(
                         controller: model.suggestedCreditLineController,
-                        fieldName: AppString.suggestedCreditLineAmount,
+                        fieldName:
+                            AppString.suggestedCreditLineAmount.isRequired,
                       ),
                       if (model.suggestedCreditLineValidation != "")
                         validationText(model.suggestedCreditLineValidation),
