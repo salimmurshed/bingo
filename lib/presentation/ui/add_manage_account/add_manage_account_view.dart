@@ -1,5 +1,4 @@
 import 'package:bingo_wholesale/const/all_const.dart';
-import 'package:bingo_wholesale/const/app_bar_titles.dart';
 import 'package:bingo_wholesale/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +10,14 @@ import '../../../data/data_source/bank_account_type.dart';
 import '../../../data_models/models/component_models/bank_list.dart';
 import '../../../data_models/models/retailer_bank_list/retailer_bank_list.dart';
 import '../../widgets/buttons/submit_button.dart';
+import '../../widgets/cards/snack_bar.dart';
 import '../../widgets/dropdowns/selected_dropdown.dart';
 import '../../widgets/text_fields/name_text_field.dart';
 import 'add_manage_account_view_model.dart';
 
 class AddManageAccountView extends StatelessWidget {
+  const AddManageAccountView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddManageAccountViewModel>.reactive(
@@ -30,17 +32,23 @@ class AddManageAccountView extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: AppColors.appBarColorRetailer,
-              title: Text(AppBarTitles.addManageAccount),
+              title: Text(model.appBarTitle),
             ),
             body: SingleChildScrollView(
               child: Container(
                 margin: AppMargins.addStoreBody,
                 padding: AppPaddings.addStoreBody,
-                decoration: BoxDecoration(color: AppColors.background),
+                decoration: const BoxDecoration(color: AppColors.background),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
+                    if (model.responseMessage.isNotEmpty)
+                      SnackBarRepo(
+                        success: !model.responseStatus,
+                        text: model.responseMessage,
+                      ),
+                    if (model.responseMessage.isNotEmpty) 20.0.giveHeight,
                     SelectedDropdown<BankAccountTypeModel>(
                         onChange: (BankAccountTypeModel value) {
                           model.changeBankAccountType(value);
@@ -116,16 +124,19 @@ class AddManageAccountView extends StatelessWidget {
                       validationText(model.ibanValidation),
                     20.0.giveHeight,
                     model.isBusy
-                        ? const SizedBox(
-                            height: 15.0,
-                            width: 15.0,
-                            child: CircularProgressIndicator(
-                              color: AppColors.loader1,
-                            ))
+                        ? const Center(
+                            child: SizedBox(
+                              height: 15.0,
+                              width: 15.0,
+                              child: CircularProgressIndicator(
+                                color: AppColors.loader1,
+                              ),
+                            ),
+                          )
                         : SubmitButton(
                             onPressed: model.addAccount,
                             active: true,
-                            text: AppString.addManageAccount.toUpperCase(),
+                            text: model.appBarTitle.toUpperCase(),
                             width: 100.0.wp,
                             height: 45.0,
                           ),

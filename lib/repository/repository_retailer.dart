@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bingo_wholesale/data_models/models/failure.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:bingo_wholesale/const/app_extensions/widgets_extensions.dart';
@@ -568,7 +569,7 @@ class RepositoryRetailer with ReactiveServiceMixin {
     notifyListeners();
   }
 
-  Future<void> addRetailerBankAccounts(Map<String, String?> jsonBody) async {
+  Future<Failure> addRetailerBankAccounts(Map<String, String?> jsonBody) async {
     bool connection = await checkConnectivity();
     if (connection) {
       try {
@@ -581,9 +582,14 @@ class RepositoryRetailer with ReactiveServiceMixin {
         retailsBankAccounts.value = responseData.data!;
         _localData.insert(TableNames.retailerBankAccounts, responseData.data!);
         notifyListeners();
+        return Failure(
+            status: responseData.success!, message: responseData.message!);
       } on Exception catch (_) {
         notifyListeners();
+        rethrow;
       }
+    } else {
+      return Failure(status: false, message: ResponseMessage.noInternetError);
     }
   }
 }

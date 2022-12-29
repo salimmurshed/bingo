@@ -43,7 +43,11 @@ class AppString {
   static String currencyValidationText = "Need to select currency";
   static String bankAccountValidationText =
       "Bank account number can't be blank";
+  static String bankAccountLengthValidationText =
+      "Bank account number can't be less than 8";
   static String ibanValidationText = "IBAN account number can't be blank";
+  static String ibanLengthValidationText =
+      "IBAN account number can't be less than 8";
 
   //all buttons
   static String addNew = 'Add New';

@@ -5,8 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
+import '../../../const/app_bar_titles.dart';
 import '../../../data/data_source/bank_account_type.dart';
 import '../../../data_models/models/component_models/bank_list.dart';
+import '../../../data_models/models/failure.dart';
 import '../../../data_models/models/retailer_bank_list/retailer_bank_list.dart';
 import '../../../repository/repository_components.dart';
 
@@ -35,6 +37,7 @@ class AddManageAccountViewModel extends BaseViewModel {
   String ibanValidation = "";
   RetailerBankListData? bankDetails;
   bool isEdit = false;
+  String appBarTitle = AppBarTitles.addManageAccount;
 
   void setData(RetailerBankListData arguments) {
     bankDetails = arguments;
@@ -50,6 +53,7 @@ class AddManageAccountViewModel extends BaseViewModel {
       selectedCurrency = selectedBankName!.currency!
           .firstWhere((element) => element == arguments.currency);
     }
+    appBarTitle = AppBarTitles.editManageAccount;
     isEdit = true;
     notifyListeners();
   }
@@ -93,11 +97,15 @@ class AddManageAccountViewModel extends BaseViewModel {
     }
     if (bankAccountController.text.isEmpty) {
       bankAccountValidation = AppString.bankAccountValidationText;
+    } else if (bankAccountController.text.length < 8) {
+      bankAccountValidation = AppString.bankAccountLengthValidationText;
     } else {
       bankAccountValidation = "";
     }
     if (ibanController.text.isEmpty) {
       ibanValidation = AppString.ibanValidationText;
+    } else if (ibanController.text.length < 8) {
+      ibanValidation = AppString.ibanLengthValidationText;
     } else {
       ibanValidation = "";
     }
@@ -124,13 +132,27 @@ class AddManageAccountViewModel extends BaseViewModel {
         "bank_account_number": bankAccountController.text,
         "iban": ibanController.text,
       };
-      // var body = isEdit ? bodyForEdit : bodyForAdd;
-      await _repositoryRetailer
+      Failure failure = await _repositoryRetailer
           .addRetailerBankAccounts(isEdit ? bodyForEdit : bodyForAdd);
-      _navigationService.pop();
+      endResponseMessage(failure);
       setBusy(false);
       notifyListeners();
     }
+  }
+
+  String responseMessage = "";
+  bool responseStatus = false;
+  void endResponseMessage(Failure failure) async {
+    responseMessage = failure.message;
+    responseStatus = failure.status;
+    notifyListeners();
+    if (failure.status) {
+      await Future.delayed(const Duration(seconds: 1));
+      _navigationService.pop();
+    }
+    await Future.delayed(const Duration(seconds: 3));
+    responseMessage = "";
+    notifyListeners();
   }
 
   //
