@@ -76,17 +76,12 @@ class AddWholesalerView extends StatelessWidget {
                                             Icons.arrow_drop_down_outlined),
                                         items: [
                                           for (var i = 0;
-                                              i <
-                                                  model.allWholesalers.data![0]
-                                                      .wholesalerData!.length;
+                                              i < model.sortedWholsaler.length;
                                               i++)
                                             DropdownMenuItem<WholesalerData>(
-                                              value: model.allWholesalers
-                                                  .data![0].wholesalerData![i],
+                                              value: model.sortedWholsaler[i],
                                               child: Text(model
-                                                  .allWholesalers
-                                                  .data![0]
-                                                  .wholesalerData![i]
+                                                  .sortedWholsaler[i]
                                                   .wholesalerName!),
                                             )
                                         ],

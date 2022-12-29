@@ -6,8 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  final _databaseName = "bingo_database_17.db";
-  final _databaseVersion = 17;
+  final _databaseName = "bingo_database_19.db";
+  final _databaseVersion = 19;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -43,7 +43,6 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.language} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.storeTableName}("
-        "${DataBaseHelperKeys.id} INTEGER ,"
         "${DataBaseHelperKeys.uniqueId} TEXT PRIMARY KEY NOT NULL,"
         "${DataBaseHelperKeys.name} TEXT NOT NULL,"
         "${DataBaseHelperKeys.city} TEXT NOT NULL,"
@@ -194,9 +193,9 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.description} TEXT NOT NULL"
         ")");
     await db.execute("CREATE TABLE ${TableNames.retailerBankAccounts}("
-        "${DataBaseHelperKeys.uniqueId}  INTEGER PRIMARY KEY,"
-        "${DataBaseHelperKeys.status} TEXT NOT NULL,"
-        "${DataBaseHelperKeys.bankAccountType} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.uniqueId}  TEXT PRIMARY KEY,"
+        "${DataBaseHelperKeys.status} int NOT NULL,"
+        "${DataBaseHelperKeys.bankAccountType} int NOT NULL,"
         "${DataBaseHelperKeys.currency} TEXT NOT NULL,"
         "${DataBaseHelperKeys.bankAccountNumber} TEXT NOT NULL,"
         "${DataBaseHelperKeys.iban} TEXT NOT NULL,"

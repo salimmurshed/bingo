@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:bingo_wholesale/data_models/models/failure.dart';
+import 'package:bingo_wholesale/repository/repository_components.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:bingo_wholesale/const/app_extensions/widgets_extensions.dart';
@@ -17,6 +18,7 @@ import '../../services/network/network_info.dart';
 import '../data_models/construction_model/wholesaler_data.dart';
 import '../data_models/enums/status_name.dart';
 import '../data_models/models/association_request_model/association_request_model.dart';
+import '../data_models/models/component_models/partner_with_currency_list.dart';
 import '../data_models/models/component_models/response_model.dart';
 import '../data_models/models/retailer_bank_list/retailer_bank_list.dart';
 import '../data_models/models/retailer_credit_line_req_model/retailer_credit_line_req_model.dart';
@@ -36,6 +38,8 @@ class RepositoryRetailer with ReactiveServiceMixin {
   var networkInfo = locator<NetworkInfoService>();
   final WebService _webService = locator<WebService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final RepositoryComponents _repositoryComponents =
+      locator<RepositoryComponents>();
   final LocalData _localData = locator<LocalData>();
   RepositoryRetailer() {
     listenToReactiveValues([
@@ -90,6 +94,21 @@ class RepositoryRetailer with ReactiveServiceMixin {
   void refreshGlobalMessage() async {
     await Future.delayed(const Duration(seconds: 5));
     globalMessage.value = ResponseMessages();
+    notifyListeners();
+  }
+
+  ReactiveValue<List<WholesalerData>> sortedWholsaler =
+      ReactiveValue<List<WholesalerData>>([]);
+  List<WholesalerData> creditLineInformations = [];
+  void getSortedWholsaler() {
+    for (WholesalersData i in creditLineInformation.value) {
+      creditLineInformations.add(i.wholesaler!);
+    }
+    sortedWholsaler.value = _repositoryComponents
+        .wholesalerWithCurrency.value.data![0].wholesalerData!
+        .where((element) => !(creditLineInformations
+            .any((e) => e.wholesalerName == element.wholesalerName)))
+        .toList();
     notifyListeners();
   }
 
@@ -412,6 +431,7 @@ class RepositoryRetailer with ReactiveServiceMixin {
             .status = describeEnum(StatusNames.completed).toUpperCamelCase();
         associationRequestRetailerDetails.value =
             retailerAssociationRequestDetailsList.value[index];
+        // _navigationService.pop();
       }
 
       notifyListeners();

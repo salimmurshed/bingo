@@ -374,6 +374,8 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     var code = await _navigationService
         .animatedDialog(ActivationDialog(isRetailer: isRetailer));
 
+    setBusy(true);
+    notifyListeners();
     var sendData = {
       "unique_id": uniqueId,
       "action": statusID.toString(),
@@ -387,9 +389,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
       } else if (code.toString().length != 6) {
         _navigationService
             .animatedDialog(AlertDialogMessage(AppString.put6DigitCode));
-      } else if (code != null) {
-        setBusy(true);
-        notifyListeners();
+      } else {
         UpdateResponseModel data =
             await _repositoryRetailer.updateRetailerWholesalerAssociationStatus(
                 sendData, uniqueId, statusID);
