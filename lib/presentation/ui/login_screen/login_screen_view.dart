@@ -1,4 +1,5 @@
 import 'package:bingo_wholesale/const/all_const.dart';
+import 'package:bingo_wholesale/const/app_extensions/strings_extention.dart';
 import 'package:bingo_wholesale/const/app_sizes/app_sizes.dart';
 import 'package:bingo_wholesale/const/app_styles/app_box_decoration.dart';
 import 'package:bingo_wholesale/presentation/widgets/buttons/submit_button.dart';
@@ -52,7 +53,7 @@ class LoginScreenView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppString.emailAddress,
+                                    AppString.emailAddress.isRequired,
                                     style: AppTextStyles.successStyle
                                         .copyWith(color: AppColors.blackColor),
                                   ),
@@ -88,7 +89,7 @@ class LoginScreenView extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    AppString.password,
+                                    AppString.password.isRequired,
                                     style: AppTextStyles.successStyle
                                         .copyWith(color: AppColors.blackColor),
                                   ),

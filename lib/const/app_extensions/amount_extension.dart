@@ -8,6 +8,6 @@ extension Amount on String {
       index -= 3;
     }
 
-    return numberDigits.join() + ".00";
+    return "${numberDigits.join()}.00";
   }
 }

@@ -1,4 +1,5 @@
 import 'package:bingo_wholesale/const/all_const.dart';
+import 'package:bingo_wholesale/const/app_extensions/strings_extention.dart';
 import 'package:bingo_wholesale/const/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +56,9 @@ class AddManageAccountView extends StatelessWidget {
                         },
                         dropdownValue: model.selectedBankAccountType,
                         hintText: AppString.bankAccounttype,
-                        fieldName: AppString.bankAccounttype,
+                        fieldName: AppString.bankAccounttype.isRequired,
+                        //isRequired is an extension if we want to show
+                        // require field
                         items: [
                           for (BankAccountTypeModel item
                               in model.bankAccountType)
@@ -73,7 +76,9 @@ class AddManageAccountView extends StatelessWidget {
                       },
                       dropdownValue: model.selectedBankName,
                       hintText: AppString.bankName,
-                      fieldName: AppString.bankName,
+                      fieldName: AppString.bankName.isRequired,
+                      //isRequired is an extension if we want to show
+                      // require field
                       items: [
                         for (BankListData item in model.retailerBankList)
                           DropdownMenuItem<BankListData>(
@@ -95,7 +100,9 @@ class AddManageAccountView extends StatelessWidget {
                             },
                             dropdownValue: model.selectedCurrency,
                             hintText: AppString.currency,
-                            fieldName: AppString.currency,
+                            fieldName: AppString.currency.isRequired,
+                            //isRequired is an extension if we want to show
+                            // require field
                             items: [
                               for (String item in model.currency)
                                 DropdownMenuItem<String>(
@@ -111,14 +118,18 @@ class AddManageAccountView extends StatelessWidget {
                       ),
                     NameTextField(
                       controller: model.bankAccountController,
-                      fieldName: AppString.bankAccountNumber,
+                      fieldName: AppString.bankAccountNumber.isRequired,
+                      //isRequired is an extension if we want to show
+                      // require field
                     ),
                     if (model.bankAccountValidation.isNotEmpty)
                       validationText(model.bankAccountValidation),
                     20.0.giveHeight,
                     NameTextField(
                       controller: model.ibanController,
-                      fieldName: AppString.iban,
+                      fieldName: AppString.iban.isRequired,
+                      //isRequired is an extension if we want to show
+                      // require field
                     ),
                     if (model.ibanValidation.isNotEmpty)
                       validationText(model.ibanValidation),
