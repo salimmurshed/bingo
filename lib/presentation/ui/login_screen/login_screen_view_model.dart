@@ -28,12 +28,12 @@ class LoginScreenViewModel extends BaseViewModel {
   // TextEditingController passwordController = TextEditingController(
   //     text: "123"
   //         "45678");
-  // TextEditingController nameController =
-  //     TextEditingController(text: "devyani.gohil@sensussoft.com");
-  // TextEditingController passwordController =
-  //     TextEditingController(text: "Dragon1!12345");
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController nameController =
+      TextEditingController(text: "devyani.gohil@sensussoft.com");
+  TextEditingController passwordController =
+      TextEditingController(text: "Dragon1!12345");
+  // TextEditingController nameController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
   bool isVisible = false;

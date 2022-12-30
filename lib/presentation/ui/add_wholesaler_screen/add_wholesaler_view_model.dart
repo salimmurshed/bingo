@@ -14,7 +14,9 @@ import '../../../data_models/models/component_models/partner_with_currency_list.
 // import '../../../data_models/models/component_models/partner_with_currency_list.dart';
 
 class AddWholesalerViewModel extends ReactiveViewModel {
-  AddWholesalerViewModel() {}
+  AddWholesalerViewModel() {
+    getSortedWholsaler();
+  }
   final RepositoryRetailer _repositoryRetailer = locator<RepositoryRetailer>();
   final RepositoryComponents _repositoryComponents =
       locator<RepositoryComponents>();
@@ -31,11 +33,26 @@ class AddWholesalerViewModel extends ReactiveViewModel {
   TextEditingController averageTicketController = TextEditingController();
   TextEditingController amountController = TextEditingController();
 
-  List<WholesalersData> _creditLineInformation = [];
-  List<WholesalersData> get creditLineInformation => _creditLineInformation;
+  List<WholesalerData> creditLineInformation = [];
 
-  PartnerWithCurrencyList get allWholesalers =>
+  PartnerWithCurrencyList get allWholesalers => //1st
       _repositoryComponents.wholesalerWithCurrency.value;
+  List<WholesalerData> sortedWholsaler = [];
+  void getSortedWholsaler() {
+    for (WholesalersData i in _repositoryRetailer.creditLineInformation.value) {
+      creditLineInformation.add(i.wholesaler!);
+    }
+    sortedWholsaler = allWholesalers.data![0].wholesalerData!
+        .where((element) => !(creditLineInformation
+            .any((e) => e.wholesalerName == element.wholesalerName)))
+        .toList();
+
+    print('datadata');
+    print(sortedWholsaler);
+    print(creditLineInformation);
+    notifyListeners();
+  }
+
   List<VisitFrequentListModel> visitFrequentlyList =
       AppList.visitFrequentlyList;
   WholesalersData wholesalerData = WholesalersData();
@@ -160,7 +177,7 @@ class AddWholesalerViewModel extends ReactiveViewModel {
     if (canSubmitData()) {
       WholesalersData item = WholesalersData(
           id: DateTime.now().microsecondsSinceEpoch.toString(),
-          wholesaler: selectWholesaler,
+          wholesaler: selectWholesaler!,
           currency: selectCurrency,
           monthlyPurchase: purchaseController.text,
           averageTicket: averageTicketController.text,
@@ -182,7 +199,7 @@ class AddWholesalerViewModel extends ReactiveViewModel {
     if (canSubmitData()) {
       WholesalersData item = WholesalersData(
           id: wholesalerData.id!,
-          wholesaler: selectWholesaler,
+          wholesaler: selectWholesaler!,
           currency: selectCurrency,
           monthlyPurchase: purchaseController.text,
           averageTicket: averageTicketController.text,

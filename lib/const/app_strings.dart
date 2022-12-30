@@ -160,6 +160,8 @@ class AppString {
       "rejection is completed";
   static const String rejectionCompleteUnsuccessful = "Your request "
       "rejection is unsuccessful";
+  static const String noWholesalerAvailableMessage = "No wholesaler available "
+      "in your connection";
 
   //association text
   static const String taxId = 'Tax ID';

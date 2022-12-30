@@ -31,7 +31,11 @@ import '../../../services/navigation/navigationService.dart';
 class GetId {
   String id;
   RetailerTypeAssociationRequest type;
-  GetId({this.id = "", this.type = RetailerTypeAssociationRequest.wholesaler});
+  bool isFie;
+  GetId(
+      {this.id = "",
+      this.type = RetailerTypeAssociationRequest.wholesaler,
+      this.isFie = false});
 }
 
 class HomeScreenViewModel extends ReactiveViewModel {
@@ -211,8 +215,9 @@ class HomeScreenViewModel extends ReactiveViewModel {
   }
 
   void gotoAssociationRequestDetailsScreen(
-      String id, RetailerTypeAssociationRequest type) {
-    GetId v = GetId(id: id, type: type);
+      String id, RetailerTypeAssociationRequest type,
+      {bool isFie = false}) {
+    GetId v = GetId(id: id, type: type, isFie: isFie);
     print(id);
     _navigationService.pushNamed(Routes.associationRequestDetailsScreen,
         arguments: v);

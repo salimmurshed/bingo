@@ -207,25 +207,26 @@ class AssociationRequestDetailsScreen extends StatelessWidget {
                 if (model.companyInformationRetails.status != null)
                   if (model.companyInformationRetails.status!.toLowerCase() ==
                       describeEnum(StatusNames.verified))
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        32.0.giveHeight,
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: SubmitButton(
-                            onPressed: () {
-                              model
-                                  .openActivationCodeSubmitForRetailerDialog(3);
-                            },
-                            width: 325.0,
-                            height: 45.0,
-                            active: true,
-                            text: AppString.activationCode,
+                    if (!model.isFie)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          32.0.giveHeight,
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child: SubmitButton(
+                              onPressed: () {
+                                model.openActivationCodeSubmitForRetailerDialog(
+                                    3);
+                              },
+                              width: 325.0,
+                              height: 45.0,
+                              active: true,
+                              text: AppString.activationCode,
+                            ),
                           ),
-                        ),
-                      ],
-                    )
+                        ],
+                      )
               ],
             ),
           ),

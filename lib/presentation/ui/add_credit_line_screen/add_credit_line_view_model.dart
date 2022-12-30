@@ -69,7 +69,8 @@ class AddCreditLineViewModel extends ReactiveViewModel {
   TextEditingController crp2Controller = TextEditingController();
   TextEditingController crp3Controller = TextEditingController();
   TextEditingController searchTextController = TextEditingController();
-
+  List<WholesalerData> get sortedWholsaler =>
+      _repositoryRetailer.sortedWholsaler.value;
   List<WholesalersData> get creditLineInformation =>
       _repositoryRetailer.creditLineInformation.value;
   PartnerWithCurrencyList get allWholesalers =>
