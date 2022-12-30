@@ -48,6 +48,11 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   void callDetails(GetId arguments) async {
     uniqueId = arguments.id;
     type = arguments.type;
+    isFie = arguments.isFie;
+    print('isFie');
+    print('isFie' + isFie.toString());
+    print('isFie');
+    notifyListeners();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       if (isRetailer) {
         setBusy(true);
@@ -126,6 +131,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   String uniqueId = "";
   RetailerTypeAssociationRequest type =
       RetailerTypeAssociationRequest.wholesaler;
+  bool isFie = false;
 
   //local text controllers
   TextEditingController internalIdController = TextEditingController();
@@ -374,8 +380,6 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
     var code = await _navigationService
         .animatedDialog(ActivationDialog(isRetailer: isRetailer));
 
-    setBusy(true);
-    notifyListeners();
     var sendData = {
       "unique_id": uniqueId,
       "action": statusID.toString(),
@@ -390,6 +394,8 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
         _navigationService
             .animatedDialog(AlertDialogMessage(AppString.put6DigitCode));
       } else {
+        setBusy(true);
+        notifyListeners();
         UpdateResponseModel data =
             await _repositoryRetailer.updateRetailerWholesalerAssociationStatus(
                 sendData, uniqueId, statusID);

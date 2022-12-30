@@ -117,6 +117,7 @@ class AddManageAccountView extends StatelessWidget {
                         ],
                       ),
                     NameTextField(
+                      isNumber: true,
                       controller: model.bankAccountController,
                       fieldName: AppString.bankAccountNumber.isRequired,
                       //isRequired is an extension if we want to show
@@ -126,6 +127,7 @@ class AddManageAccountView extends StatelessWidget {
                       validationText(model.bankAccountValidation),
                     20.0.giveHeight,
                     NameTextField(
+                      isNumber: true,
                       controller: model.ibanController,
                       fieldName: AppString.iban.isRequired,
                       //isRequired is an extension if we want to show
@@ -145,7 +147,9 @@ class AddManageAccountView extends StatelessWidget {
                             ),
                           )
                         : SubmitButton(
-                            onPressed: model.addAccount,
+                            onPressed: model.isEdit
+                                ? model.editAccount
+                                : model.addAccount,
                             active: true,
                             text: model.appBarTitle.toUpperCase(),
                             width: 100.0.wp,

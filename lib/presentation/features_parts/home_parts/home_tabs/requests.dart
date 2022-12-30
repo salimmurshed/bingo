@@ -87,7 +87,8 @@ class Requests extends StatelessWidget {
                                                       j]
                                                   .associationUniqueId!,
                                               RetailerTypeAssociationRequest
-                                                  .wholesaler);
+                                                  .wholesaler,
+                                              isFie: false);
                                         },
                                         title: model
                                             .wholesalerAssociationRequestData[j]
@@ -162,7 +163,8 @@ class Requests extends StatelessWidget {
                                               model.fieAssociationRequestData[j]
                                                   .uniqueId!,
                                               RetailerTypeAssociationRequest
-                                                  .fie);
+                                                  .fie,
+                                              isFie: true);
                                         },
                                         title: model
                                             .fieAssociationRequestData[j]

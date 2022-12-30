@@ -114,8 +114,10 @@ class AddManageAccountViewModel extends BaseViewModel {
         selectedBankName != null &&
         selectedCurrency != null &&
         bankAccountController.text.isNotEmpty &&
-        ibanController.text.isNotEmpty) {
-      var bodyForAdd = {
+        ibanController.text.isNotEmpty &&
+        ibanController.text.length >= 8 &&
+        bankAccountController.text.length >= 8) {
+      var body = {
         "bank_account_type": selectedBankAccountType!.id.toString(),
         "bank_name": selectedBankName!.bpName,
         "bank_unique_id": selectedBankName!.bankUniqueId,
@@ -123,7 +125,59 @@ class AddManageAccountViewModel extends BaseViewModel {
         "bank_account_number": bankAccountController.text,
         "iban": ibanController.text,
       };
-      var bodyForEdit = {
+      Failure failure = await _repositoryRetailer.addRetailerBankAccounts(body);
+      endResponseMessage(failure);
+      setBusy(false);
+      notifyListeners();
+    } else {
+      setBusy(false);
+      notifyListeners();
+    }
+  }
+
+  Future<void> editAccount() async {
+    setBusy(true);
+    notifyListeners();
+    if (selectedBankAccountType == null) {
+      bankAccountTypeValidation = AppString.bankAccountTypeValidationText;
+    } else {
+      bankAccountTypeValidation = "";
+    }
+    if (selectedBankName == null) {
+      bankNameValidation = AppString.bankNameValidationText;
+    } else {
+      bankNameValidation = "";
+    }
+    if (selectedBankName != null) {
+      if (selectedCurrency == null) {
+        currencyValidation = AppString.currencyValidationText;
+      } else {
+        currencyValidation = "";
+      }
+    }
+    if (bankAccountController.text.isEmpty) {
+      bankAccountValidation = AppString.bankAccountValidationText;
+    } else if (bankAccountController.text.length < 8) {
+      bankAccountValidation = AppString.bankAccountLengthValidationText;
+    } else {
+      bankAccountValidation = "";
+    }
+    if (ibanController.text.isEmpty) {
+      ibanValidation = AppString.ibanValidationText;
+    } else if (ibanController.text.length < 8) {
+      ibanValidation = AppString.ibanLengthValidationText;
+    } else {
+      ibanValidation = "";
+    }
+    notifyListeners();
+    if (selectedBankAccountType != null &&
+        selectedBankName != null &&
+        selectedCurrency != null &&
+        bankAccountController.text.isNotEmpty &&
+        ibanController.text.isNotEmpty &&
+        ibanController.text.length >= 8 &&
+        bankAccountController.text.length >= 8) {
+      var body = {
         "unique_id": bankDetails!.uniqueId!,
         "bank_account_type": selectedBankAccountType!.id.toString(),
         "bank_name": selectedBankName!.bpName,
@@ -132,9 +186,11 @@ class AddManageAccountViewModel extends BaseViewModel {
         "bank_account_number": bankAccountController.text,
         "iban": ibanController.text,
       };
-      Failure failure = await _repositoryRetailer
-          .addRetailerBankAccounts(isEdit ? bodyForEdit : bodyForAdd);
+      Failure failure = await _repositoryRetailer.addRetailerBankAccounts(body);
       endResponseMessage(failure);
+      setBusy(false);
+      notifyListeners();
+    } else {
       setBusy(false);
       notifyListeners();
     }
