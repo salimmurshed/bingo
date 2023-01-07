@@ -162,6 +162,7 @@ class AppString {
       "rejection is unsuccessful";
   static const String noWholesalerAvailableMessage = "No wholesaler available "
       "in your connection";
+  static const String sortBy = "Sort by:";
 
   //association text
   static const String taxId = 'Tax ID';
@@ -214,6 +215,14 @@ class AppString {
   static String aPurchaseValidationText = "Average purchase can not be empty";
   static String vFrequencyValidationText = "Need to select visit frequency";
   static String rAmountValidationText = "Requested amount can not be empty";
+
+  static String locationNameValidationMessage = "Location name can't be empty";
+  static String selectedCityValidationMessage = "Need to select a city";
+  static String addressValidationMessage = "You have to select an address";
+  static String selectedCountryValidationMessage = "Need to select a country";
+  static String frontPhotoValidationMessage = "Need to select a front photo";
+  static String signBoardPhotoValidationMessage =
+      "Need to select a sign board photo";
 
   //Select Items
   static String selectFie = "Select Single FIE";

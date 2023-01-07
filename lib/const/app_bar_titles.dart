@@ -15,4 +15,5 @@ class AppBarTitles {
   static String addSales = "Add Sales";
   static String addManageAccount = "Add Manage Account";
   static String editManageAccount = "Edit Manage Account";
+  static String sales = "SALES";
 }

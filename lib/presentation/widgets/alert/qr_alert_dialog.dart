@@ -1,11 +1,14 @@
 import 'package:bingo_wholesale/const/all_const.dart';
 import 'package:bingo_wholesale/const/app_sizes/app_icon_sizes.dart';
+import 'package:bingo_wholesale/data_models/models/all_sales_model/all_sales_model.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QRAlertDialog extends StatelessWidget {
   String data;
-  QRAlertDialog({Key? key, this.data = ""}) : super(key: key);
+  QRAlertDialog(this.allSalesData, {Key? key, this.data = ""})
+      : super(key: key);
+  AllSalesData allSalesData;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -38,7 +41,7 @@ class QRAlertDialog extends StatelessWidget {
         height: 200.0,
         child: Center(
           child: QrImage(
-            data: data,
+            data: allSalesData.toString(),
             version: QrVersions.auto,
             size: 200.0,
           ),

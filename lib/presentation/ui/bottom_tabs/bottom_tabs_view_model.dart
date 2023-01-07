@@ -6,13 +6,17 @@ import 'package:stacked/stacked.dart';
 
 import '../../../app/locator.dart';
 import '../../../repository/repository_retailer.dart';
+import '../../../repository/repository_wholesaler.dart';
 
 class BottomTabsScreenViewModel extends BaseViewModel
     with WidgetsBindingObserver {
   final RepositoryRetailer _apiService = locator<RepositoryRetailer>();
+  final RepositoryWholesaler _repositoryWholesaler =
+      locator<RepositoryWholesaler>();
 
   BottomTabsScreenViewModel() {
     _apiService.getStores();
+    getWholesalerData();
   }
   int numberOfTabs = 5;
   int selectedNumber = 0;
@@ -20,6 +24,15 @@ class BottomTabsScreenViewModel extends BaseViewModel
   void onChangedTab(context, int index) {
     selectedNumber = index;
     DefaultTabController.of(context)!.animateTo(index);
+    notifyListeners();
+  }
+
+  void getWholesalerData() async {
+    setBusy(true);
+    notifyListeners();
+    await _repositoryWholesaler.getWholesalersAssociationData();
+    await _repositoryWholesaler.getCreditLinesList();
+    setBusy(false);
     notifyListeners();
   }
 

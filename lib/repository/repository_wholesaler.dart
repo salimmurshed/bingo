@@ -87,6 +87,17 @@ class RepositoryWholesaler with ReactiveServiceMixin {
     notifyListeners();
   }
 
+  Future getWholesalersAssociationDataLocal() async {
+    bool connection = await checkConnectivity();
+    dbHelper.queryAllRows(TableNames.wholeSalerAssociationList).then((value) {
+      wholesalerAssociationRequest.value = value
+          .map((d) => AssociationRequestWholesalerData.fromJson(d))
+          .toList();
+      notifyListeners();
+    });
+    notifyListeners();
+  }
+
   Future<void> getWholesalersAssociationDetails(String uniqueId) async {
     int index = 0;
     bool isAvailable = false;
@@ -240,6 +251,18 @@ class RepositoryWholesaler with ReactiveServiceMixin {
         _navigationService.displayDialog(AlertDialogMessage(e.toString()));
       }
     }
+    notifyListeners();
+  }
+
+  Future getCreditLinesListLocal() async {
+    bool connection = await checkConnectivity();
+    pageCreditLineWholesale = 1;
+    dbHelper
+        .queryAllRows(TableNames.wholesalerCreditlineRequestList)
+        .then((value) {
+      wholesalerCreditLineRequestData =
+          value.map((d) => WholesalerCreditLineData.fromJson(d)).toList();
+    });
     notifyListeners();
   }
 

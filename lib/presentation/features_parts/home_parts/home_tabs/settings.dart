@@ -141,48 +141,49 @@ class Settings extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            model.retailsBankAccounts.isEmpty
-                ? Center(child: Text(AppString.noData))
-                : Padding(
-                    padding: AppPaddings.requestSettingTabColumnPadding,
-                    child: SizedBox(
-                      width: 100.0.wp,
-                      height: 80.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          const SizedBox(),
-                          SubmitButton(
-                            onPressed: model.gotoAddManageAccount,
-                            width: 100.0,
-                            text: AppString.addNew,
-                          ),
-                        ],
-                      ),
+            Padding(
+              padding: AppPaddings.requestSettingTabColumnPadding,
+              child: SizedBox(
+                width: 100.0.wp,
+                height: 80.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(),
+                    SubmitButton(
+                      onPressed: model.gotoAddManageAccount,
+                      width: 100.0,
+                      text: AppString.addNew,
                     ),
-                  ),
-            for (int j = 0; j < model.retailsBankAccounts.length; j++)
-              GestureDetector(
-                  onTap: () {
-                    model.gotoViewManageAccount(j);
-                  },
-                  child: StatusCardFourPart(
-                    title: model.retailsBankAccounts[j].fieName!,
-                    subTitle: model.retailsBankAccounts[j].updatedAt!,
-                    statusChild: model.retailsBankAccounts[j].status!
-                        .toCardStatusFromInt(
-                            value: model
-                                .retailsBankAccounts[j].statusDescription!),
-                    bodyFirstKey:
-                        "${BankInfo.checkBankAccountType(model.retailsBankAccounts[j].bankAccountType!)}",
-                    bodyFirstValue:
-                        "Currency: ${model.retailsBankAccounts[j].currency}",
-                    bodySecondKey:
-                        "Acc No.: ${model.retailsBankAccounts[j].bankAccountNumber}",
-                    bodySecondValue:
-                        "IBAN: ${model.retailsBankAccounts[j].iban}",
-                  )),
+                  ],
+                ),
+              ),
+            ),
+            if (model.retailsBankAccounts.isEmpty)
+              Center(child: Text(AppString.noData))
+            else
+              for (int j = 0; j < model.retailsBankAccounts.length; j++)
+                GestureDetector(
+                    onTap: () {
+                      model.gotoViewManageAccount(j);
+                    },
+                    child: StatusCardFourPart(
+                      title: model.retailsBankAccounts[j].fieName!,
+                      subTitle: model.retailsBankAccounts[j].updatedAt!,
+                      statusChild: model.retailsBankAccounts[j].status!
+                          .toCardStatusFromInt(
+                              value: model
+                                  .retailsBankAccounts[j].statusDescription!),
+                      bodyFirstKey:
+                          "${BankInfo.checkBankAccountType(model.retailsBankAccounts[j].bankAccountType!)}",
+                      bodyFirstValue:
+                          "Currency: ${model.retailsBankAccounts[j].currency}",
+                      bodySecondKey:
+                          "Acc No.: ${model.retailsBankAccounts[j].bankAccountNumber}",
+                      bodySecondValue:
+                          "IBAN: ${model.retailsBankAccounts[j].iban}",
+                    )),
           ],
         ),
       ),

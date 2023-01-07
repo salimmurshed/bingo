@@ -10,6 +10,7 @@ class StatusCardFourPart extends StatelessWidget {
   const StatusCardFourPart({
     this.title = "",
     this.subTitle = '',
+    this.price = '',
     this.status = '',
     this.statusChild,
     this.bodyFirstKey = '',
@@ -21,6 +22,7 @@ class StatusCardFourPart extends StatelessWidget {
   final String title;
 
   final String subTitle;
+  final String price;
 
   final String status;
   final Widget? statusChild;
@@ -47,48 +49,65 @@ class StatusCardFourPart extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    width: 150,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: AutoSizeText(
+                            title,
+                            maxLines: 2,
+                            style: AppTextStyles.statusCardTitle,
+                          ),
+                        ),
+                        if (subTitle.isNotEmpty)
+                          Text(
+                            subTitle,
+                            maxLines: 2,
+                            style: AppTextStyles.statusCardSubTitle,
+                          ),
+                      ],
+                    ),
+                  ),
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      SizedBox(
-                        width: 200,
-                        child: AutoSizeText(
-                          title,
+                      if (price.isNotEmpty)
+                        AutoSizeText(
+                          softWrap: true,
+                          price,
+                          group: AutoSizeGroup(),
+                          minFontSize: 12,
                           maxLines: 2,
                           style: AppTextStyles.statusCardTitle,
                         ),
-                      ),
-                      if (subTitle.isNotEmpty)
-                        Text(
-                          subTitle,
-                          maxLines: 2,
-                          style: AppTextStyles.statusCardSubTitle,
-                        ),
+                      statusChild != null
+                          ? statusChild!
+                          : SizedBox(
+                              width: 120.0,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  statusWidget(
+                                    color: AppColors.statusProgress,
+                                    text: "",
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      status,
+                                      maxLines: 2,
+                                      style: AppTextStyles.statusCardStatus
+                                          .copyWith(
+                                              color: AppColors.statusProgress),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                     ],
                   ),
-                  statusChild != null
-                      ? statusChild!
-                      : SizedBox(
-                          width: 120.0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              statusWidget(
-                                color: AppColors.statusProgress,
-                                text: "",
-                              ),
-                              Flexible(
-                                child: Text(
-                                  status,
-                                  maxLines: 2,
-                                  style: AppTextStyles.statusCardStatus
-                                      .copyWith(
-                                          color: AppColors.statusProgress),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
                 ],
               ),
               SizedBox(

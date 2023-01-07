@@ -130,8 +130,10 @@ class HomeScreenViewModel extends ReactiveViewModel {
   void getWholesalerData() async {
     setBusy(true);
     notifyListeners();
-    await _repositoryWholesaler.getWholesalersAssociationData();
-    await _repositoryWholesaler.getCreditLinesList();
+    // await _repositoryWholesaler.getWholesalersAssociationData();
+    // await _repositoryWholesaler.getCreditLinesList();
+    await _repositoryWholesaler.getWholesalersAssociationDataLocal();
+    await _repositoryWholesaler.getCreditLinesListLocal();
     setBusy(false);
     notifyListeners();
   }
@@ -186,10 +188,6 @@ class HomeScreenViewModel extends ReactiveViewModel {
   }
 
   //navigate services
-
-  void gotoSalesDetailsScreen(ConfirmationModel data) {
-    _navigationService.pushNamed(Routes.salesDetailsScreen, arguments: data);
-  }
 
   void gotoAddNewRequest(
       RetailerTypeAssociationRequest retailerTypeAssociationRequest) {

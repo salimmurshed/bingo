@@ -32,8 +32,8 @@ class AddStoreViewModel extends BaseViewModel {
   XFile? frontBusinessPhoto;
   XFile? signBoardPhoto;
   StoreData storeData = StoreData();
-  String selectedCountry = AppString.selectCountry;
-  String selectedCity = AppString.selectCity;
+  String? selectedCountry;
+  String? selectedCity;
   String title = AppBarTitles.addStore;
   String submitButton = AppString.addStore;
   double lat = 0.0;
@@ -139,6 +139,46 @@ class AddStoreViewModel extends BaseViewModel {
     }
   }
 
+  String locationNameValidation = "";
+  String selectedCityValidation = "";
+  String addressValidation = "";
+  String selectedCountryValidation = "";
+  String frontPhotoValidation = "";
+  String signBoardPhotoValidation = "";
+  void checkValidation() {
+    if (locationNameController.text.isEmpty) {
+      locationNameValidation = AppString.locationNameValidationMessage;
+    } else {
+      locationNameValidation = "";
+    }
+    if (selectedCity == null) {
+      selectedCityValidation = AppString.selectedCityValidationMessage;
+    } else {
+      selectedCityValidation = "";
+    }
+    if (addressController.text.isEmpty) {
+      addressValidation = AppString.addressValidationMessage;
+    } else {
+      addressValidation = "";
+    }
+    if (selectedCountry == null) {
+      selectedCountryValidation = AppString.selectedCountryValidationMessage;
+    } else {
+      selectedCountryValidation = "";
+    }
+    if (frontBusinessPhoto == null) {
+      frontPhotoValidation = AppString.frontPhotoValidationMessage;
+    } else {
+      frontPhotoValidation = "";
+    }
+    if (signBoardPhoto == null) {
+      signBoardPhotoValidation = AppString.signBoardPhotoValidationMessage;
+    } else {
+      signBoardPhotoValidation = "";
+    }
+    notifyListeners();
+  }
+
   void addStore() {
     var data = {
       "name": locationNameController.text,
@@ -149,5 +189,8 @@ class AddStoreViewModel extends BaseViewModel {
       "country": selectedCountry,
       "remark": remarkController.text,
     };
+    checkValidation();
+    if (locationNameController.text.isEmpty) {
+    } else {}
   }
 }

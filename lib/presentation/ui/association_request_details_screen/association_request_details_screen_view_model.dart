@@ -415,7 +415,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
   }
 
   Future<void> deleteRequest(String statusID) async {
-    bool yesNo = await _navigationService.animatedDialog(
+    bool confirmation = await _navigationService.animatedDialog(
           YesNoDialog(
             submitButtonText: AppString.reject,
             title: AppString.wantToRejectTitle,
@@ -428,7 +428,7 @@ class AssociationRequestDetailsScreenModel extends ReactiveViewModel {
         "unique_id": uniqueId,
         "action": statusID.toString(),
       };
-      if (yesNo == true) {
+      if (confirmation == true) {
         if (isRetailer) {
           if (type == RetailerTypeAssociationRequest.wholesaler) {
             setBusy(true);

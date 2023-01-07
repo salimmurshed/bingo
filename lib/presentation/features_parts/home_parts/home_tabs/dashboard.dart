@@ -60,11 +60,11 @@ class DashBoard extends StatelessWidget {
                                           : 2);
                                   i++)
                                 RetailerConfirmationCardInDashboard(
-                                  model.confirmationData[i],
-                                  function: () {
-                                    model.gotoSalesDetailsScreen(
-                                        model.confirmationData[i]);
-                                  },
+                                  model.confirmationData[i], function: () {},
+                                  // function: () {
+                                  //   model.gotoSalesDetailsScreen(
+                                  //       model.confirmationData[i]);
+                                  // },
                                 ),
                               Text(
                                 AppString.dashboardRecommendation,

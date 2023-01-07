@@ -323,3 +323,75 @@ extension CardStatusExtensionFromInt on int {
     }
   }
 }
+
+extension SalesStatus on int {
+  Widget toSaleStatus(
+      {bool isIconAvailable = true,
+      String text = "",
+      TextStyle textStyle = AppTextStyles.statusCardStatus}) {
+    switch (this) {
+      case 0:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusReject,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+
+      case 1:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 2:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 3:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 4:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusConfirmed,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 5:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusReject,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 6:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 7:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusProgress,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+      case 8:
+        return statusWidget(
+            text: text,
+            color: AppColors.statusVerified,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+
+      default:
+        return statusWidget(
+            text: "Error",
+            color: AppColors.ashColor,
+            textStyle: textStyle,
+            isIconAvailable: isIconAvailable);
+    }
+  }
+}

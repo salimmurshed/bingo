@@ -54,6 +54,7 @@ class NetworkUrls {
       Uri.parse("${Config.baseURL}retailer-bank-account-list");
   static Uri addEditRetailerBankAccount =
       Uri.parse("${Config.baseURL}add-edit-retailer-bank-account");
+  static Uri salesList = Uri.parse("${Config.baseURL}sales-list");
 
   //components urls
 

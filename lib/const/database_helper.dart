@@ -6,8 +6,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
-  final _databaseName = "bingo_database_19.db";
-  final _databaseVersion = 19;
+  final _databaseName = "bingo_database_21.db";
+  final _databaseVersion = 21;
 
   DatabaseHelper._privateConstructor();
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
@@ -204,6 +204,17 @@ class DatabaseHelper {
         "${DataBaseHelperKeys.fieName} TEXT NOT NULL,"
         "${DataBaseHelperKeys.statusDescription} TEXT NOT NULL"
         ")");
+    await db.execute("CREATE TABLE ${TableNames.salesList}("
+        "${DataBaseHelperKeys.storeId} TEXT PRIMARY KEY NOT NULL,"
+        "${DataBaseHelperKeys.name} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.city} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.address} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.associationIdStore} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.saleType} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.creditlineId} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.approvedCreditLineCurrency} TEXT NOT NULL,"
+        "${DataBaseHelperKeys.availableAmount} NUMBER NOT NULL"
+        ")");
   }
 
   Future<int> insert(tableName, row) async {
@@ -298,7 +309,7 @@ class DataBaseHelperKeys {
   static String requestedAmount = 'requested_amount';
   static String bpName = 'bp_name';
 
-  // static String id = 'id';
+  static String isOnline = 'is_online';
   // static String uniqueId = 'unique_id';
   static String associationId = 'association_id';
   static String fieId = 'fie_id';
